@@ -1,0 +1,70 @@
+// /* eslint-disable react-hooks/exhaustive-deps */
+// 'use client';
+
+// import { useRouter } from 'next/navigation';
+// import React, { useState, useEffect } from 'react';
+
+// interface PDFViewerProps {
+//   materialId: string;
+// }
+
+// const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
+//   const router = useRouter();
+//   const [fileUrl, setFileUrl] = useState<string | null>(null);
+//   const [error, setError] = useState<string>('');
+//   console.log("file url ----", fileUrl);
+
+//   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+//   useEffect(() => {
+
+//     fetch(`${API_URL}/api/stream-material/${materialId}`, {
+//       credentials: "include"
+//     })
+//       .then((res) => {
+//         if (res.status === 401) {
+//           router.push('/admin/login');
+//           throw new Error('Unauthorized');
+//         }
+//         if (!res.ok) {
+//           throw new Error('Failed to fetch PDF');
+//         }
+//         return res.blob();
+//       })
+//       .then((blob) => {
+//         const blobUrl = URL.createObjectURL(blob);
+//         setFileUrl(blobUrl);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         setError('Failed to load PDF');
+//       });
+
+//     // Cleanup URL object on unmount
+//     return () => {
+//       if (fileUrl) {
+//         URL.revokeObjectURL(fileUrl);
+//       }
+//     };
+//   }, [materialId]);
+
+//   return (
+//     <div className="w-full h-screen">
+//       {error && <p className="text-red-500">{error}</p>}
+//       {fileUrl && (
+//         <iframe
+//           src={fileUrl}
+//           title="PDF Viewer"
+//           className="w-full h-full border-none"
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default PDFViewer;
+
+
+//find worker : https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.0.375/pdf.min.mjs
+// pdfjs.GlobalWorkerOptions.workerSrc =
+//   "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.0.375/pdf.min.mjs";
