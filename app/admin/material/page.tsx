@@ -9,22 +9,36 @@ import {
 } from "react-icons/fa";
 import MaterialFormModal from "./MaterialFormModal";
 
+interface Course {
+  _id: string;
+  title: string;
+}
+
+interface Material {
+  _id: string;
+  title: string;
+  price: string;
+  forCourses: (string | Course)[];
+  accessControl: "purchased" | "free" | "restricted";
+  pdfs: File[] | string[];
+}
+
 const MaterialsPage = () => {
-  const [materials, setMaterials] = useState<any[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     _id: "",
     title: "",
     price: "",
     forCourses: "",
-    accessControl: "restricted",
-    pdfs: [] as File[],
+    accessControl: "restricted" as "purchased" | "free" | "restricted",
+    pdfs: [] as (File | string)[],
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [courses, setCourses] = useState<any[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
 
@@ -157,8 +171,8 @@ const MaterialsPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (material: any) => {
-    const courseIds = material.forCourses.map((c: any) =>
+  const handleEdit = (material: Material) => {
+    const courseIds = material.forCourses.map((c) =>
       typeof c === "string" ? c : c._id
     );
     setFormData({
