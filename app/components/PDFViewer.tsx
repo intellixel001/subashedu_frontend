@@ -1,11 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
+import { useRouter } from "next/navigation";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 
 // Configure PDF.js worker using a CDN
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -17,7 +23,7 @@ interface PDFViewerProps {
 const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
   const router = useRouter();
   const [file, setFile] = useState<Blob | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
   const [numPages, setNumPages] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
@@ -28,7 +34,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
   // PDF.js options for cMaps and standard fonts
   const options = useMemo(
@@ -36,25 +42,27 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
       cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
       standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
     }),
-    [],
+    []
   );
 
   // Fetch PDF
   const fetchPDF = useCallback(() => {
     setIsLoading(true);
-    setError('');
+    setError("");
     fetch(`${API_URL}/api/stream-material/${materialId}`, {
-      credentials: 'include',
+      credentials: "include",
     })
       .then(async (res) => {
         if (res.status === 401) {
-          router.push('/login');
-          throw new Error('Unauthorized: Please log in');
+          router.push("/login");
+          throw new Error("Unauthorized: Please log in");
         }
         if (!res.ok) {
           const errorText = await res.text();
-          console.error('Fetch error response:', errorText);
-          throw new Error(`Failed to fetch PDF: ${res.status} ${res.statusText}`);
+          console.error("Fetch error response:", errorText);
+          throw new Error(
+            `Failed to fetch PDF: ${res.status} ${res.statusText}`
+          );
         }
         return res.blob();
       })
@@ -63,7 +71,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error('Fetch PDF error:', err);
+        console.error("Fetch PDF error:", err);
         setError(`Failed to load PDF: ${err.message}`);
         setIsLoading(false);
       });
@@ -91,14 +99,14 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
         await containerRef.current.requestFullscreen();
         setIsFullScreen(true);
       } catch (err) {
-        console.error('Failed to enter full-screen:', err);
+        console.error("Failed to enter full-screen:", err);
       }
     } else {
       try {
         await document.exitFullscreen();
         setIsFullScreen(false);
       } catch (err) {
-        console.error('Failed to exit full-screen:', err);
+        console.error("Failed to exit full-screen:", err);
       }
     }
   };
@@ -109,9 +117,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
       setIsFullScreen(!!document.fullscreenElement);
     };
 
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
     return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
     };
   }, []);
 
@@ -125,8 +133,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
       setCurrentPage(page);
       const pageElement = pageRefs.current[page - 1];
       if (pageElement && containerRef.current) {
-        const offset = pageElement.offsetTop - containerRef.current.offsetTop - (toolbarRef.current?.offsetHeight || 0);
-        containerRef.current.scrollTo({ top: offset, behavior: 'smooth' });
+        const offset =
+          pageElement.offsetTop -
+          containerRef.current.offsetTop -
+          (toolbarRef.current?.offsetHeight || 0);
+        containerRef.current.scrollTo({ top: offset, behavior: "smooth" });
       }
     }
   };
@@ -169,8 +180,8 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('scroll', handleScroll);
-      return () => container.removeEventListener('scroll', handleScroll);
+      container.addEventListener("scroll", handleScroll);
+      return () => container.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll]);
 
@@ -216,23 +227,25 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
         <div
           ref={containerRef}
           className={`w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-x-hidden ${
-            isFullScreen ? 'fixed inset-0 z-50 h-screen' : 'mt-16 sm:mt-20'
+            isFullScreen ? "fixed inset-0 z-50 h-screen" : "mt-16 sm:mt-20"
           } flex flex-col`}
         >
           <div
             ref={toolbarRef}
             className={`flex flex-col p-3 sm:p-4 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 sticky top-0 z-10 ${
-              isFullScreen ? 'fixed w-full max-w-4xl' : ''
+              isFullScreen ? "fixed w-full max-w-4xl" : ""
             }`}
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 sm:mb-3">
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-0">PDF Viewer</h2>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
+                PDF Viewer
+              </h2>
               <button
                 onClick={toggleFullScreen}
                 className="px-3 py-1 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md hover:from-blue-700 hover:to-blue-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-md text-sm sm:text-base"
-                title={isFullScreen ? 'Exit Full Screen' : 'Enter Full Screen'}
+                title={isFullScreen ? "Exit Full Screen" : "Enter Full Screen"}
               >
-                {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
+                {isFullScreen ? "Exit Full Screen" : "Full Screen"}
               </button>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
@@ -254,7 +267,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
                   onChange={handlePageInput}
                   className="w-12 sm:w-16 px-2 py-1 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 />
-                <span className="text-gray-600 text-sm sm:text-base">/ {numPages}</span>
+                <span className="text-gray-600 text-sm sm:text-base">
+                  / {numPages}
+                </span>
               </div>
               <button
                 onClick={() => goToPage(currentPage + 1)}
@@ -272,7 +287,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
                 >
                   −
                 </button>
-                <span className="text-gray-600 text-sm sm:text-base">{Math.round(scale * 100)}%</span>
+                <span className="text-gray-600 text-sm sm:text-base">
+                  {Math.round(scale * 100)}%
+                </span>
                 <button
                   onClick={zoomIn}
                   className="px-2 py-1 sm:px-3 sm:py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-all text-sm sm:text-base"
@@ -285,13 +302,17 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
           </div>
           <div
             className={`flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 ${
-              isFullScreen ? 'h-[calc(100vh-8rem)] sm:h-[calc(100vh-9rem)]' : 'max-h-[calc(100vh-12rem)] sm:max-h-[calc(100vh-16rem)]'
+              isFullScreen
+                ? "h-[calc(100vh-8rem)] sm:h-[calc(100vh-9rem)]"
+                : "max-h-[calc(100vh-12rem)] sm:max-h-[calc(100vh-16rem)]"
             }`}
           >
             <Document
               file={file}
               onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={(error) => setError(`Error loading PDF: ${error.message}`)}
+              onLoadError={(error) =>
+                setError(`Error loading PDF: ${error.message}`)
+              }
               options={options}
               className="flex flex-col items-center p-2 sm:p-4 w-full"
             >
@@ -311,7 +332,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
                         renderAnnotationLayer={true}
                         renderTextLayer={true}
                         className="shadow-lg border flex justify-center border-gray-200 rounded-md w-full"
-                        width={window.innerWidth < 640 ? window.innerWidth - 16 : undefined}
+                        width={
+                          window.innerWidth < 640
+                            ? window.innerWidth - 16
+                            : undefined
+                        }
                       />
                     </div>
                     <p className="text-center text-xs sm:text-sm text-gray-600 mt-2">

@@ -1,9 +1,12 @@
-
 import PDFViewer from "@/app/components/PDFViewer";
 import MaterialPurchaseForm from "@/components/MaterialPurchaseForm";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 
-export default async function PDFReader({ params }: { params: Promise<{ id: string }> }) {
+export default async function PDFReader({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const studentObject = await getCurrentStudent();
@@ -31,11 +34,9 @@ export default async function PDFReader({ params }: { params: Promise<{ id: stri
     return course.materials.some((material: string) => material === id);
   });
 
-
   const isPurchased2 = student.materials.some((material) => {
     return material === id;
   });
-
 
   if (!isPurchased && !isPurchased2) {
     return <MaterialPurchaseForm materialId={id} />;
