@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   FaBook,
   FaCheckCircle,
@@ -11,22 +10,21 @@ import {
 import MaterialFormModal from "./MaterialFormModal";
 
 const MaterialsPage = () => {
-  const router = useRouter();
-  const [materials, setMaterials] = useState([]);
-  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [materials, setMaterials] = useState<any[]>([]);
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     _id: "",
     title: "",
     price: "",
     forCourses: "",
     accessControl: "restricted",
-    pdfs: [],
+    pdfs: [] as File[],
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<any[]>([]);
 
   const API_URL = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8000";
 
@@ -36,12 +34,8 @@ const MaterialsPage = () => {
     return match ? match[1] : "";
   };
 
-  useEffect(() => {
-    fetchMaterials();
-    fetchCourses();
-  }, []);
-
-  const fetchMaterials = async () => {
+  /** Fetch materials */
+  const fetchMaterials = useCallback(async () => {
     try {
       const token = getToken();
       const response = await fetch(`${API_URL}/api/admin/get-materials`, {
@@ -50,32 +44,38 @@ const MaterialsPage = () => {
       });
       const data = await response.json();
       setMaterials(data.data);
-    } catch (err) {
+    } catch {
       setError("Failed to fetch materials");
     }
-  };
+  }, [API_URL]);
 
-  const fetchCourses = async () => {
+  /** Fetch courses */
+  const fetchCourses = useCallback(async () => {
     try {
       const response = await fetch(
         `${API_URL}/api/admin/get-courses-for-materials`,
-        {
-          credentials: "include",
-        }
+        { credentials: "include" }
       );
       const result = await response.json();
       setCourses(result.data);
-    } catch (err) {
-      console.log(err);
+    } catch {
+      setError("Failed to fetch courses");
     }
-  };
+  }, [API_URL]);
 
-  const handleInputChange = (e) => {
+  useEffect(() => {
+    fetchMaterials();
+    fetchCourses();
+  }, [fetchMaterials, fetchCourses]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFormData((prev) => ({
@@ -86,7 +86,7 @@ const MaterialsPage = () => {
     e.target.value = "";
   };
 
-  const handleCourseSelect = (courseId) => {
+  const handleCourseSelect = (courseId: string) => {
     if (courseId === "") {
       setSelectedCourses([]);
     } else {
@@ -98,7 +98,7 @@ const MaterialsPage = () => {
     }
   };
 
-  const handleRemoveCourse = (courseId) => {
+  const handleRemoveCourse = (courseId: string) => {
     setSelectedCourses((prev) => prev.filter((id) => id !== courseId));
   };
 
@@ -115,7 +115,7 @@ const MaterialsPage = () => {
     setIsEditing(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -146,7 +146,7 @@ const MaterialsPage = () => {
       fetchMaterials();
       resetForm();
       setIsModalOpen(false);
-    } catch (err) {
+    } catch {
       setError("Error saving material");
     }
   };
@@ -157,8 +157,8 @@ const MaterialsPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (material) => {
-    const courseIds = material.forCourses.map((c) =>
+  const handleEdit = (material: any) => {
+    const courseIds = material.forCourses.map((c: any) =>
       typeof c === "string" ? c : c._id
     );
     setFormData({
@@ -174,7 +174,7 @@ const MaterialsPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const token = getToken();
       await fetch(`${API_URL}/api/admin/delete-material`, {
@@ -188,7 +188,7 @@ const MaterialsPage = () => {
       });
       setSuccess("Material deleted successfully");
       fetchMaterials();
-    } catch (err) {
+    } catch {
       setError("Error deleting material");
     }
   };
@@ -240,7 +240,6 @@ const MaterialsPage = () => {
                 key={material._id}
                 className="p-4 border rounded-lg flex justify-between"
               >
-                {console.log(material)}
                 <div>
                   <h3 className="font-bold">{material.title}</h3>
                   <p>Price: ৳{material.price}</p>
