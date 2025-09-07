@@ -194,7 +194,7 @@ const MaterialsPage: React.FC = () => {
       price: material.price,
       forCourses: JSON.stringify(courseIds),
       accessControl: material.accessControl,
-      pdf: null,
+      pdfs: [],
     });
     setSelectedCourses(courseIds);
     setIsEditing(true);
@@ -234,7 +234,7 @@ const MaterialsPage: React.FC = () => {
       price: "",
       forCourses: "",
       accessControl: "restricted",
-      pdf: [],
+      pdfs: [],
     });
     setSelectedCourses([]);
     setIsEditing(false);
