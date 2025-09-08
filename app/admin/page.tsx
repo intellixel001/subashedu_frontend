@@ -1,6 +1,7 @@
 "use client";
+import { useAdminDashboard } from "@/context/adminDashboardContext";
 import { motion, Variants } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaBook,
   FaChalkboard,
@@ -46,6 +47,7 @@ export default function DashboardPage() {
   const [noticeContent, setNoticeContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { notice, setNotice } = useAdminDashboard();
 
   const handleCreateNotice = async () => {
     if (!noticeContent.trim()) {
@@ -62,22 +64,19 @@ export default function DashboardPage() {
         {
           method: "POST",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ content: noticeContent }),
         }
       );
 
       const data = await response.json();
-      if (!data.success) {
+      if (!data.success)
         throw new Error(data.message || "Failed to create notice");
-      }
 
-      setIsNoticeModalOpen(false);
+      setNotice(noticeContent); // ✅ update context
       setNoticeContent("");
-      alert("Notice created successfully");
-    } catch (err) {
+      setIsNoticeModalOpen(false);
+    } catch (err: any) {
       setError(err.message || "An error occurred while creating the notice");
     } finally {
       setIsSubmitting(false);
@@ -86,26 +85,54 @@ export default function DashboardPage() {
 
   const handleDeleteNotice = async () => {
     setIsSubmitting(true);
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/delete-notice`,
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
-
-    const result = await res.json();
-    if (!result?.success) {
-      alert(result.message);
-    }
-
-    if (result?.success) {
-      alert(result.message);
-    }
-
-    setIsSubmitting(false);
     setError(null);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/delete-notice`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      const result = await res.json();
+      if (!result.success)
+        throw new Error(result.message || "Failed to delete notice");
+
+      setNotice(""); // ✅ clear context
+    } catch (err: any) {
+      setError(err.message || "An error occurred while deleting the notice");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  // --- Fetch current notice on mount ---
+  const getNotice = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-notice`,
+        { credentials: "include" }
+      );
+      const data = await res.json();
+      console.log(data);
+      if (data.success && data.data) {
+        setNotice(data.data[0].content);
+      } else {
+        setNotice("");
+      }
+    } catch (err) {
+      console.error("Failed to fetch notice:", err);
+      setError("Could not load current notice");
+    }
+  };
+
+  useEffect(() => {
+    if (!notice) {
+      getNotice();
+    }
+  }, [notice]);
 
   if (loading) {
     return (
@@ -135,7 +162,7 @@ export default function DashboardPage() {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mb-12"
+          className="mb-2"
         >
           <h1 className="text-5xl font-extrabold text-gray-900 mb-3">
             Suvash Edu Dashboard
@@ -160,6 +187,18 @@ export default function DashboardPage() {
             </button>
           </div>
         </motion.div>
+
+        {/* Current Notice Display */}
+        <div className="bg-white/70 backdrop-blur-lg p-4 rounded-xl shadow">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">
+            📢 Current Notice
+          </h2>
+          {notice ? (
+            <p className="text-gray-700">{notice}</p>
+          ) : (
+            <p className="text-gray-400 italic">No active notice</p>
+          )}
+        </div>
 
         {/* Notice Creation Modal */}
         {isNoticeModalOpen && (
@@ -280,7 +319,7 @@ function DataCard({
 }) {
   const [animatedCount, setAnimatedCount] = React.useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let current = 0;
     const target = count;
     const increment = target / 30;

@@ -1,7 +1,8 @@
 "use client";
 
+import { useAdminDashboard } from "@/context/adminDashboardContext";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 
 interface FreeClass {
@@ -49,6 +50,33 @@ export function FreeClassModal({
   error,
   currentFreeClass,
 }: FreeClassModalProps) {
+  const { staff, addStaff, updateStaff, deleteStaff } = useAdminDashboard();
+
+  useEffect(() => {
+    async function getStaffs() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-staffs`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const result = await response.json();
+        addStaff(result.data);
+      } catch (error) {
+        console.error("Error fetching staff:", error);
+      } finally {
+      }
+    }
+    if (!staff?.length && staff?.length === 0) {
+      getStaffs();
+    }
+  }, [staff]);
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.videoLink) {
@@ -158,8 +186,7 @@ export function FreeClassModal({
                     >
                       Instructor
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="instructor"
                       id="instructor"
                       value={formData.instructor}
@@ -167,7 +194,14 @@ export function FreeClassModal({
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
                       required
                       disabled={isCreating}
-                    />
+                    >
+                      <option value="">Select an instructor</option>
+                      {staff.map((s) => (
+                        <option key={s._id} value={s._id}>
+                          {s.fullName} ({s.role})
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   {/* Class For */}
