@@ -50,7 +50,7 @@ export function FreeClassModal({
   error,
   currentFreeClass,
 }: FreeClassModalProps) {
-  const { staff, addStaff, updateStaff, deleteStaff } = useAdminDashboard();
+  const { staff, addStaff } = useAdminDashboard();
 
   useEffect(() => {
     async function getStaffs() {

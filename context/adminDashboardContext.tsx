@@ -63,7 +63,7 @@ export function AdminDashboardProvider({ children }: { children: ReactNode }) {
   const [notice, setNotice] = useState<string>("");
   const [courses, setCourses] = useState<Course[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
-  const [staff, addStaff] = useState<Staff[]>([]);
+  const [staff, setStaff] = useState<Staff[]>([]);
 
   // ---- CRUD functions ----
   const addCourse = (course: Course) => setCourses((prev) => [...prev, course]);
@@ -84,6 +84,8 @@ export function AdminDashboardProvider({ children }: { children: ReactNode }) {
     setMaterials((prev) => prev.filter((m) => m._id !== id));
 
   // ---- Staff CRUD ----
+  // ---- Staff CRUD ----
+  const addStaff = (newStaff: Staff) => setStaff((prev) => [...prev, newStaff]);
 
   const updateStaff = (id: string, updated: Partial<Staff>) =>
     setStaff((prev) =>
@@ -99,6 +101,7 @@ export function AdminDashboardProvider({ children }: { children: ReactNode }) {
         notice,
         courses,
         materials,
+        staff,
         setNotice,
         addCourse,
         updateCourse,
@@ -106,7 +109,6 @@ export function AdminDashboardProvider({ children }: { children: ReactNode }) {
         addMaterial,
         updateMaterial,
         deleteMaterial,
-        staff,
         addStaff,
         updateStaff,
         deleteStaff,
