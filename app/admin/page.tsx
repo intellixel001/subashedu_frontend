@@ -77,7 +77,7 @@ export default function DashboardPage() {
       setNoticeContent("");
       setIsNoticeModalOpen(false);
     } catch (err: unknown) {
-      setError(err.message || "An error occurred while creating the notice");
+      setError(err?.message || "An error occurred while creating the notice");
     } finally {
       setIsSubmitting(false);
     }
