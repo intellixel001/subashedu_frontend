@@ -50,7 +50,7 @@ export function UserPreferenceModal({ isOpen }: UserPreferenceModalProps) {
 
       // ✅ Close modal after success
       setOpen(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);

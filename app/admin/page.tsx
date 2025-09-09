@@ -76,7 +76,7 @@ export default function DashboardPage() {
       setNotice(noticeContent); // ✅ update context
       setNoticeContent("");
       setIsNoticeModalOpen(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || "An error occurred while creating the notice");
     } finally {
       setIsSubmitting(false);
@@ -101,7 +101,7 @@ export default function DashboardPage() {
         throw new Error(result.message || "Failed to delete notice");
 
       setNotice(""); // ✅ clear context
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || "An error occurred while deleting the notice");
     } finally {
       setIsSubmitting(false);
