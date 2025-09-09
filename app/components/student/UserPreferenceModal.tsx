@@ -51,9 +51,11 @@ export function UserPreferenceModal({ isOpen }: UserPreferenceModalProps) {
       // ✅ Close modal after success
       setOpen(false);
     } catch (err: unknown) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setLoading(false);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred while deleting the notice");
+      }
     }
   };
 
