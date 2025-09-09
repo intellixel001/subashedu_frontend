@@ -37,8 +37,11 @@ export default async function PDFReader({
   const isPurchased2 = student.materials.some((material) => {
     return material === id;
   });
+  console.log({ isPurchased2, id });
 
-  if (!isPurchased && !isPurchased2) {
+  // console.log({ isPurchased, id, 1: student });
+
+  if (!isPurchased || !isPurchased2) {
     return <MaterialPurchaseForm materialId={id} />;
   }
 
