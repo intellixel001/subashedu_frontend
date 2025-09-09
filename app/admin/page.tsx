@@ -104,9 +104,11 @@ export default function DashboardPage() {
 
       setNotice(""); // ✅ clear context
     } catch (err: unknown) {
-      setError(err.message || "An error occurred while deleting the notice");
-    } finally {
-      setIsSubmitting(false);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An error occurred while deleting the notice");
+      }
     }
   };
 
