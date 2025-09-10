@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -25,7 +24,6 @@ interface PDFViewerProps {
 }
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
-  const router = useRouter();
   const [file, setFile] = useState<Blob | null>(null);
   const [numPages, setNumPages] = useState(0);
   const [scale, setScale] = useState(1.0);
