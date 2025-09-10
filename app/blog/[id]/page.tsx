@@ -46,7 +46,7 @@ export default async function BlogDetailPage({
     const result = await fetchBlog(id);
     blog = result.data;
   } catch (error) {
-    console.log("Error fetching blog:", error);
+    console.error({ error });
     return notFound();
   }
 

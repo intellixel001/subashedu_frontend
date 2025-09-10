@@ -19,7 +19,6 @@ export async function registerStudent(formState, formData: FormData) {
   });
 
   if (!parsedData.success) {
-    console.log("Zod validation errors:", parsedData.error.errors);
     return { success: false, errors: parsedData.error.errors, message: "" };
   }
 
@@ -37,15 +36,12 @@ export async function registerStudent(formState, formData: FormData) {
       }
     );
 
-    console.log("Backend response status:", response.status);
     let result;
     try {
       result = await response.json();
-      console.log("Backend response body:", result);
     } catch (error) {
       console.error("Failed to parse response JSON:", error);
       const responseText = await response.text();
-      console.log("Raw response text:", responseText.slice(0, 200)); // Log first 200 chars
       if (response.status === 409) {
         // Infer duplicate email error
         return {

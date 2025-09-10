@@ -47,7 +47,6 @@ export function CourseEditor({ value, onChange }: CourseEditorProps) {
     content: value || "<p>Start writing your course description...</p>",
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      console.log("Editor HTML:", html); // Debug output
       if (html !== value) {
         onChange(html);
       }
@@ -185,4 +184,4 @@ export function CourseEditor({ value, onChange }: CourseEditorProps) {
       </div>
     </div>
   );
-};
+}

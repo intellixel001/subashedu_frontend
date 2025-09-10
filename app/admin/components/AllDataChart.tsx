@@ -43,7 +43,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function AlldataChart({ data }) {
-  console.log(data);
   const chartData = [
     // { field: "Students", count: data.studentCount, fill: "var(--color-chrome)" },
     { field: "Staff", count: data.staffCount, fill: "var(--color-chrome)" },

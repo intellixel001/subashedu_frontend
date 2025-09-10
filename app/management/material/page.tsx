@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   FaBook,
@@ -93,7 +93,7 @@ const MaterialsPage: React.FC = () => {
       const result = await response.json();
       setCourses(result.data);
     } catch (err) {
-      console.log(err);
+      console.error({ err });
     }
   };
 
@@ -469,8 +469,8 @@ const MaterialsPage: React.FC = () => {
                           ? material.forCourses
                               .map((course) =>
                                 typeof course === "string"
-                                  ? courses.find((c) => c._id === course)?.title ||
-                                    course
+                                  ? courses.find((c) => c._id === course)
+                                      ?.title || course
                                   : course.title
                               )
                               .join(", ")

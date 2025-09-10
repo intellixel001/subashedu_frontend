@@ -12,7 +12,6 @@
 //   const router = useRouter();
 //   const [fileUrl, setFileUrl] = useState<string | null>(null);
 //   const [error, setError] = useState<string>('');
-//   console.log("file url ----", fileUrl);
 
 //   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 

@@ -51,7 +51,6 @@ export function StaffModal({
       alert("Please select a valid role (Staff or Teacher)");
       return;
     }
-    console.log("Submitting Form Data:", formData, "Photo:", photoFile); // Debug
     handleSubmit(e, photoFile || undefined);
   };
 

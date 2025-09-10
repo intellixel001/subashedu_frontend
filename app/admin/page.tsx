@@ -120,7 +120,6 @@ export default function DashboardPage() {
         { credentials: "include" }
       );
       const data = await res.json();
-      console.log(data);
       if (data.success && data.data) {
         setNotice(data.data[0].content);
       } else {

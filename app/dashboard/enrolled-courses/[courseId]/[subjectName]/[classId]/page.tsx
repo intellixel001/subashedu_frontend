@@ -21,10 +21,7 @@ declare global {
   interface Window {
     onYouTubeIframeAPIReady: () => void;
     YT: {
-      Player: new (
-        id: string,
-        options: unknown
-      ) => {
+      Player: new (id: string, options: unknown) => {
         destroy: () => void;
         getCurrentTime: () => number;
         getDuration: () => number;
@@ -71,7 +68,9 @@ const ClassVideoPlayer = () => {
   const volumeSliderTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1);
-  const [availablePlaybackRates, setAvailablePlaybackRates] = useState<number[]>([]);
+  const [availablePlaybackRates, setAvailablePlaybackRates] = useState<
+    number[]
+  >([]);
   const [showCustomPlay, setShowCustomPlay] = useState(true);
   const [skipNotification, setSkipNotification] = useState<string | null>(null);
   const [showSpeedDropdown, setShowSpeedDropdown] = useState(false);
@@ -150,7 +149,12 @@ const ClassVideoPlayer = () => {
 
   // Update current time while playing
   useEffect(() => {
-    if (isPlaying && isPlayerReady && playerRef.current && typeof playerRef.current.getCurrentTime === 'function') {
+    if (
+      isPlaying &&
+      isPlayerReady &&
+      playerRef.current &&
+      typeof playerRef.current.getCurrentTime === "function"
+    ) {
       timeUpdateIntervalRef.current = setInterval(() => {
         setCurrentTime(playerRef.current!.getCurrentTime());
       }, 1000);
@@ -174,7 +178,10 @@ const ClassVideoPlayer = () => {
   // Handle click outside to close speed dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setShowSpeedDropdown(false);
       }
     };
@@ -193,7 +200,6 @@ const ClassVideoPlayer = () => {
       return;
     }
 
-    console.log("Loading YouTube Iframe API");
     if (!window.YT) {
       const tag = document.createElement("script");
       tag.src = "https://www.youtube.com/iframe_api";
@@ -208,7 +214,6 @@ const ClassVideoPlayer = () => {
         setTimeout(() => setSkipNotification(null), 2000);
         return;
       }
-      console.log(`Initializing player with videoId: ${videoId}`);
       playerRef.current = new window.YT.Player("youtube-player", {
         videoId,
         playerVars: {
@@ -253,19 +258,16 @@ const ClassVideoPlayer = () => {
 
   const onPlayerReady = () => {
     if (!playerRef.current) return;
-    console.log("Player ready");
     setShowCustomPlay(true);
     setDuration(playerRef.current.getDuration());
     playerRef.current.setVolume(isMuted ? 0 : volume);
     setIsPlayerReady(true);
-    
+
     try {
       const rates = playerRef.current.getAvailablePlaybackRates();
-      console.log("Available playback rates:", rates);
       if (rates && rates.length > 0 && rates.includes(1)) {
         setAvailablePlaybackRates(rates);
         const currentRate = playerRef.current.getPlaybackRate() || 1;
-        console.log(`Initial playback rate: ${currentRate}`);
         setPlaybackRate(currentRate);
       } else {
         console.warn("No valid playback rates available");
@@ -359,12 +361,10 @@ const ClassVideoPlayer = () => {
     }
 
     if (speed === playbackRate) {
-      console.log(`Speed ${speed}x already set`);
       return;
     }
 
     try {
-      console.log(`Attempting to set playback rate to ${speed}`);
       playerRef.current.setPlaybackRate(speed);
 
       // Poll to confirm rate change (up to 5 attempts, 300ms intervals)
@@ -373,7 +373,6 @@ const ClassVideoPlayer = () => {
       const checkRate = setInterval(() => {
         attempts++;
         const actualRate = playerRef.current!.getPlaybackRate();
-        console.log(`Attempt ${attempts}: Current playback rate is ${actualRate}`);
 
         if (actualRate === speed || attempts >= maxAttempts) {
           clearInterval(checkRate);
@@ -401,7 +400,8 @@ const ClassVideoPlayer = () => {
   };
 
   const handleDoubleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!playerRef.current || !isPlayerReady || !videoContainerRef.current) return;
+    if (!playerRef.current || !isPlayerReady || !videoContainerRef.current)
+      return;
     const rect = videoContainerRef.current.getBoundingClientRect();
     const clickX = event.clientX - rect.left;
     const width = rect.width;
@@ -502,14 +502,16 @@ const ClassVideoPlayer = () => {
         <p className="text-lg text-gray-600">Class not found</p>
         <Link href={`/student-dashboard/courses/${courseId}/${subjectName}`}>
           <button className="mt-4 bg-[#f7374f] text-white px-4 py-2 rounded-lg hover:bg-[#e12d42] transition-colors flex items-center gap-2">
-            <FaArrowLeft/> Back to Classes
+            <FaArrowLeft /> Back to Classes
           </button>
         </Link>
       </div>
     );
   }
 
-  const videoId = selectedClass.videoLink ? getYouTubeId(selectedClass.videoLink) : null;
+  const videoId = selectedClass.videoLink
+    ? getYouTubeId(selectedClass.videoLink)
+    : null;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -624,8 +626,12 @@ const ClassVideoPlayer = () => {
           box-sizing: border-box;
         }
         .video-container.fullscreen {
-          height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top));
-          max-height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top));
+          height: calc(
+            100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)
+          );
+          max-height: calc(
+            100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)
+          );
           width: 100vw;
           max-width: 100%;
           margin: 0;
@@ -862,9 +868,14 @@ const ClassVideoPlayer = () => {
         }
         @media (max-width: 896px) and (orientation: landscape) and (hover: none) {
           .video-container.fullscreen {
-            height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top));
-            max-height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top));
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            height: calc(
+              100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)
+            );
+            max-height: calc(
+              100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)
+            );
+            padding: env(safe-area-inset-top) env(safe-area-inset-right)
+              env(safe-area-inset-bottom) env(safe-area-inset-left);
             box-sizing: border-box;
           }
           .video-container.fullscreen .video-wrapper {
@@ -885,7 +896,9 @@ const ClassVideoPlayer = () => {
             bottom: env(safe-area-inset-bottom);
             padding: 6px 8px;
             background: rgba(31, 41, 55, 0.9);
-            width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+            width: calc(
+              100% - env(safe-area-inset-left) - env(safe-area-inset-right)
+            );
             margin-left: env(safe-area-inset-left);
             margin-right: env(safe-area-inset-right);
             box-sizing: border-box;
@@ -972,7 +985,9 @@ const ClassVideoPlayer = () => {
           <div className="mb-6">
             {videoId ? (
               <div
-                className={`video-container ${isFullScreen ? "fullscreen" : ""}`}
+                className={`video-container ${
+                  isFullScreen ? "fullscreen" : ""
+                }`}
                 ref={videoContainerRef}
                 onMouseMove={handleInteraction}
                 onMouseEnter={handleInteraction}
@@ -1124,10 +1139,16 @@ const ClassVideoPlayer = () => {
                             onTouchStart={(e) => e.stopPropagation()}
                             onTouchMove={(e) => {
                               const touch = e.touches[0];
-                              const rect = e.currentTarget.getBoundingClientRect();
+                              const rect =
+                                e.currentTarget.getBoundingClientRect();
                               const newVolume = Math.min(
                                 100,
-                                Math.max(0, ((rect.bottom - touch.clientY) / rect.height) * 100)
+                                Math.max(
+                                  0,
+                                  ((rect.bottom - touch.clientY) /
+                                    rect.height) *
+                                    100
+                                )
                               );
                               setVolume(Math.round(newVolume));
                               setIsMuted(newVolume === 0);
@@ -1138,9 +1159,12 @@ const ClassVideoPlayer = () => {
                               }
                             }}
                             onMouseLeave={() => {
-                              volumeSliderTimeoutRef.current = setTimeout(() => {
-                                setShowVolumeSlider(false);
-                              }, 300);
+                              volumeSliderTimeoutRef.current = setTimeout(
+                                () => {
+                                  setShowVolumeSlider(false);
+                                },
+                                300
+                              );
                             }}
                             aria-label="Volume control"
                           />
@@ -1149,7 +1173,9 @@ const ClassVideoPlayer = () => {
                       <div className="relative" ref={dropdownRef}>
                         <button
                           onClick={() => setShowSpeedDropdown((prev) => !prev)}
-                          className={`speed-button ${showSpeedDropdown ? "active" : ""}`}
+                          className={`speed-button ${
+                            showSpeedDropdown ? "active" : ""
+                          }`}
                           disabled={!isPlayerReady}
                           aria-label="Toggle playback speed options"
                           aria-expanded={showSpeedDropdown}
@@ -1161,7 +1187,9 @@ const ClassVideoPlayer = () => {
                             {availablePlaybackRates.map((speed) => (
                               <div
                                 key={speed}
-                                className={`speed-dropdown-item ${playbackRate === speed ? "active" : ""}`}
+                                className={`speed-dropdown-item ${
+                                  playbackRate === speed ? "active" : ""
+                                }`}
                                 onClick={() => changeSpeed(speed)}
                                 role="option"
                                 aria-selected={playbackRate === speed}

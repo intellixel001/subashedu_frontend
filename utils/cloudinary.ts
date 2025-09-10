@@ -54,7 +54,6 @@ const deletePdfFromCloudinary = async (
   try {
     const publicId = getPublicIdFromUrl(url);
     if (!publicId) {
-      console.log("No valid public ID found in URL");
       return false;
     }
 

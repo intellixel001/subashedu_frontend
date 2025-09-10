@@ -22,7 +22,7 @@
 // import io from "socket.io-client";
 
 // const socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`, {
-//   transports: ["websocket", "polling"], 
+//   transports: ["websocket", "polling"],
 //   withCredentials: true,
 //   auth: {
 //     token: Cookies.get("accessToken"),
@@ -257,13 +257,11 @@
 //       setLoading(false);
 //       return;
 //     }
-//     console.log("Initializing YouTube player with videoId:", videoId);
 //     const tag = document.createElement("script");
 //     tag.src = "https://www.youtube.com/iframe_api";
 //     const firstScriptTag = document.getElementsByTagName("script")[0];
 //     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //     window.onYouTubeIframeAPIReady = () => {
-//       console.log("YouTube IFrame API ready");
 //       playerRef.current = new window.YT.Player("youtube-player", {
 //         videoId: videoId,
 //         playerVars: {
@@ -281,7 +279,6 @@
 //         },
 //         events: {
 //           onReady: () => {
-//             console.log("YouTube player ready");
 //             setIsPlayerReady(true);
 //             onPlayerReady();
 //           },
@@ -295,7 +292,6 @@
 //       });
 //     };
 //     return () => {
-//       console.log("Cleaning up YouTube player");
 //       if (playerRef.current) {
 //         playerRef.current.destroy();
 //         setIsPlayerReady(false);
@@ -306,12 +302,10 @@
 
 //   const onPlayerReady = () => {
 //     setIsPlayerReady(true);
-//     console.log("YouTube player is ready");
 
 //     // Hardcode isLive to true
 //     const isLive = true;
 //     setIsLiveStream(isLive);
-//     console.log("Live stream detected:", isLive);
 
 //     if (playerRef.current) {
 //       if (isLive) {
@@ -331,7 +325,6 @@
 
 //   const onPlayerStateChange = (event) => {
 //     const state = event.data;
-//     console.log("Player state changed:", state);
 //     setIsPlaying(state === window.YT.PlayerState.PLAYING);
 //     if (state === window.YT.PlayerState.PLAYING) {
 //       setShowCustomPlay(false);
@@ -358,10 +351,8 @@
 //     }
 //     if (isPlaying) {
 //       playerRef.current.pauseVideo();
-//       console.log("Pausing video");
 //     } else {
 //       playerRef.current.playVideo();
-//       console.log("Playing video");
 //     }
 //   };
 
@@ -576,8 +567,6 @@
 //   const videoId = classData.data.videoLink
 //     ? getYouTubeId(classData.data.videoLink)
 //     : null;
-
-
 
 //   return (
 //     <div className="container mx-auto px-2 md:px-4 py-4 py-6">

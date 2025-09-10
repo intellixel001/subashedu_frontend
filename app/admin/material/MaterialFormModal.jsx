@@ -18,8 +18,6 @@ const MaterialFormModal = ({
 }) => {
   if (!isOpen) return null;
 
-  console.log({ formData });
-
   return (
     <div className="fixed inset-0 bg-black/60 text-white flex items-center justify-center z-50">
       <div className="bg-[var(--card)] rounded-2xl shadow-lg w-full max-w-2xl p-6 animate-fade-in relative max-h-screen overflow-hidden overflow-y-auto">

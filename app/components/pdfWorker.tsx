@@ -1,5 +1,4 @@
-// app/components/pdfWorker.js
-import { pdfjs } from 'react-pdf';
+import { pdfjs } from "react-pdf";
 
-// Load worker from node_modules
-pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
+// Use the local worker from public folder
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf/pdf.worker.min.js";

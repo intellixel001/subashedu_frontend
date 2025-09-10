@@ -2,9 +2,8 @@
 import { StaffModal } from "@/app/components/StaffModal";
 import { StaffTableSkeleton } from "@/app/components/StaffSkeleton";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 
@@ -21,7 +20,7 @@ export default function ManageStaffPage() {
     phone: "",
     password: "",
     confirmPassword: "",
-    role: ""
+    role: "",
   });
   const [submittingLoading, setSubmittingLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -68,97 +67,102 @@ export default function ManageStaffPage() {
     });
   };
 
-const handleSubmit = async (e: React.FormEvent, photoFile?: File) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent, photoFile?: File) => {
+    e.preventDefault();
 
-  // Client-side validation
-  if (!formData.fullName || !formData.email || !formData.phone || !formData.role) {
-    alert("Please fill in all required fields");
-    return;
-  }
-  if (!photoFile && !currentStaff) {
-    alert("Please upload a profile image");
-    return;
-  }
-  if (!currentStaff && (!formData.password || formData.password !== formData.confirmPassword)) {
-    alert("Please provide matching passwords");
-    return;
-  }
-  if (!["staff", "teacher"].includes(formData.role)) {
-    alert("Please select a valid role (Staff or Teacher)");
-    return;
-  }
+    // Client-side validation
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.role
+    ) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    if (!photoFile && !currentStaff) {
+      alert("Please upload a profile image");
+      return;
+    }
+    if (
+      !currentStaff &&
+      (!formData.password || formData.password !== formData.confirmPassword)
+    ) {
+      alert("Please provide matching passwords");
+      return;
+    }
+    if (!["staff", "teacher"].includes(formData.role)) {
+      alert("Please select a valid role (Staff or Teacher)");
+      return;
+    }
 
-  console.log("Form Data:", formData); // Debug form data
+    setSubmittingLoading(true);
+    try {
+      const endpoint = currentStaff
+        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/update-staff`
+        : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/create-staff`;
 
-  setSubmittingLoading(true);
-  try {
-    const endpoint = currentStaff
-      ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/update-staff`
-      : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/create-staff`;
+      const formDataToSend = new FormData();
+      formDataToSend.append("_id", formData._id);
+      formDataToSend.append("fullName", formData.fullName);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("role", formData.role);
 
-    const formDataToSend = new FormData();
-    formDataToSend.append("_id", formData._id);
-    formDataToSend.append("fullName", formData.fullName);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("role", formData.role);
-
-    if (currentStaff) {
-      if (formData.password) {
+      if (currentStaff) {
+        if (formData.password) {
+          formDataToSend.append("password", formData.password);
+        }
+      } else {
         formDataToSend.append("password", formData.password);
+        formDataToSend.append("confirmPassword", formData.confirmPassword);
       }
-    } else {
-      formDataToSend.append("password", formData.password);
-      formDataToSend.append("confirmPassword", formData.confirmPassword);
-    }
 
-    if (photoFile) {
-      formDataToSend.append("avatar", photoFile);
-    }
+      if (photoFile) {
+        formDataToSend.append("avatar", photoFile);
+      }
 
-    // Debug FormData contents
-    for (const [key, value] of formDataToSend.entries()) {
-      console.log(`FormData Entry: ${key}=${value}`);
-    }
+      // Debug FormData contents
+      // for (const [key, value] of formDataToSend.entries()) {
+      // }
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      credentials: "include",
-      body: formDataToSend,
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      setStaffMembers((prev) =>
-        currentStaff
-          ? prev.map((staff) =>
-              staff._id === currentStaff._id ? result.data : staff
-            )
-          : [...prev, result.data]
-      );
-      setIsModalOpen(false);
-      setFormData({
-        _id: "",
-        fullName: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-        role: "",
+      const response = await fetch(endpoint, {
+        method: "POST",
+        credentials: "include",
+        body: formDataToSend,
       });
-    } else {
-      console.error("Error submitting form:", result.message);
-      alert(result.message || "An error occurred");
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStaffMembers((prev) =>
+          currentStaff
+            ? prev.map((staff) =>
+                staff._id === currentStaff._id ? result.data : staff
+              )
+            : [...prev, result.data]
+        );
+        setIsModalOpen(false);
+        setFormData({
+          _id: "",
+          fullName: "",
+          email: "",
+          phone: "",
+          password: "",
+          confirmPassword: "",
+          role: "",
+        });
+      } else {
+        console.error("Error submitting form:", result.message);
+        alert(result.message || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the form");
+    } finally {
+      setSubmittingLoading(false);
     }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("An error occurred while submitting the form");
-  } finally {
-    setSubmittingLoading(false);
-  }
-};
+  };
 
   const openEditModal = (staff) => {
     setCurrentStaff(staff);
@@ -169,24 +173,24 @@ const handleSubmit = async (e: React.FormEvent, photoFile?: File) => {
       password: "",
       confirmPassword: "",
       _id: staff._id,
-      role: staff.role
+      role: staff.role,
     });
     setIsModalOpen(true);
   };
 
-const openCreateModal = () => {
-  setCurrentStaff(null);
-  setFormData({
-    _id: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-    role: "", // Ensure this is empty to trigger the default <select> option
-  });
-  setIsModalOpen(true);
-};
+  const openCreateModal = () => {
+    setCurrentStaff(null);
+    setFormData({
+      _id: "",
+      fullName: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      role: "", // Ensure this is empty to trigger the default <select> option
+    });
+    setIsModalOpen(true);
+  };
 
   const handleDelete = async (id: string) => {
     setIsDeleting(true);
@@ -441,8 +445,8 @@ const openCreateModal = () => {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to delete this staff member? This action
-                      cannot be undone.
+                      Are you sure you want to delete this staff member? This
+                      action cannot be undone.
                     </p>
                   </div>
 
