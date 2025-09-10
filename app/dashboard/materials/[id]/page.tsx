@@ -6,12 +6,11 @@ interface PageParams {
   id: string;
 }
 
-// Next.js page function
-export default async function PDFReader({
-  params,
-}: {
-  params: PageParams; // conforming to PageProps
-}) {
+interface PageProps {
+  params: PageParams;
+}
+
+export default async function PDFReader({ params }: PageProps) {
   const { id } = params;
 
   if (!id) {
@@ -40,6 +39,5 @@ export default async function PDFReader({
 
   if (!isPurchased) return <MaterialPurchaseForm materialId={id} />;
 
-  // Use the PDF Viewer component
   return <PDFViewerWrapper materialId={id} />;
 }
