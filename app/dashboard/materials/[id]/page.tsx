@@ -2,16 +2,14 @@ import MaterialPurchaseForm from "@/components/MaterialPurchaseForm";
 import PDFViewerWrapper from "@/components/PDFViewerWrapper";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 
-interface PageParams {
-  id: string;
-}
+export default async function PDFReader({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-interface PageProps {
-  params: PageParams;
-}
-
-export default async function PDFReader({ params }: PageProps) {
-  const { id } = params;
+  const studentObject = await getCurrentStudent();
 
   if (!id) {
     return (
@@ -20,8 +18,6 @@ export default async function PDFReader({ params }: PageProps) {
       </div>
     );
   }
-
-  const studentObject = await getCurrentStudent();
 
   if (!studentObject) {
     return (
@@ -33,11 +29,21 @@ export default async function PDFReader({ params }: PageProps) {
 
   const student = studentObject.data.student;
 
-  const isPurchased =
-    student.coursesEnrolled.some((course) => course.materials.includes(id)) ||
-    student.materials.includes(id);
+  const coursesEnrolled = student.coursesEnrolled;
+  const isPurchased = coursesEnrolled.some((course) => {
+    return course.materials.some((material: string) => material === id);
+  });
 
-  if (!isPurchased) return <MaterialPurchaseForm materialId={id} />;
+  const isPurchased2 = student.materials.some((material) => {
+    return material === id;
+  });
+  console.log({ isPurchased2, id });
+
+  // console.log({ isPurchased, id, 1: student });
+
+  if (!isPurchased || !isPurchased2) {
+    return <MaterialPurchaseForm materialId={id} />;
+  }
 
   return <PDFViewerWrapper materialId={id} />;
 }
