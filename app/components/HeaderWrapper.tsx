@@ -6,10 +6,9 @@ import Header from "./Header";
 export function HeaderWrapper() {
   const pathname = usePathname();
 
-
   return (
     <>
-      <Header pathname={pathname}/>
+      <Header pathname={pathname} />
     </>
   );
 }

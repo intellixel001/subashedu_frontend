@@ -1,114 +1,111 @@
 "use client";
 
-import axios from "axios";
-import dynamic from "next/dynamic";
-import React, { useCallback, useEffect, useState } from "react";
-import { pdfjs } from "react-pdf";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-
-// Dynamically import to avoid SSR issues
-const Document = dynamic(
-  () => import("react-pdf").then((mod) => mod.Document),
-  { ssr: false }
-);
-const Page = dynamic(() => import("react-pdf").then((mod) => mod.Page), {
-  ssr: false,
-});
-
-// Use the local worker from public folder
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf/pdf.worker.min.js";
+import React, { useEffect, useState } from "react";
 
 interface PDFViewerProps {
   materialId: string;
 }
 
-const PDFViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
-  const [file, setFile] = useState<Blob | null>(null);
-  const [numPages, setNumPages] = useState(0);
-  const [scale, setScale] = useState(1.0);
+const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
+  const [pdfUrls, setPdfUrls] = useState<string[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [scale, setScale] = useState(1);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-  const fetchPDF = useCallback(() => {
-    setIsLoading(true);
-    setError("");
-
-    axios
-      .get(`${API_URL}/api/stream-material/${materialId}`, {
-        withCredentials: true,
-        responseType: "arraybuffer",
-      })
-      .then((res) => {
-        const blob = new Blob([res.data], { type: "application/pdf" });
-        setFile(blob);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setError(err instanceof Error ? err.message : String(err));
-        setIsLoading(false);
-      });
-  }, [materialId, API_URL]);
-
   useEffect(() => {
-    fetchPDF();
-  }, [fetchPDF]);
+    const fetchPDFs = async () => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const res = await fetch(
+          `${API_URL}/api/stream-material/${materialId}`,
+          {
+            credentials: "include",
+          }
+        );
+        const data = await res.json();
+        if (!data.success)
+          throw new Error(data.message || "Error fetching PDFs");
+
+        setPdfUrls(data.urls || []);
+      } catch (err: any) {
+        setError(err.message || "Error loading PDFs");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPDFs();
+  }, [materialId, API_URL]);
 
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3));
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex flex-col items-center py-4">
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center">
+      {/* Error / Loading */}
       {error && <div className="text-red-500">{error}</div>}
+      {isLoading && <div className="text-gray-600">Loading PDFs...</div>}
 
-      {isLoading && <div>Loading PDF...</div>}
-
-      {file && (
-        <div className="w-full max-w-4xl bg-white shadow rounded p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">PDF Viewer</h2>
-            <div className="flex gap-2 items-center">
+      {pdfUrls.length > 0 && (
+        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+          {/* Toolbar */}
+          <div className="flex justify-between items-center bg-gray-50 px-4 py-3 border-b">
+            <h2 className="text-lg font-bold text-gray-700">
+              📖 Study Material
+            </h2>
+            <div className="flex items-center gap-3">
               <button
                 onClick={zoomOut}
-                className="px-2 py-1 bg-gray-200 rounded"
+                className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg"
               >
                 −
               </button>
-              <span>{Math.round(scale * 100)}%</span>
+              <span className="text-gray-700">{Math.round(scale * 100)}%</span>
               <button
                 onClick={zoomIn}
-                className="px-2 py-1 bg-gray-200 rounded"
+                className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded-lg"
               >
                 +
               </button>
             </div>
           </div>
 
-          <Document
-            file={file}
-            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-            onLoadError={(err) =>
-              setError(`Failed to load PDF: ${err.message}`)
-            }
-          >
-            {Array.from({ length: numPages }, (_, index) => (
-              <Page
-                key={index + 1}
-                pageNumber={index + 1}
-                scale={scale}
-                renderAnnotationLayer
-                renderTextLayer
-                className="mb-4 shadow"
-              />
+          {/* PDF Viewer */}
+          <div className="flex-1 bg-gray-100 flex items-center justify-center">
+            <iframe
+              src={pdfUrls[currentIndex]}
+              className="w-full h-[80vh] border-0 rounded-xl shadow-lg bg-white"
+              style={{
+                transform: `scale(${scale})`,
+                transformOrigin: "center top",
+              }}
+            />
+          </div>
+
+          {/* Bottom Page Selector */}
+          <div className="bg-gray-50 px-4 py-3 border-t flex flex-wrap justify-center gap-2">
+            {pdfUrls.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                  currentIndex === i
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                Page {i + 1}
+              </button>
             ))}
-          </Document>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default PDFViewer;
+export default PDFBookViewer;

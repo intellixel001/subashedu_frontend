@@ -147,7 +147,7 @@ export default function Header({ pathname }) {
         icon: <FaInfoCircle className="w-4 h-4" />,
         links: [
           { name: "Home", href: "/" },
-  { name: "Shop", href: "/materials" },
+          { name: "Shop", href: "/materials" },
           { name: "Blog", href: "/blog" },
           { name: "About", href: "/about" },
         ],
