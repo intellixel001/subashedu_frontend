@@ -31,8 +31,12 @@ const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
           throw new Error(data.message || "Error fetching PDFs");
 
         setPdfUrls(data.urls || []);
-      } catch (err: any) {
-        setError(err.message || "Error loading PDFs");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Error loading PDFs");
+        }
       } finally {
         setIsLoading(false);
       }
