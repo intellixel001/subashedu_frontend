@@ -16,7 +16,7 @@ export const revalidate = 3600;
 
 export default function Home() {
   return (
-    <main>
+    <main className="mt-[110px]">
       <Section1 />
       <Section2 />
       <Section3 />

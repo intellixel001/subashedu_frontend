@@ -116,6 +116,7 @@ export function QuickNavigation() {
 
 export default function Header({ pathname }) {
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [showNotice, setShowNotice] = useState<boolean>(true);
   const dontShow =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/management") ||
@@ -161,112 +162,114 @@ export default function Header({ pathname }) {
   }
 
   return (
-    <header className="fixed w-full top-0 z-50 bg-gray-800 shadow-sm">
-      <nav className="w-full h-14 sm:h-16 border-b border-myred/50 px-4 sm:px-6 flex items-center justify-between">
-        <Link href="/" className="mr-auto">
-          <Image
-            className="h-10 w-auto sm:h-12"
-            src={Logo}
-            alt="Suvash Edu logo"
-            priority
-          />
-        </Link>
-
-        <div className="hidden lg:flex items-center space-x-2">
-          <Link
-            href="/courses"
-            className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaBookOpen className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
-            <span>Courses</span>
+    <header className="fixed w-full  top-0 z-50 bg-gray-800 shadow-sm">
+      <nav className="w-full h-14 sm:h-16 border-b border-myred/50">
+        <div className="container mx-auto flex px-2 lg:px-4 items-center justify-between">
+          <Link href="/" className="mr-auto ">
+            <Image
+              className="h-10 w-auto sm:h-12"
+              src={Logo}
+              alt="Suvash Edu logo"
+              priority
+            />
           </Link>
 
-          {navigationGroups.map((group) => (
-            <div
-              key={group.name}
-              className="relative"
-              onMouseEnter={() => setActiveTab(group.name)}
-              onMouseLeave={() => setActiveTab(null)}
+          <div className="hidden lg:flex items-center space-x-2">
+            <Link
+              href="/courses"
+              className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
             >
-              <button className="flex items-center justify-between gap-2 px-4 py-2 text-gray-100 hover:text-myred-secondary active:text-myred font-medium transition-colors focus:ring-2 focus:ring-myred focus:ring-offset-2">
-                <div className="flex items-center gap-2">
-                  {group.icon}
-                  {group.name}
-                </div>
-                <FaChevronDown
-                  className={`w-3 h-3 transition-transform ${
-                    activeTab === group.name ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
+              <FaBookOpen className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
+              <span>Courses</span>
+            </Link>
 
+            {navigationGroups.map((group) => (
               <div
-                className={`absolute left-0 mt-1 bg-gray-800 rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 min-w-[200px]
+                key={group.name}
+                className="relative"
+                onMouseEnter={() => setActiveTab(group.name)}
+                onMouseLeave={() => setActiveTab(null)}
+              >
+                <button className="flex items-center justify-between gap-2 px-4 py-2 text-gray-100 hover:text-myred-secondary active:text-myred font-medium transition-colors focus:ring-2 focus:ring-myred focus:ring-offset-2">
+                  <div className="flex items-center gap-2">
+                    {group.icon}
+                    {group.name}
+                  </div>
+                  <FaChevronDown
+                    className={`w-3 h-3 transition-transform ${
+                      activeTab === group.name ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <div
+                  className={`absolute left-0 mt-1 bg-gray-800 rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 min-w-[200px]
                   ${
                     activeTab === group.name
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-2 pointer-events-none"
                   }`}
-              >
-                {group.links.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className="flex items-center gap-2 px-4 py-3 text-gray-100 hover:bg-myred-dark hover:text-myred-secondary active:bg-myred active:text-white transition-colors text-sm focus:ring-2 focus:ring-myred focus:ring-offset-2"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
+                >
+                  {group.links.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="flex items-center gap-2 px-4 py-3 text-gray-100 hover:bg-myred-dark hover:text-myred-secondary active:bg-myred active:text-white transition-colors text-sm focus:ring-2 focus:ring-myred focus:ring-offset-2"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          <Link
-            href="/contact"
-            className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaPhoneAlt className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
-            <span>Contact</span>
-          </Link>
+            <Link
+              href="/contact"
+              className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
+            >
+              <FaPhoneAlt className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
+              <span>Contact</span>
+            </Link>
 
-          <Link
-            href="/dashboard"
-            className="flex items-center justify-center text-sm bg-myred py-2 px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaUserPlus className="mr-2 text-sm" />
-            <span>Join now</span>
-          </Link>
-        </div>
+            <Link
+              href="/dashboard"
+              className="flex items-center justify-center text-sm bg-myred py-2 px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
+            >
+              <FaUserPlus className="mr-2 text-sm" />
+              <span>Join now</span>
+            </Link>
+          </div>
 
-        <div className="flex lg:hidden items-center space-x-2 md:space-x-4 ml-2 md:ml-4">
-          <Link
-            href="/courses"
-            className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaBookOpen className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
-            <span>Courses</span>
-          </Link>
+          <div className="flex lg:hidden items-center space-x-2 md:space-x-4 ml-2 md:ml-4">
+            <Link
+              href="/courses"
+              className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
+            >
+              <FaBookOpen className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
+              <span>Courses</span>
+            </Link>
 
-          <Link
-            href="/contact"
-            className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaPhoneAlt className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
-            <span>Contact</span>
-          </Link>
+            <Link
+              href="/contact"
+              className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
+            >
+              <FaPhoneAlt className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
+              <span>Contact</span>
+            </Link>
 
-          <Link
-            href="/dashboard"
-            className="flex items-center justify-center text-[10px] md:text-sm bg-myred bg-myred-dark py-1 px-3 sm:py-2 sm:px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-          >
-            <FaUserPlus className="mr-1 sm:mr-2 text-[10px] md:text-sm " />
-            <span>Join now</span>
-          </Link>
+            <Link
+              href="/dashboard"
+              className="flex items-center justify-center text-[10px] md:text-sm bg-myred bg-myred-dark py-1 px-3 sm:py-2 sm:px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
+            >
+              <FaUserPlus className="mr-1 sm:mr-2 text-[10px] md:text-sm " />
+              <span>Join now</span>
+            </Link>
+          </div>
         </div>
       </nav>
 
       <QuickNavigation />
-      <AnnouncementBar />
+      <AnnouncementBar showNotice={showNotice} setShowNotice={setShowNotice} />
     </header>
   );
 }

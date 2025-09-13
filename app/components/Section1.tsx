@@ -14,23 +14,65 @@ import {
 import { MdPersonSearch } from "react-icons/md";
 import SearchBar from "./SearchBar";
 
+// Swiper imports
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 export default function Section1() {
+  const sliderImages = [
+    "https://cdn.10minuteschool.com/images/Web-Banner_1756197814436.jpg?w=1800?w=1800&h=150",
+    "https://cdn.10minuteschool.com/images/Web-Banner_1756197814436.jpg?w=1800?w=1800&h=150",
+    "https://cdn.10minuteschool.com/images/Web-Banner_1756197814436.jpg?w=1800?w=1800&h=150",
+  ];
+
   return (
-    <section
-      className="flex flex-col items-center justify-center pt-32 lg:pt-30 pb-8 px-4 sm:px-6 lg:px-8 bg-transparent relative overflow-hidden "
-      style={{ maxHeight: "100vh" }}
-    >
-      {/* Sign Up/Login Button - Moved to top */}
-      <div className="w-full flex justify-center mb-4 relative z-10">
+    <section className="flex flex-col container mx-auto px-2 lg:px-4 items-center justify-center bg-transparent relative overflow-hidden">
+      {/* 🔥 Top Image Slider */}
+      <div className="w-full relative z-10">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{ delay: 3000 }}
+          pagination={{ clickable: true }}
+          className="rounded-xl overflow-hidden shadow-lg"
+        >
+          {sliderImages.map((src, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={src}
+                alt={`Slide ${index + 1}`}
+                width={1200}
+                height={400}
+                className="w-full object-cover"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {/* Hero Text */}
+      <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-8 px-4 max-w-4xl leading-tight relative z-10">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-myred to-myred-secondary font-extrabold">
+          {`"From academics to admission"`}
+        </span>{" "}
+        <br />
+        <span className="text-gray-300">Journey with Suvash Edu</span>
+      </h1>
+
+      {/* Sign Up/Login Button */}
+      {/* <div className="w-full flex justify-center mb-4 relative z-10">
         <Link href="/login">
           <button className="text-lg sm:text-xl font-semibold rounded-full bg-gradient-to-r from-myred-dark to-myred text-white px-12 py-3 shadow-lg hover:shadow-myred/50 focus:outline-none relative overflow-hidden group">
             <span className="relative z-10">Sign Up / Login</span>
             <span className="absolute inset-0 bg-gradient-to-r from-myred to-myred-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </button>
         </Link>
-      </div>
+      </div> */}
 
-      {/* Search Bar - Made wider */}
+      {/* Search Bar */}
       <div
         className="w-full px-4 relative z-20 flex justify-center mb-8"
         style={{ maxWidth: "800px" }}
@@ -40,7 +82,7 @@ export default function Section1() {
         </div>
       </div>
 
-      {/* Navigation Menu - Made more compact */}
+      {/* Navigation Menu */}
       <div className="w-full max-w-5xl bg-gray-800/70 backdrop-blur-md rounded-xl shadow-lg border border-myred/30 px-4 py-3 mb-8 overflow-hidden relative z-10 hover:border-myred/50 transition-all duration-300 min-h-[80px]">
         <ul className="flex flex-wrap justify-center gap-x-2 gap-y-1 text-xs sm:text-sm md:text-base font-medium text-gray-100 whitespace-nowrap">
           {[
@@ -96,16 +138,7 @@ export default function Section1() {
         </ul>
       </div>
 
-      {/* Hero Text - Made more compact */}
-      <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-8 px-4 max-w-4xl leading-tight relative z-10">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-myred to-myred-secondary font-extrabold">
-          {`"From academics to admission"`}
-        </span>{" "}
-        <br />
-        <span className="text-gray-300">Journey with Suvash Edu</span>
-      </h1>
-
-      {/* Buttons - Made more compact */}
+      {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 relative z-10">
         <Link href="/courses">
           <button className="relative w-full uppercase px-8 py-3 bg-gradient-to-r from-myred-dark to-myred text-white text-base sm:text-lg font-bold rounded-full shadow-lg hover:shadow-myred/50 focus:outline-none group overflow-hidden">

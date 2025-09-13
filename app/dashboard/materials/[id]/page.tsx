@@ -41,9 +41,9 @@ export default async function PDFReader({
 
   // console.log({ isPurchased, id, 1: student });
 
-  if (!isPurchased || !isPurchased2) {
+  if (isPurchased || isPurchased2) {
+    return <PDFViewerWrapper materialId={id} />;
+  } else {
     return <MaterialPurchaseForm materialId={id} />;
   }
-
-  return <PDFViewerWrapper materialId={id} />;
 }

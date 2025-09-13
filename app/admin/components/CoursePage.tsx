@@ -2,9 +2,9 @@
 
 import { CourseModal } from "@/app/components/CourseModal";
 import { Dialog, Transition } from "@headlessui/react";
-import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
-import { FaEdit, FaPlus, FaSearch, FaTrash } from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
+import CoursesTabs from "./CoursesTabs";
 
 interface Instructor {
   name: string;
@@ -94,17 +94,17 @@ export default function CoursePage() {
             },
           }
         );
-  
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-  
+
         const result = await response.json();
-  
+
         if (!result.success) {
           throw new Error(result.message || "Failed to fetch courses");
         }
-  
+
         // Check if result.data is defined and is an array
         const coursesData = Array.isArray(result.data) ? result.data : [];
         setCourses(coursesData);
@@ -120,7 +120,7 @@ export default function CoursePage() {
     }
     fetchCourses();
   }, []);
-  
+
   // Refresh courses when modal or delete dialog closes
   useEffect(() => {
     if (!isModalOpen && !isDeleteDialogOpen) {
@@ -139,17 +139,17 @@ export default function CoursePage() {
               },
             }
           );
-  
+
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-  
+
           const result = await response.json();
-  
+
           if (!result.success) {
             throw new Error(result.message || "Failed to fetch courses");
           }
-  
+
           // Check if result.data is defined and is an array
           const coursesData = Array.isArray(result.data) ? result.data : [];
           setCourses(coursesData);
@@ -168,22 +168,22 @@ export default function CoursePage() {
   }, [isModalOpen, isDeleteDialogOpen]);
 
   // Filter courses by type
-// Filter courses by type
-const classCourses = Array.isArray(courses)
-  ? courses.filter((course) =>
-      ["class 9", "class 10", "class 11", "class 12", "hsc", "ssc"].includes(
-        course.courseFor
+  // Filter courses by type
+  const classCourses = Array.isArray(courses)
+    ? courses.filter((course) =>
+        ["class 9", "class 10", "class 11", "class 12", "hsc", "ssc"].includes(
+          course.courseFor
+        )
       )
-    )
-  : [];
+    : [];
 
-const admissionCourses = Array.isArray(courses)
-  ? courses.filter((course) => course.courseFor === "admission")
-  : [];
+  const admissionCourses = Array.isArray(courses)
+    ? courses.filter((course) => course.courseFor === "admission")
+    : [];
 
-const jobCourses = Array.isArray(courses)
-  ? courses.filter((course) => course.courseFor === "job preparation")
-  : [];
+  const jobCourses = Array.isArray(courses)
+    ? courses.filter((course) => course.courseFor === "job preparation")
+    : [];
 
   // Filter courses by search term and subject
   const filterCourses = (courseList: Course[], type: keyof SubjectFilter) => {
@@ -210,13 +210,13 @@ const jobCourses = Array.isArray(courses)
   const filteredJobCourses = filterCourses(jobCourses, "jobCourses");
 
   // Get unique subjects for each course type
-  const getUniqueSubjects = (courseList: Course[]) => {
-    const subjects = new Set<string>();
-    courseList.forEach((course) => {
-      course.subjects.forEach((subject) => subjects.add(subject));
-    });
-    return Array.from(subjects).sort();
-  };
+  // const getUniqueSubjects = (courseList: Course[]) => {
+  //   const subjects = new Set<string>();
+  //   courseList.forEach((course) => {
+  //     course.subjects.forEach((subject) => subjects.add(subject));
+  //   });
+  //   return Array.from(subjects).sort();
+  // };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -271,7 +271,10 @@ const jobCourses = Array.isArray(courses)
   const addInstructor = () => {
     setFormData({
       ...formData,
-      instructors: [...formData.instructors, { name: "", bio: "", image: null }],
+      instructors: [
+        ...formData.instructors,
+        { name: "", bio: "", image: null },
+      ],
     });
   };
 
@@ -468,449 +471,21 @@ const jobCourses = Array.isArray(courses)
         </div>
       )}
 
-      {/* Class Courses (9-12) Table */}
-      {!noCoursesAvailable && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900">Class Courses (9-12)</h2>
-          <div className="mb-4">
-            <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
-            <select
-              className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
-              value={subjectFilter.classCourses}
-              onChange={(e) =>
-                setSubjectFilter({
-                  ...subjectFilter,
-                  classCourses: e.target.value,
-                })
-              }
-              disabled={loading}
-            >
-              <option value="">All Subjects</option>
-              {getUniqueSubjects(classCourses).map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Title
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Subjects
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Price
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Students
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {loading ? (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        Loading...
-                      </td>
-                    </tr>
-                  ) : filteredClassCourses.length > 0 ? (
-                    filteredClassCourses.map((course) => (
-                      <tr key={course._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10 rounded-md overflow-hidden">
-                              {course.thumbnailUrl ? (
-                                <Image
-                                  src={course.thumbnailUrl}
-                                  alt={course.title}
-                                  width={40}
-                                  height={40}
-                                  className="h-full w-full object-cover"
-                                />
-                              ) : (
-                                <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-                                  <span className="text-xs text-gray-400">
-                                    No image
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                            <div className="ml-4">
-                              <div className="font-medium text-gray-900 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.title}
-                              </div>
-                              <div className="text-sm text-gray-500 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.short_description}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex flex-wrap gap-1">
-                            {(course.subjects || []).map((subject) => (
-                              <span
-                                key={subject}
-                                className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">
-                            ৳{course.offer_price}
-                            {course.offer_price < course.price && (
-                              <span className="ml-2 text-sm text-gray-500 line-through">
-                                ৳{course.price}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {course.studentsEnrolled} enrolled
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button
-                            onClick={() => openEditModal(course)}
-                            className="text-myred hover:text-myred-dark mr-4"
-                            disabled={loading}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setCourseToDelete(course._id);
-                              setIsDeleteDialogOpen(true);
-                            }}
-                            className="text-red-600 hover:text-red-900"
-                            disabled={loading}
-                          >
-                            <FaTrash />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        No class courses found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Admission Courses Table */}
-      {!noCoursesAvailable && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900">Admission Courses</h2>
-          <div className="mb-4">
-            <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
-            <select
-              className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
-              value={subjectFilter.admissionCourses}
-              onChange={(e) =>
-                setSubjectFilter({
-                  ...subjectFilter,
-                  admissionCourses: e.target.value,
-                })
-              }
-              disabled={loading}
-            >
-              <option value="">All Subjects</option>
-              {getUniqueSubjects(admissionCourses).map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Title
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Subjects
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Price
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Students
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {loading ? (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        Loading...
-                      </td>
-                    </tr>
-                  ) : filteredAdmissionCourses.length > 0 ? (
-                    filteredAdmissionCourses.map((course) => (
-                      <tr key={course._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10 rounded-md overflow-hidden">
-                              {course.thumbnailUrl ? (
-                                <Image
-                                  src={course.thumbnailUrl}
-                                  alt={course.title}
-                                  width={40}
-                                  height={40}
-                                  className="h-full w-full object-cover"
-                                />
-                              ) : (
-                                <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-                                  <span className="text-xs text-gray-400">
-                                    No image
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                            <div className="ml-4">
-                              <div className="font-medium text-gray-900 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.title}
-                              </div>
-                              <div className="text-sm text-gray-500 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.short_description}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex flex-wrap gap-1">
-                            {(course.subjects || []).map((subject) => (
-                              <span
-                                key={subject}
-                                className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">
-                            ৳{course.offer_price}
-                            {course.offer_price < course.price && (
-                              <span className="ml-2 text-sm text-gray-500 line-through">
-                                ৳{course.price}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {course.studentsEnrolled} enrolled
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button
-                            onClick={() => openEditModal(course)}
-                            className="text-myred hover:text-myred-dark mr-4"
-                            disabled={loading}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setCourseToDelete(course._id);
-                              setIsDeleteDialogOpen(true);
-                            }}
-                            className="text-red-600 hover:text-red-900"
-                            disabled={loading}
-                          >
-                            <FaTrash />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        No admission courses found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Job Preparation Courses Table */}
-      {!noCoursesAvailable && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-gray-900">Job Preparation Courses</h2>
-          <div className="mb-4">
-            <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
-            <select
-              className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
-              value={subjectFilter.jobCourses}
-              onChange={(e) =>
-                setSubjectFilter({
-                  ...subjectFilter,
-                  jobCourses: e.target.value,
-                })
-              }
-              disabled={loading}
-            >
-              <option value="">All Subjects</option>
-              {getUniqueSubjects(jobCourses).map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Title
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Subjects
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Price
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Students
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {loading ? (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        Loading...
-                      </td>
-                    </tr>
-                  ) : filteredJobCourses.length > 0 ? (
-                    filteredJobCourses.map((course) => (
-                      <tr key={course._id}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10 rounded-md overflow-hidden">
-                              {course.thumbnailUrl ? (
-                                <Image
-                                  src={course.thumbnailUrl}
-                                  alt={course.title}
-                                  width={40}
-                                  height={40}
-                                  className="h-full w-full object-cover"
-                                />
-                              ) : (
-                                <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-                                  <span className="text-xs text-gray-400">
-                                    No image
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                            <div className="ml-4">
-                              <div className="font-medium text-gray-900 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.title}
-                              </div>
-                              <div className="text-sm text-gray-500 max-w-[300px] overflow-hidden text-ellipsis">
-                                {course.short_description}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex flex-wrap gap-1">
-                            {(course.subjects || []).map((subject) => (
-                              <span
-                                key={subject}
-                                className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800"
-                              >
-                                {subject}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">
-                            ৳{course.offer_price}
-                            {course.offer_price < course.price && (
-                              <span className="ml-2 text-sm text-gray-500 line-through">
-                                ৳{course.price}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            {course.studentsEnrolled} enrolled
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <button
-                            onClick={() => openEditModal(course)}
-                            className="text-myred hover:text-myred-dark mr-4"
-                            disabled={loading}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setCourseToDelete(course._id);
-                              setIsDeleteDialogOpen(true);
-                            }}
-                            className="text-red-600 hover:text-red-900"
-                            disabled={loading}
-                          >
-                            <FaTrash />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                        No job preparation courses found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
+      <CoursesTabs
+        loading={loading}
+        noCoursesAvailable={noCoursesAvailable}
+        classCourses={classCourses}
+        admissionCourses={admissionCourses}
+        jobCourses={jobCourses}
+        subjectFilter={subjectFilter}
+        setSubjectFilter={setSubjectFilter}
+        filteredClassCourses={filteredClassCourses}
+        filteredAdmissionCourses={filteredAdmissionCourses}
+        filteredJobCourses={filteredJobCourses}
+        openEditModal={openEditModal}
+        setCourseToDelete={setCourseToDelete}
+        setIsDeleteDialogOpen={setIsDeleteDialogOpen}
+      />
 
       {/* Course Modal */}
       <CourseModal
