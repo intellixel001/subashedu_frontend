@@ -1,6 +1,11 @@
-// NO "use client" here
-import LessonsClient from "./LessonsClient";
+// Define params type manually
+interface PageProps {
+  params: {
+    id: string; // your route param
+  };
+}
 
-export default function page({ params }: { params: { id: string } }) {
+// Server Component
+export default function Page({ params }: PageProps) {
   return <LessonsClient courseId={params.id} />;
 }
