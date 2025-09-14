@@ -1,14 +1,57 @@
-import { Course } from "@/types/course"; // adjust the path as needed
+// app/admin/components/CourseTable.tsx
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit, FaEye, FaTrash, FaVideo } from "react-icons/fa";
 
-const getUniqueSubjects = (courses: any[]) => {
-  const allSubjects = courses.flatMap((c) => c.subjects || []);
-  return Array.from(new Set(allSubjects));
-};
+// ---------------- TYPES ----------------
+export interface Instructor {
+  name: string;
+  bio?: string;
+  image?: string;
+}
+
+export type CourseFor =
+  | "class 9"
+  | "class 10"
+  | "class 11"
+  | "class 12"
+  | "admission"
+  | "job preparation"
+  | "hsc"
+  | "ssc";
+
+export interface Lesson {
+  name: string;
+  description: string;
+  lessonType: string; // renamed from "type" to match backend
+  contents: Content[];
+}
+
+export interface Course {
+  _id: string;
+  id: string;
+  title: string;
+  description: string;
+  short_description: string;
+  subjects: string[];
+  thumbnailUrl?: string;
+  tags: string[];
+  price: number;
+  offer_price: number;
+  instructors: Instructor[];
+  type?: string;
+  studentsEnrolled: number;
+  courseFor: CourseFor;
+  classes: string[]; // or ObjectId
+  materials: string[]; // or ObjectId
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
+}
 
 interface CourseTableProps {
   title: string;
@@ -25,6 +68,7 @@ interface CourseTableProps {
   setIsDeleteDialogOpen: (open: boolean) => void;
 }
 
+// ---------------- COMPONENT ----------------
 export default function CourseTable({
   title,
   courses,
@@ -49,10 +93,16 @@ export default function CourseTable({
     setIsDeleteDialogOpen(true);
   };
 
+  const getUniqueSubjects = (courses: Course[]): string[] => {
+    const allSubjects = courses.flatMap((c: Course) => c.subjects);
+    return Array.from(new Set(allSubjects));
+  };
+
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
 
+      {/* Subject Filter */}
       <div className="mb-4">
         <label className="mr-2 text-sm font-medium text-gray-700">
           Filter by Subject:
@@ -69,7 +119,7 @@ export default function CourseTable({
           disabled={loading}
         >
           <option value="">All Subjects</option>
-          {getUniqueSubjects(courses).map((subject: string) => (
+          {getUniqueSubjects(courses).map((subject) => (
             <option key={subject} value={subject}>
               {subject}
             </option>
@@ -77,6 +127,7 @@ export default function CourseTable({
         </select>
       </div>
 
+      {/* Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -105,7 +156,7 @@ export default function CourseTable({
                   </td>
                 </tr>
               ) : filteredCourses.length > 0 ? (
-                filteredCourses.map((course: any) => (
+                filteredCourses.map((course: Course) => (
                   <tr key={course._id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -136,9 +187,10 @@ export default function CourseTable({
                         </div>
                       </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-wrap gap-1">
-                        {(course.subjects || []).map((subject: string) => (
+                        {course.subjects.map((subject) => (
                           <span
                             key={subject}
                             className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800"
@@ -148,6 +200,7 @@ export default function CourseTable({
                         ))}
                       </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-gray-900">
                         ৳{course.offer_price}
@@ -158,13 +211,14 @@ export default function CourseTable({
                         )}
                       </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                         {course.studentsEnrolled} enrolled
                       </span>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative">
-                      {/* Three Dots Button */}
                       <button
                         className="text-gray-600 hover:text-gray-800"
                         onClick={() => handleDropdownToggle(course._id)}
@@ -173,7 +227,6 @@ export default function CourseTable({
                         <BsThreeDotsVertical />
                       </button>
 
-                      {/* Dropdown Menu */}
                       {activeDropdown === course._id && (
                         <div className="absolute right-4 mt-2 w-48 z-10 bg-white border border-gray-200 rounded shadow-lg">
                           <ul className="py-1 text-sm text-gray-700">
@@ -212,12 +265,10 @@ export default function CourseTable({
                             </li>
                             <li>
                               <Link
-                                href={"/admin/course/lessons/" + course?._id}
+                                href={`/admin/course/lessons/${course._id}`}
                               >
                                 <button
-                                  onClick={() => {
-                                    setActiveDropdown(null);
-                                  }}
+                                  onClick={() => setActiveDropdown(null)}
                                   className="flex items-center w-full px-4 py-2 hover:bg-gray-100"
                                 >
                                   <FaVideo className="mr-2" />
