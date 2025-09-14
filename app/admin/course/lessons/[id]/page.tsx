@@ -1,12 +1,6 @@
-// app/admin/course/lessons/[id]/page.tsx
 import LessonsClient from "./LessonsClient";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function Page({ params }: PageProps) {
+// This receives `params` directly because it's a server component
+export default function Page({ params }: { params: { id: string } }) {
   return <LessonsClient courseId={params.id} />;
 }
