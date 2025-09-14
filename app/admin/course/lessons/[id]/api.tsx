@@ -18,9 +18,7 @@ export interface Lesson {
 }
 
 // --- Fetch all lessons for a course ---
-export const getLessons = async (
-  courseId: string
-): Promise<{ success: boolean; data: Lesson[] }> => {
+export const getLessons = async (courseId: string): Promise<Lesson[]> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}`,
     {
@@ -30,12 +28,15 @@ export const getLessons = async (
     }
   );
 
-  const data = await res.json();
-  return data.data || [];
+  const json = await res.json();
+  return (json.data as Lesson[]) || [];
 };
 
 // --- Add a new lesson ---
-export const addLesson = async (courseId: string, lesson: Lesson) => {
+export const addLesson = async (
+  courseId: string,
+  lesson: Lesson
+): Promise<Lesson> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons`,
     {
@@ -45,11 +46,15 @@ export const addLesson = async (courseId: string, lesson: Lesson) => {
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json.data as Lesson;
 };
 
 // --- Delete a lesson ---
-export const deleteLesson = async (courseId: string, lessonId: string) => {
+export const deleteLesson = async (
+  courseId: string,
+  lessonId: string
+): Promise<{ success: boolean }> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons/${lessonId}`,
     {
@@ -58,7 +63,8 @@ export const deleteLesson = async (courseId: string, lessonId: string) => {
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json as { success: boolean };
 };
 
 // --- Update a lesson ---
@@ -66,7 +72,7 @@ export const updateLesson = async (
   courseId: string,
   lessonId: string,
   lesson: Lesson
-) => {
+): Promise<Lesson> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons/${lessonId}`,
     {
@@ -76,7 +82,8 @@ export const updateLesson = async (
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json.data as Lesson;
 };
 
 // --- Add content to a lesson ---
@@ -84,7 +91,7 @@ export const addContent = async (
   courseId: string,
   lessonId: string,
   content: Content
-) => {
+): Promise<Content> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons/${lessonId}/contents`,
     {
@@ -94,7 +101,8 @@ export const addContent = async (
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json.data as Content;
 };
 
 // --- Update content ---
@@ -103,7 +111,7 @@ export const updateContent = async (
   lessonId: string,
   contentId: string,
   content: Content
-) => {
+): Promise<Content> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons/${lessonId}/contents/${contentId}`,
     {
@@ -113,7 +121,8 @@ export const updateContent = async (
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json.data as Content;
 };
 
 // --- Delete content ---
@@ -121,7 +130,7 @@ export const deleteContent = async (
   courseId: string,
   lessonId: string,
   contentId: string
-) => {
+): Promise<{ success: boolean }> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/courses/${courseId}/lessons/${lessonId}/contents/${contentId}`,
     {
@@ -130,5 +139,6 @@ export const deleteContent = async (
       headers: { "Content-Type": "application/json" },
     }
   );
-  return res.json();
+  const json = await res.json();
+  return json as { success: boolean };
 };
