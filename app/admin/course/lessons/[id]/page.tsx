@@ -1,3 +1,4 @@
+// app/admin/course/lessons/[id]/page.tsx
 "use client";
 
 import { CourseType } from "@/_types/course";
@@ -6,7 +7,6 @@ import { getLessons } from "./api";
 import LessonForm from "./LessonForm";
 import LessonList from "./LessonList";
 
-// Define types
 export interface Content {
   name: string;
   type: string;
@@ -16,7 +16,7 @@ export interface Content {
 }
 
 export interface Lesson {
-  _id?: string; // if fetched from backend
+  _id?: string;
   name: string;
   description: string;
   type: string;
@@ -24,7 +24,14 @@ export interface Lesson {
   contents?: Content[];
 }
 
-export default function Page({ params }: { params: { id: string } }) {
+// Properly type `params` for a client component
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Page({ params }: PageProps) {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [courseData, setCourseData] = useState<CourseType | null>(null);
   const [loading, setLoading] = useState(true);
