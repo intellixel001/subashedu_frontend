@@ -1,7 +1,8 @@
-// Do NOT use "use client" here
 import LessonsClient from "./LessonsClient";
 
-// This is a server component, so it can receive params
-export default function Page({ params }: { params: { id: string } }) {
+// Next.js App Router pages can be async server components
+export default async function Page({ params }: { params: { id: string } }) {
+  // Fetch course data here if needed
+  // Or just pass the courseId to the client component
   return <LessonsClient courseId={params.id} />;
 }
