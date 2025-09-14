@@ -1,3 +1,5 @@
+import LessonsClient from "./LessonsClient";
+
 // Define params type manually
 interface PageProps {
   params: {
