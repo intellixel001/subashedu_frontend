@@ -32,6 +32,7 @@ export default function LessonsClient({ courseId }: Props) {
   const [courseData, setCourseData] = useState<CourseType | null>(null);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
 
   const fetchLessons = async () => {
     setLoading(true);
@@ -50,12 +51,34 @@ export default function LessonsClient({ courseId }: Props) {
     setModalOpen(false);
   };
 
+  const handleEditLesson = (lesson: Lesson) => {
+    setEditingLesson(lesson);
+    setModalOpen(true);
+  };
+
+  const handleSaveLesson = (savedLesson: Lesson) => {
+    if (editingLesson) {
+      // Update existing lesson
+      setLessons((prev) =>
+        prev.map((l) => (l._id === savedLesson._id ? savedLesson : l))
+      );
+    } else {
+      // Add new lesson
+      setLessons((prev) => [...prev, savedLesson]);
+    }
+    setModalOpen(false);
+    setEditingLesson(null);
+  };
+
   return (
     <div className="p-6 container mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">{courseData?.title || "N/A"}</h1>
         <button
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setEditingLesson(null);
+            setModalOpen(true);
+          }}
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
         >
           + Add Lesson
@@ -72,6 +95,7 @@ export default function LessonsClient({ courseId }: Props) {
           lessons={lessons}
           courseId={courseId}
           setLessons={setLessons}
+          onEditLesson={handleEditLesson} // 👈 pass edit handler
         />
       )}
 
@@ -84,11 +108,14 @@ export default function LessonsClient({ courseId }: Props) {
             >
               ×
             </button>
-            <h2 className="text-xl font-semibold mb-4">Add New Lesson</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              {editingLesson ? "Edit Lesson" : "Add New Lesson"}
+            </h2>
             <LessonForm
               courseId={courseId}
-              onSuccess={handleAddLesson}
+              onSuccess={handleSaveLesson}
               fetchLessons={fetchLessons}
+              lesson={editingLesson || undefined} // 👈 pass lesson when editing
             />
           </div>
         </div>

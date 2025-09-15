@@ -1,13 +1,13 @@
 import LessonsClient from "./LessonsClient";
 
-// Define params type manually
-interface PageProps {
-  params: {
-    id: string; // your route param
-  };
+interface Params {
+  id: string;
 }
 
 // Server Component
-export default function Page({ params }: PageProps) {
-  return <LessonsClient courseId={params.id} />;
+export default async function Page({ params }: { params: Params }) {
+  // Now you can safely await if needed
+  const courseId = params.id;
+
+  return <LessonsClient courseId={courseId} />;
 }

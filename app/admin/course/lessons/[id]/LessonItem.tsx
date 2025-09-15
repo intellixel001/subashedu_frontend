@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { FaChevronDown, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
-import { addContent, deleteContent, updateContent } from "./api";
+import { addContent, deleteContent, deleteLesson, updateContent } from "./api";
 import ContentForm from "./ContentForm";
 import ContentItem, { Content } from "./ContentItem";
 
@@ -37,7 +37,6 @@ export default function LessonItem({
   lesson,
   index,
   courseId,
-  onDelete,
   onEdit,
   onUpdateLesson,
   fetchLessons,
@@ -45,8 +44,19 @@ export default function LessonItem({
   const [openContentModal, setOpenContentModal] = useState(false);
   const [editingContent, setEditingContent] = useState<Content | null>(null);
 
-  const handleDeleteLesson = () => onDelete(index);
-
+  const handleDeleteLesson = async () => {
+    try {
+      const response = await deleteLesson(courseId, lesson._id);
+      if (response) {
+        fetchLessons();
+      } else {
+        alert("Failed to delete lesson");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting lesson");
+    }
+  };
   const handleAddOrUpdateContent = async (content: Content) => {
     try {
       if (editingContent) {
@@ -57,7 +67,8 @@ export default function LessonItem({
           content._id,
           content
         );
-        if (response.success) {
+        console.log(response);
+        if (response.name) {
           const updatedContents = lesson.contents?.map((c) =>
             c._id === content._id ? content : c
           );
@@ -66,18 +77,19 @@ export default function LessonItem({
           setOpenContentModal(false);
           fetchLessons?.();
         } else {
-          alert(response.message || "Failed to update content");
+          alert("Failed to update content");
         }
       } else {
         // Add content
         const response = await addContent(courseId, lesson._id, content);
-        if (response.success) {
+        console.log(response);
+        if (response) {
           const updatedContents = [...(lesson.contents || []), content];
           onUpdateLesson?.({ ...lesson, contents: updatedContents }, index);
           setOpenContentModal(false);
           fetchLessons?.();
         } else {
-          alert(response.message || "Failed to add content");
+          alert("Failed to add content");
         }
       }
     } catch (err) {
@@ -122,7 +134,7 @@ export default function LessonItem({
                 <IconButton
                   size="small"
                   color="primary"
-                  onClick={() => onEdit(index)}
+                  onClick={() => onEdit(lesson?._id)}
                 >
                   <FaEdit />
                 </IconButton>

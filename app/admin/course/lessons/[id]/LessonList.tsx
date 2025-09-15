@@ -7,6 +7,7 @@ interface LessonListProps {
   courseId: string;
   setLessons: React.Dispatch<React.SetStateAction<Lesson[]>>;
   fetchLessons?: () => void;
+  onEditLesson?: (lesson: Lesson, index: number) => void; // optional edit handler
 }
 
 export default function LessonList({
@@ -14,6 +15,7 @@ export default function LessonList({
   courseId,
   setLessons,
   fetchLessons,
+  onEditLesson,
 }: LessonListProps) {
   return (
     <div>
@@ -28,6 +30,7 @@ export default function LessonList({
             lesson={lesson}
             courseId={courseId}
             fetchLessons={fetchLessons}
+            onEdit={() => onEditLesson?.(lesson, index)} // ✅ properly passed
             onUpdateLesson={(updatedLesson, idx) => {
               setLessons((prevLessons) => {
                 const newLessons = [...prevLessons];

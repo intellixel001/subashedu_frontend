@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import { addLesson } from "./api";
+import React, { useEffect, useState } from "react";
+import { addLesson, updateLesson } from "./api";
 
 interface Lesson {
+  _id?: string;
   name: string;
   description: string;
   type: "video" | "quiz" | "note";
@@ -13,25 +14,51 @@ export default function LessonForm({
   courseId,
   onSuccess,
   fetchLessons,
+  lesson, // <- pass here when editing
 }: {
   courseId: string;
   onSuccess: (lesson: Lesson) => void;
+  fetchLessons: () => void;
+  lesson?: Lesson; // optional prop
 }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState<Lesson["type"]>("video");
   const [requiredForNext, setRequiredForNext] = useState(false);
 
+  // preload values if editing
+  useEffect(() => {
+    if (lesson) {
+      setName(lesson.name);
+      setDescription(lesson.description);
+      setType(lesson.type);
+      setRequiredForNext(!!lesson.requiredForNext);
+    }
+  }, [lesson]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newLesson = { name, description, type, requiredForNext };
-    const savedLesson = await addLesson(courseId, newLesson);
+
+    let savedLesson: Lesson;
+    if (lesson?._id) {
+      // edit existing
+      savedLesson = await updateLesson(courseId, lesson._id, newLesson);
+    } else {
+      // create new
+      savedLesson = await addLesson(courseId, newLesson);
+    }
+
     onSuccess(savedLesson);
     fetchLessons();
-    setName("");
-    setDescription("");
-    setType("video");
-    setRequiredForNext(false);
+
+    // reset only for add mode
+    if (!lesson?._id) {
+      setName("");
+      setDescription("");
+      setType("video");
+      setRequiredForNext(false);
+    }
   };
 
   return (
@@ -101,13 +128,12 @@ export default function LessonForm({
         </button>
       </div>
 
-      {/* Submit Button */}
       <div className="flex justify-end">
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-md transition"
         >
-          Save Lesson
+          {lesson ? "Update Lesson" : "Save Lesson"}
         </button>
       </div>
     </form>
