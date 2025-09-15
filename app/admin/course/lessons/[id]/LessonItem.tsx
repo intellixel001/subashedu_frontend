@@ -29,7 +29,7 @@ interface LessonItemProps {
   index: number;
   courseId: string;
   onDelete: (index: number) => void;
-  onEdit?: (index: number) => void;
+  onEdit?: (id: string) => void;
   onUpdateLesson?: (updatedLesson: Lesson, index: number) => void;
   fetchLessons?: () => void;
 }
@@ -135,7 +135,7 @@ export default function LessonItem({
                 <IconButton
                   size="small"
                   color="primary"
-                  onClick={() => onEdit(lesson?._id)}
+                  onClick={() => onEdit(lesson._id)}
                 >
                   <FaEdit />
                 </IconButton>
