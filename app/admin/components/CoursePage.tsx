@@ -53,11 +53,12 @@ export default function CoursePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCourse, setCurrentCourse] = useState<Course | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>({
+  const [subjectFilter, setSubjectFilter] = useState<Record<string, string>>({
     classCourses: "",
     admissionCourses: "",
     jobCourses: "",
   });
+
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
