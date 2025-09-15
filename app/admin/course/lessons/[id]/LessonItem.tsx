@@ -108,7 +108,7 @@ export default function LessonItem({
         );
         onUpdateLesson?.({ ...lesson, contents: updatedContents }, index);
       } else {
-        alert(response.message || "Failed to delete content");
+        alert("Failed to delete content");
       }
     } catch (err) {
       console.error(err);
