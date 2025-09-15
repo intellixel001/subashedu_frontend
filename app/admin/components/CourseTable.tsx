@@ -24,6 +24,16 @@ export type CourseFor =
   | "hsc"
   | "ssc";
 
+// Add this Content type
+export interface Content {
+  _id?: string;
+  name: string;
+  type: string;
+  link: string;
+  requiredForNext?: boolean;
+  description: string;
+}
+
 export interface Lesson {
   name: string;
   description: string;
