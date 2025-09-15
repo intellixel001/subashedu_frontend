@@ -35,10 +35,12 @@ export interface Content {
 }
 
 export interface Lesson {
+  _id?: string;
   name: string;
   description: string;
-  lessonType: string; // renamed from "type" to match backend
-  contents: Content[];
+  type: string;
+  requiredForNext?: boolean;
+  contents?: Content[];
 }
 
 export interface Course {

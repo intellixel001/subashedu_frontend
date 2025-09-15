@@ -16,10 +16,10 @@ import ContentItem from "./ContentItem";
 import { Content } from "./LessonsClient";
 
 export interface Lesson {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
-  type: "video" | "quiz" | "note";
+  type: string;
   requiredForNext?: boolean;
   contents?: Content[];
 }
