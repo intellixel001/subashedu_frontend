@@ -1,20 +1,10 @@
 import LessonsClient from "./LessonsClient";
 
-interface Params {
-  id: string;
-}
-
-export default async function Page({
-  params,
-}: {
-  params: Params | Promise<Params>;
-}) {
-  // Await if Next.js gives params as a promise
-  const resolvedParams = params instanceof Promise ? await params : params;
-  const courseId = resolvedParams.id;
+// Server Component
+export default function Page({ params }: any) {
+  const courseId = params?.id;
 
   if (!courseId) {
-    // Render a friendly message if courseId is missing
     return (
       <div className="p-6 text-center">
         <h2 className="text-xl font-bold text-red-600">Course ID not found</h2>
