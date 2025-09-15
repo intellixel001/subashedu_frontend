@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Lesson } from "../admin/components/CourseTable";
+import { CourseFor, Instructor, Lesson } from "../admin/components/CourseTable";
 
 // Define the Course type
 interface Course {

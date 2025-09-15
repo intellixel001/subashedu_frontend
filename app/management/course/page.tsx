@@ -1,6 +1,6 @@
 "use client";
 
-import { Lesson } from "@/app/admin/components/CourseTable";
+import { CourseFor, Lesson } from "@/app/admin/components/CourseTable";
 import { CourseModal } from "@/app/components/CourseModal";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";

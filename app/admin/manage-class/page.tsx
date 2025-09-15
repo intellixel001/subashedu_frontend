@@ -6,7 +6,7 @@ import { FreeClassModal } from "@/app/components/FreeClassModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaPlus, FaSearch, FaStop, FaTrash } from "react-icons/fa";
-import { Lesson } from "../components/CourseTable";
+import { CourseFor, Lesson } from "../components/CourseTable";
 
 interface Instructor {
   name: string;

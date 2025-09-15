@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Lesson } from "@/app/admin/components/CourseTable";
+import { CourseFor, Lesson } from "@/app/admin/components/CourseTable";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaPlus, FaSearch, FaStop, FaTrash } from "react-icons/fa";

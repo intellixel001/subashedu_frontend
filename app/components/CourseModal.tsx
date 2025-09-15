@@ -5,8 +5,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 
+import { CourseFor, Lesson } from "../admin/components/CourseTable";
 import { CourseEditor } from "./CourseEditor";
-import { Lesson } from "../admin/components/CourseTable";
 
 // Define interfaces for props
 interface Instructor {
@@ -16,25 +16,25 @@ interface Instructor {
 }
 
 interface Course {
-   _id: string;
-   id: string;
-   title: string;
-   description: string;
-   short_description: string;
-   subjects: string[];
-   thumbnailUrl?: string;
-   tags: string[];
-   price: number;
-   offer_price: number;
-   instructors: Instructor[];
-   type?: string;
-   studentsEnrolled: number;
-   courseFor: CourseFor;
-   classes: string[];
-   materials: string[];
-   lessons?: Lesson[];
-   createdAt?: string;
-   updatedAt?: string;
+  _id: string;
+  id: string;
+  title: string;
+  description: string;
+  short_description: string;
+  subjects: string[];
+  thumbnailUrl?: string;
+  tags: string[];
+  price: number;
+  offer_price: number;
+  instructors: Instructor[];
+  type?: string;
+  studentsEnrolled: number;
+  courseFor: CourseFor;
+  classes: string[];
+  materials: string[];
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface FormData {
@@ -192,7 +192,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({
     const updatedInstructors = [...formData.instructors];
     updatedInstructors[index] = { ...updatedInstructors[index], image: null };
     setFormData({ ...formData, instructors: updatedInstructors });
-    };
+  };
 
   // Process and add a single tag
   const addTag = (tag: string) => {
@@ -294,9 +294,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel
-                className="w-full max-w-md sm:max-w-lg lg:w-[90%] lg:max-w-none rounded-xl bg-card p-6 sm:p-8 lg:p-10 shadow-xl animate-fade-in dark:bg-card"
-              >
+              <Dialog.Panel className="w-full max-w-md sm:max-w-lg lg:w-[90%] lg:max-w-none rounded-xl bg-card p-6 sm:p-8 lg:p-10 shadow-xl animate-fade-in dark:bg-card">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-semibold text-foreground dark:text-foreground"

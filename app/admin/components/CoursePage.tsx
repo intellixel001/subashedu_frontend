@@ -5,7 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import CoursesTabs from "./CoursesTabs";
-import { Lesson } from "./CourseTable";
+import { CourseFor, Lesson } from "./CourseTable";
 
 interface Instructor {
   name: string;
