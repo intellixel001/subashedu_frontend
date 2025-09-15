@@ -30,7 +30,7 @@ export default function LessonList({
             lesson={lesson}
             courseId={courseId}
             fetchLessons={fetchLessons}
-            onEdit={() => onEditLesson?.(lesson, index)} // ✅ properly passed
+            onEdit={() => onEditLesson?.(lesson, index)}
             onUpdateLesson={(updatedLesson, idx) => {
               setLessons((prevLessons) => {
                 const newLessons = [...prevLessons];
@@ -38,6 +38,13 @@ export default function LessonList({
                 return newLessons;
               });
             }}
+            onDelete={(idx) => {
+              setLessons((prevLessons) => {
+                const newLessons = [...prevLessons];
+                newLessons.splice(idx, 1);
+                return newLessons;
+              });
+            }} // ✅ Added onDelete
           />
         ))
       )}
