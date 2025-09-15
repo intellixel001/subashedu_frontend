@@ -12,7 +12,8 @@ import { useState } from "react";
 import { FaChevronDown, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { addContent, deleteContent, deleteLesson, updateContent } from "./api";
 import ContentForm from "./ContentForm";
-import ContentItem, { Content } from "./ContentItem";
+import ContentItem from "./ContentItem";
+import { Content } from "./LessonsClient";
 
 export interface Lesson {
   _id: string;
