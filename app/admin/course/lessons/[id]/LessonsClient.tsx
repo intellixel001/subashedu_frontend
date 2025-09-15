@@ -9,19 +9,18 @@ import LessonList from "./LessonList";
 export interface Content {
   _id?: string;
   name: string;
-  description: string;
-  type: string;
   link: string;
+  type: string;
+  description: string;
   requiredForNext?: boolean;
-  contents?: Content[];
 }
 
 export interface Lesson {
   _id?: string;
   name: string;
-  description: string;
   type: string;
   link: string;
+  description: string;
   requiredForNext?: boolean;
   contents?: Content[];
 }

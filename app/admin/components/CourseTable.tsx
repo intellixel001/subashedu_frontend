@@ -32,7 +32,6 @@ export interface Content {
   type: string;
   link: string;
   requiredForNext?: boolean;
-  contents?: Content[];
 }
 
 export interface Lesson {
