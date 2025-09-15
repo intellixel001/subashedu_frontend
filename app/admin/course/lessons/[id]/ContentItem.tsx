@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { FaChevronDown, FaEdit, FaTrash } from "react-icons/fa";
-import { Content as ContentType } from "./ContentForm";
+import { Content as ContentType } from "./LessonsClient";
 
 interface ContentItemProps {
   content: ContentType & { _id: string }; // Ensure _id exists

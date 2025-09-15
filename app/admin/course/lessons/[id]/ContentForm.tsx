@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Content } from "./ContentItem";
+import { Content } from "./LessonsClient";
 
 interface ContentFormProps {
   content?: Content;
