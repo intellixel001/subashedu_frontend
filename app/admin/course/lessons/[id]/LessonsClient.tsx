@@ -12,6 +12,7 @@ export interface Content {
   link: string;
   description: string;
   requiredForNext?: boolean;
+  _id: string;
 }
 
 export interface Lesson {
