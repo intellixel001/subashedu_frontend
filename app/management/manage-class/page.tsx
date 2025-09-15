@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { Lesson } from "@/app/admin/components/CourseTable";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaPlus, FaSearch, FaStop, FaTrash } from "react-icons/fa";
@@ -13,19 +14,24 @@ interface Instructor {
 
 interface Course {
   _id: string;
+  id: string;
   title: string;
   description: string;
   short_description: string;
   subjects: string[];
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   tags: string[];
   price: number;
   offer_price: number;
   instructors: Instructor[];
+  type?: string;
   studentsEnrolled: number;
-  courseFor: string;
-  createdAt: string;
-  updatedAt: string;
+  courseFor: CourseFor;
+  classes: string[];
+  materials: string[];
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Class {
@@ -91,8 +97,14 @@ const ClassModal = ({
   onClose: () => void;
   isLiveModal: boolean;
   formData: ClassFormData;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  handleSubmit: (e: React.FormEvent, videoFile: File | null, sanitizedFormData: ClassFormData) => Promise<void>;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  handleSubmit: (
+    e: React.FormEvent,
+    videoFile: File | null,
+    sanitizedFormData: ClassFormData
+  ) => Promise<void>;
   courses: Course[];
   isCreating: boolean;
   error: string | null;
@@ -145,12 +157,21 @@ const ClassModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                  {currentClass ? "Edit Class" : isLiveModal ? "Create Live Class" : "Create Recorded Class"}
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  {currentClass
+                    ? "Edit Class"
+                    : isLiveModal
+                    ? "Create Live Class"
+                    : "Create Recorded Class"}
                 </Dialog.Title>
                 <form onSubmit={onSubmit} className="mt-4">
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Title</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Title
+                    </label>
                     <input
                       type="text"
                       name="title"
@@ -161,7 +182,9 @@ const ClassModal = ({
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Subject</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Subject
+                    </label>
                     <select
                       name="subject"
                       value={formData.subject}
@@ -178,7 +201,9 @@ const ClassModal = ({
                     </select>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Instructor</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Instructor
+                    </label>
                     <input
                       type="text"
                       name="instructor"
@@ -189,7 +214,9 @@ const ClassModal = ({
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Course</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Course
+                    </label>
                     <select
                       name="courseId"
                       value={formData.courseId}
@@ -207,7 +234,9 @@ const ClassModal = ({
                   </div>
                   {isLiveModal ? (
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700">Video Link</label>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Video Link
+                      </label>
                       <input
                         type="url"
                         name="videoLink"
@@ -219,7 +248,9 @@ const ClassModal = ({
                     </div>
                   ) : (
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-gray-700">Video File</label>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Video File
+                      </label>
                       <input
                         type="file"
                         accept="video/*"
@@ -229,7 +260,9 @@ const ClassModal = ({
                       />
                     </div>
                   )}
-                  {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                  {error && (
+                    <p className="text-red-500 text-sm mb-4">{error}</p>
+                  )}
                   <div className="mt-4 flex justify-end space-x-3">
                     <button
                       type="button"
@@ -244,7 +277,11 @@ const ClassModal = ({
                       className="inline-flex justify-center rounded-md border border-transparent bg-myred px-4 py-2 text-sm font-medium text-white hover:bg-myred-dark disabled:opacity-50"
                       disabled={isCreating}
                     >
-                      {isCreating ? "Saving..." : currentClass ? "Update" : "Create"}
+                      {isCreating
+                        ? "Saving..."
+                        : currentClass
+                        ? "Update"
+                        : "Create"}
                     </button>
                   </div>
                 </form>
@@ -271,8 +308,13 @@ const FreeClassModal = ({
   isOpen: boolean;
   onClose: () => void;
   formData: FreeClassFormData;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
-  handleSubmit: (e: React.FormEvent, sanitizedFormData: FreeClassFormData) => Promise<void>;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  handleSubmit: (
+    e: React.FormEvent,
+    sanitizedFormData: FreeClassFormData
+  ) => Promise<void>;
   isCreating: boolean;
   error: string | null;
   currentFreeClass: FreeClass | null;
@@ -315,12 +357,17 @@ const FreeClassModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
                   {currentFreeClass ? "Edit Free Class" : "Create Free Class"}
                 </Dialog.Title>
                 <form onSubmit={onSubmit} className="mt-4">
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Title</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Title
+                    </label>
                     <input
                       type="text"
                       name="title"
@@ -331,7 +378,9 @@ const FreeClassModal = ({
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Subject</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Subject
+                    </label>
                     <input
                       type="text"
                       name="subject"
@@ -342,7 +391,9 @@ const FreeClassModal = ({
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Instructor</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Instructor
+                    </label>
                     <input
                       type="text"
                       name="instructor"
@@ -353,7 +404,9 @@ const FreeClassModal = ({
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Class For</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Class For
+                    </label>
                     <select
                       name="classFor"
                       value={formData.classFor}
@@ -369,7 +422,9 @@ const FreeClassModal = ({
                     </select>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">Video Link</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Video Link
+                    </label>
                     <input
                       type="url"
                       name="videoLink"
@@ -379,7 +434,9 @@ const FreeClassModal = ({
                       required
                     />
                   </div>
-                  {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                  {error && (
+                    <p className="text-red-500 text-sm mb-4">{error}</p>
+                  )}
                   <div className="mt-4 flex justify-end space-x-3">
                     <button
                       type="button"
@@ -394,7 +451,11 @@ const FreeClassModal = ({
                       className="inline-flex justify-center rounded-md border border-transparent bg-myred px-4 py-2 text-sm font-medium text-white hover:bg-myred-dark disabled:opacity-50"
                       disabled={isCreating}
                     >
-                      {isCreating ? "Saving..." : currentFreeClass ? "Update" : "Create"}
+                      {isCreating
+                        ? "Saving..."
+                        : currentFreeClass
+                        ? "Update"
+                        : "Create"}
                     </button>
                   </div>
                 </form>
@@ -418,7 +479,9 @@ export default function ManageClassStaff() {
   const [isLiveModal, setIsLiveModal] = useState(true);
   const [classToStop, setClassToStop] = useState<string | null>(null);
   const [currentClass, setCurrentClass] = useState<Class | null>(null);
-  const [currentFreeClass, setCurrentFreeClass] = useState<FreeClass | null>(null);
+  const [currentFreeClass, setCurrentFreeClass] = useState<FreeClass | null>(
+    null
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [subjectFilter, setSubjectFilter] = useState<SubjectFilter>({
     classCourses: "",
@@ -428,7 +491,9 @@ export default function ManageClassStaff() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isFreeDeleteDialogOpen, setIsFreeDeleteDialogOpen] = useState(false);
   const [classToDelete, setClassToDelete] = useState<string | null>(null);
-  const [freeClassToDelete, setFreeClassToDelete] = useState<string | null>(null);
+  const [freeClassToDelete, setFreeClassToDelete] = useState<string | null>(
+    null
+  );
   const [isDeleting, setIsDeleting] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isStopping, setIsStopping] = useState<string | null>(null);
@@ -501,7 +566,9 @@ export default function ManageClassStaff() {
           throw new Error(classResult.message || "Failed to fetch classes");
         }
         setClasses(classResult.data || []);
-        setNoClassesAvailable(!classResult.data || classResult.data.length === 0);
+        setNoClassesAvailable(
+          !classResult.data || classResult.data.length === 0
+        );
 
         // Fetch free classes
         const freeClassResponse = await fetch(
@@ -517,12 +584,15 @@ export default function ManageClassStaff() {
         }
         const freeClassResult = await freeClassResponse.json();
         if (!freeClassResult.success) {
-          throw new Error(freeClassResult.message || "Failed to fetch free classes");
+          throw new Error(
+            freeClassResult.message || "Failed to fetch free classes"
+          );
         }
         setFreeClasses(freeClassResult.data?.freeClasses || []);
         setTotalPages(freeClassResult.data?.totalPages || 1);
         setNoFreeClassesAvailable(
-          !freeClassResult.data?.freeClasses || freeClassResult.data.freeClasses.length === 0
+          !freeClassResult.data?.freeClasses ||
+            freeClassResult.data.freeClasses.length === 0
         );
       } catch (error: any) {
         console.error("Error fetching data:", error);
@@ -536,7 +606,13 @@ export default function ManageClassStaff() {
 
   // Refresh classes when modal, delete dialog, or stop dialog closes
   useEffect(() => {
-    if (!isModalOpen && !isDeleteDialogOpen && !isStopDialogOpen && !isFreeModalOpen && !isFreeDeleteDialogOpen) {
+    if (
+      !isModalOpen &&
+      !isDeleteDialogOpen &&
+      !isStopDialogOpen &&
+      !isFreeModalOpen &&
+      !isFreeDeleteDialogOpen
+    ) {
       async function refreshData() {
         try {
           setLoading(true);
@@ -561,7 +637,9 @@ export default function ManageClassStaff() {
             throw new Error(classResult.message || "Failed to fetch classes");
           }
           setClasses(classResult.data || []);
-          setNoClassesAvailable(!classResult.data || classResult.data.length === 0);
+          setNoClassesAvailable(
+            !classResult.data || classResult.data.length === 0
+          );
 
           // Refresh free classes
           const freeClassResponse = await fetch(
@@ -577,12 +655,15 @@ export default function ManageClassStaff() {
           }
           const freeClassResult = await freeClassResponse.json();
           if (!freeClassResult.success) {
-            throw new Error(freeClassResult.message || "Failed to fetch free classes");
+            throw new Error(
+              freeClassResult.message || "Failed to fetch free classes"
+            );
           }
           setFreeClasses(freeClassResult.data?.freeClasses || []);
           setTotalPages(freeClassResult.data?.totalPages || 1);
           setNoFreeClassesAvailable(
-            !freeClassResult.data?.freeClasses || freeClassResult.data.freeClasses.length === 0
+            !freeClassResult.data?.freeClasses ||
+              freeClassResult.data.freeClasses.length === 0
           );
         } catch (error: any) {
           console.error("Error refreshing data:", error);
@@ -593,14 +674,27 @@ export default function ManageClassStaff() {
       }
       refreshData();
     }
-  }, [isModalOpen, isDeleteDialogOpen, isStopDialogOpen, isFreeModalOpen, isFreeDeleteDialogOpen, currentPage]);
+  }, [
+    isModalOpen,
+    isDeleteDialogOpen,
+    isStopDialogOpen,
+    isFreeModalOpen,
+    isFreeDeleteDialogOpen,
+    currentPage,
+  ]);
 
   // Filter classes by course type
   const classClasses = classes.filter((cls) =>
-    ["class 9", "class 10", "class 11", "class 12", "hsc", "ssc"].includes(cls.course.courseFor)
+    ["class 9", "class 10", "class 11", "class 12", "hsc", "ssc"].includes(
+      cls.course.courseFor
+    )
   );
-  const admissionClasses = classes.filter((cls) => cls.course.courseFor === "admission");
-  const jobClasses = classes.filter((cls) => cls.course.courseFor === "job preparation");
+  const admissionClasses = classes.filter(
+    (cls) => cls.course.courseFor === "admission"
+  );
+  const jobClasses = classes.filter(
+    (cls) => cls.course.courseFor === "job preparation"
+  );
   const liveClasses = classes.filter((cls) => cls.isActiveLive);
 
   // Filter classes by search term and subject
@@ -611,13 +705,17 @@ export default function ManageClassStaff() {
         cls.instructor.toLowerCase().includes(searchTerm.toLowerCase()) ||
         cls.course.title.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesSubject =
-        !subjectFilter[type] || (cls.subject && cls.subject === subjectFilter[type]);
+        !subjectFilter[type] ||
+        (cls.subject && cls.subject === subjectFilter[type]);
       return matchesSearch && matchesSubject;
     });
   };
 
   const filteredClassClasses = filterClasses(classClasses, "classCourses");
-  const filteredAdmissionClasses = filterClasses(admissionClasses, "admissionCourses");
+  const filteredAdmissionClasses = filterClasses(
+    admissionClasses,
+    "admissionCourses"
+  );
   const filteredJobClasses = filterClasses(jobClasses, "jobCourses");
   const filteredLiveClasses = filterClasses(liveClasses, "classCourses");
 
@@ -633,17 +731,23 @@ export default function ManageClassStaff() {
   // Get unique subjects
   const getUniqueSubjects = (classList: Class[]) => {
     const subjects = new Set<string>(
-      classList.map((cls) => cls.subject).filter((subject): subject is string => !!subject)
+      classList
+        .map((cls) => cls.subject)
+        .filter((subject): subject is string => !!subject)
     );
     return Array.from(subjects).sort();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFreeInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFreeInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFreeFormData({ ...freeFormData, [name]: value });
   };
@@ -750,7 +854,9 @@ export default function ManageClassStaff() {
         const classResult = await classResponse.json();
         if (classResult.success) {
           setClasses(classResult.data || []);
-          setNoClassesAvailable(!classResult.data || classResult.data.length === 0);
+          setNoClassesAvailable(
+            !classResult.data || classResult.data.length === 0
+          );
         } else {
           throw new Error(classResult.message || "Failed to fetch classes");
         }
@@ -765,7 +871,10 @@ export default function ManageClassStaff() {
     }
   };
 
-  const handleFreeSubmit = async (e: React.FormEvent, sanitizedFormData: FreeClassFormData) => {
+  const handleFreeSubmit = async (
+    e: React.FormEvent,
+    sanitizedFormData: FreeClassFormData
+  ) => {
     e.preventDefault();
     try {
       setIsCreating(true);
@@ -805,17 +914,22 @@ export default function ManageClassStaff() {
           setFreeClasses(freeClassResult.data?.freeClasses || []);
           setTotalPages(freeClassResult.data?.totalPages || 1);
           setNoFreeClassesAvailable(
-            !freeClassResult.data?.freeClasses || freeClassResult.data.freeClasses.length === 0
+            !freeClassResult.data?.freeClasses ||
+              freeClassResult.data.freeClasses.length === 0
           );
         } else {
-          throw new Error(freeClassResult.message || "Failed to fetch free classes");
+          throw new Error(
+            freeClassResult.message || "Failed to fetch free classes"
+          );
         }
       } else {
         throw new Error(result.message || "Failed to save free class");
       }
     } catch (error: any) {
       console.error("Error saving free class:", error);
-      setError(error.message || "An error occurred while saving the free class");
+      setError(
+        error.message || "An error occurred while saving the free class"
+      );
     } finally {
       setIsCreating(false);
     }
@@ -847,7 +961,9 @@ export default function ManageClassStaff() {
         const classResult = await classResponse.json();
         if (classResult.success) {
           setClasses(classResult.data || []);
-          setNoClassesAvailable(!classResult.data || classResult.data.length === 0);
+          setNoClassesAvailable(
+            !classResult.data || classResult.data.length === 0
+          );
         } else {
           throw new Error(classResult.message || "Failed to fetch classes");
         }
@@ -892,17 +1008,22 @@ export default function ManageClassStaff() {
           setFreeClasses(freeClassResult.data?.freeClasses || []);
           setTotalPages(freeClassResult.data?.totalPages || 1);
           setNoFreeClassesAvailable(
-            !freeClassResult.data?.freeClasses || freeClassResult.data.freeClasses.length === 0
+            !freeClassResult.data?.freeClasses ||
+              freeClassResult.data.freeClasses.length === 0
           );
         } else {
-          throw new Error(freeClassResult.message || "Failed to fetch free classes");
+          throw new Error(
+            freeClassResult.message || "Failed to fetch free classes"
+          );
         }
       } else {
         throw new Error(result.message || "Failed to delete free class");
       }
     } catch (error: any) {
       console.error("Error deleting free class:", error);
-      setError(error.message || "An error occurred while deleting the free class");
+      setError(
+        error.message || "An error occurred while deleting the free class"
+      );
     } finally {
       setIsDeleting(false);
       setIsFreeDeleteDialogOpen(false);
@@ -925,13 +1046,19 @@ export default function ManageClassStaff() {
       );
       const result = await response.json();
       if (result.success) {
-        setClasses(classes.map((cls) => (cls._id === id ? { ...cls, isActiveLive: false } : cls)));
+        setClasses(
+          classes.map((cls) =>
+            cls._id === id ? { ...cls, isActiveLive: false } : cls
+          )
+        );
       } else {
         throw new Error(result.message || "Failed to stop live class");
       }
     } catch (error: any) {
       console.error("Error stopping live class:", error);
-      setError(error.message || "An error occurred while stopping the live class");
+      setError(
+        error.message || "An error occurred while stopping the live class"
+      );
     } finally {
       setIsStopping(null);
       setIsStopDialogOpen(false);
@@ -1022,7 +1149,9 @@ export default function ManageClassStaff() {
 
       {/* Ongoing Live Classes Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Ongoing Live Classes</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+          Ongoing Live Classes
+        </h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -1051,7 +1180,10 @@ export default function ManageClassStaff() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={6}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       Loading...
                     </td>
                   </tr>
@@ -1060,7 +1192,9 @@ export default function ManageClassStaff() {
                     .map((cls) => (
                       <tr key={cls._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{cls.title}</div>
+                          <div className="font-medium text-gray-900">
+                            {cls.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
@@ -1071,7 +1205,9 @@ export default function ManageClassStaff() {
                           <div className="text-gray-900">{cls.instructor}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">{cls.course.title}</div>
+                          <div className="text-gray-900">
+                            {cls.course.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
@@ -1138,7 +1274,10 @@ export default function ManageClassStaff() {
                     .reverse()
                 ) : (
                   <tr>
-                    <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={6}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No ongoing live classes found
                     </td>
                   </tr>
@@ -1151,14 +1290,21 @@ export default function ManageClassStaff() {
 
       {/* Class Courses (9-12) Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Class Courses (9-12)</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+          Class Courses (9-12)
+        </h2>
         <div className="mb-4">
-          <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
+          <label className="mr-2 text-sm font-medium text-gray-700">
+            Filter by Subject:
+          </label>
           <select
             className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
             value={subjectFilter.classCourses}
             onChange={(e) =>
-              setSubjectFilter({ ...subjectFilter, classCourses: e.target.value })
+              setSubjectFilter({
+                ...subjectFilter,
+                classCourses: e.target.value,
+              })
             }
             disabled={loading}
           >
@@ -1195,7 +1341,10 @@ export default function ManageClassStaff() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       Loading...
                     </td>
                   </tr>
@@ -1204,7 +1353,9 @@ export default function ManageClassStaff() {
                     .map((cls) => (
                       <tr key={cls._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{cls.title}</div>
+                          <div className="font-medium text-gray-900">
+                            {cls.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
@@ -1215,7 +1366,9 @@ export default function ManageClassStaff() {
                           <div className="text-gray-900">{cls.instructor}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">{cls.course.title}</div>
+                          <div className="text-gray-900">
+                            {cls.course.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <button
@@ -1243,7 +1396,10 @@ export default function ManageClassStaff() {
                     .reverse()
                 ) : (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No class courses found
                     </td>
                   </tr>
@@ -1256,14 +1412,21 @@ export default function ManageClassStaff() {
 
       {/* Admission Courses Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Admission Courses</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+          Admission Courses
+        </h2>
         <div className="mb-4">
-          <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
+          <label className="mr-2 text-sm font-medium text-gray-700">
+            Filter by Subject:
+          </label>
           <select
             className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
             value={subjectFilter.admissionCourses}
             onChange={(e) =>
-              setSubjectFilter({ ...subjectFilter, admissionCourses: e.target.value })
+              setSubjectFilter({
+                ...subjectFilter,
+                admissionCourses: e.target.value,
+              })
             }
             disabled={loading}
           >
@@ -1300,7 +1463,10 @@ export default function ManageClassStaff() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       Loading...
                     </td>
                   </tr>
@@ -1309,7 +1475,9 @@ export default function ManageClassStaff() {
                     .map((cls) => (
                       <tr key={cls._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{cls.title}</div>
+                          <div className="font-medium text-gray-900">
+                            {cls.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
@@ -1320,7 +1488,9 @@ export default function ManageClassStaff() {
                           <div className="text-gray-900">{cls.instructor}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">{cls.course.title}</div>
+                          <div className="text-gray-900">
+                            {cls.course.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <button
@@ -1348,7 +1518,10 @@ export default function ManageClassStaff() {
                     .reverse()
                 ) : (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No admission courses found
                     </td>
                   </tr>
@@ -1361,9 +1534,13 @@ export default function ManageClassStaff() {
 
       {/* Job Preparation Course Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Job Preparation Courses</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+          Job Preparation Courses
+        </h2>
         <div className="mb-4">
-          <label className="mr-2 text-sm font-medium text-gray-700">Filter by Subject:</label>
+          <label className="mr-2 text-sm font-medium text-gray-700">
+            Filter by Subject:
+          </label>
           <select
             className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-myred focus:border-myred"
             value={subjectFilter.jobCourses}
@@ -1405,7 +1582,10 @@ export default function ManageClassStaff() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       Loading...
                     </td>
                   </tr>
@@ -1414,7 +1594,9 @@ export default function ManageClassStaff() {
                     .map((cls) => (
                       <tr key={cls._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{cls.title}</div>
+                          <div className="font-medium text-gray-900">
+                            {cls.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
@@ -1425,7 +1607,9 @@ export default function ManageClassStaff() {
                           <div className="text-gray-900">{cls.instructor}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">{cls.course.title}</div>
+                          <div className="text-gray-900">
+                            {cls.course.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <button
@@ -1453,7 +1637,10 @@ export default function ManageClassStaff() {
                     .reverse()
                 ) : (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No job preparation courses found
                     </td>
                   </tr>
@@ -1466,7 +1653,9 @@ export default function ManageClassStaff() {
 
       {/* Free Classes Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Free Classes</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-900">
+          Free Classes
+        </h2>
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -1492,7 +1681,10 @@ export default function ManageClassStaff() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {loading ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       Loading...
                     </td>
                   </tr>
@@ -1501,7 +1693,9 @@ export default function ManageClassStaff() {
                     .map((cls) => (
                       <tr key={cls._id}>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="font-medium text-gray-900">{cls.title}</div>
+                          <div className="font-medium text-gray-900">
+                            {cls.title}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
@@ -1512,7 +1706,9 @@ export default function ManageClassStaff() {
                           <div className="text-gray-900">{cls.instructor}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-gray-900">{cls.classFor.toUpperCase()}</div>
+                          <div className="text-gray-900">
+                            {cls.classFor.toUpperCase()}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <button
@@ -1540,7 +1736,10 @@ export default function ManageClassStaff() {
                     .reverse()
                 ) : (
                   <tr>
-                    <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
                       No free classes found
                     </td>
                   </tr>
@@ -1602,7 +1801,11 @@ export default function ManageClassStaff() {
 
       {/* Delete Confirmation Dialog (Regular Classes) */}
       <Transition appear show={isDeleteDialogOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsDeleteDialogOpen(false)}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsDeleteDialogOpen(false)}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1627,12 +1830,16 @@ export default function ManageClassStaff() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
                     Delete Class
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to delete this class? This action cannot be undone.
+                      Are you sure you want to delete this class? This action
+                      cannot be undone.
                     </p>
                   </div>
 
@@ -1648,7 +1855,9 @@ export default function ManageClassStaff() {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      onClick={() => classToDelete && handleDelete(classToDelete)}
+                      onClick={() =>
+                        classToDelete && handleDelete(classToDelete)
+                      }
                       disabled={isDeleting}
                     >
                       {isDeleting ? (
@@ -1723,8 +1932,8 @@ export default function ManageClassStaff() {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to delete this free class? This action
-                      cannot be undone.
+                      Are you sure you want to delete this free class? This
+                      action cannot be undone.
                     </p>
                   </div>
 
@@ -1740,7 +1949,9 @@ export default function ManageClassStaff() {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      onClick={() => freeClassToDelete && handleFreeDelete(freeClassToDelete)}
+                      onClick={() =>
+                        freeClassToDelete && handleFreeDelete(freeClassToDelete)
+                      }
                       disabled={isDeleting}
                     >
                       {isDeleting ? (
@@ -1778,7 +1989,11 @@ export default function ManageClassStaff() {
 
       {/* Stop Live Class Confirmation Dialog */}
       <Transition appear show={isStopDialogOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsStopDialogOpen(false)}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setIsStopDialogOpen(false)}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -1803,12 +2018,16 @@ export default function ManageClassStaff() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
                     Stop Live Class
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to stop this live class? This action cannot be undone.
+                      Are you sure you want to stop this live class? This action
+                      cannot be undone.
                     </p>
                   </div>
 

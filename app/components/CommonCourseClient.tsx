@@ -3,19 +3,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Lesson } from "../admin/components/CourseTable";
 
 // Define the Course type
 interface Course {
+  _id: string;
   id: string;
   title: string;
-  subjects: string[]; // Explicitly define subjects as string array
-  courseFor: string;
+  description: string;
+  short_description: string;
+  subjects: string[];
   thumbnailUrl?: string;
-  blurDataURL?: string;
-  short_description?: string;
-  studentsEnrolled?: number;
+  tags: string[];
   price: number;
-  offer_price?: number;
+  offer_price: number;
+  instructors: Instructor[];
+  type?: string;
+  studentsEnrolled: number;
+  courseFor: CourseFor;
+  classes: string[];
+  materials: string[];
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Define component props type
@@ -24,7 +34,10 @@ interface CommonCourseClientProps {
   name: string;
 }
 
-export default function CommonCourseClient({ coursesData, name: courseName }: CommonCourseClientProps) {
+export default function CommonCourseClient({
+  coursesData,
+  name: courseName,
+}: CommonCourseClientProps) {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 6;
@@ -156,7 +169,8 @@ export default function CommonCourseClient({ coursesData, name: courseName }: Co
                       {course.studentsEnrolled || 0} Students
                     </span>
                     <div className="flex items-center gap-2">
-                      {course.offer_price && course.offer_price.toString().trim() !== "" ? (
+                      {course.offer_price &&
+                      course.offer_price.toString().trim() !== "" ? (
                         <>
                           <span className="font-bold text-myred-secondary">
                             ৳{formatPrice(course.offer_price)}

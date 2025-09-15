@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { CourseEditor } from "./CourseEditor";
+import { Lesson } from "../admin/components/CourseTable";
 
 // Define interfaces for props
 interface Instructor {
@@ -15,20 +16,25 @@ interface Instructor {
 }
 
 interface Course {
-  _id: string;
-  title: string;
-  description: string;
-  short_description: string;
-  subjects: string[];
-  thumbnailUrl: string;
-  tags: string[];
-  price: number;
-  offer_price: number;
-  instructors: Instructor[];
-  studentsEnrolled: number;
-  courseFor: string;
-  createdAt: string;
-  updatedAt: string;
+   _id: string;
+   id: string;
+   title: string;
+   description: string;
+   short_description: string;
+   subjects: string[];
+   thumbnailUrl?: string;
+   tags: string[];
+   price: number;
+   offer_price: number;
+   instructors: Instructor[];
+   type?: string;
+   studentsEnrolled: number;
+   courseFor: CourseFor;
+   classes: string[];
+   materials: string[];
+   lessons?: Lesson[];
+   createdAt?: string;
+   updatedAt?: string;
 }
 
 interface FormData {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Lesson } from "@/app/admin/components/CourseTable";
 import { CourseModal } from "@/app/components/CourseModal";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
@@ -25,19 +26,24 @@ interface Instructor {
 
 interface Course {
   _id: string;
+  id: string;
   title: string;
   description: string;
   short_description: string;
   subjects: string[];
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   tags: string[];
   price: number;
   offer_price: number;
   instructors: Instructor[];
+  type?: string;
   studentsEnrolled: number;
-  courseFor: string;
-  createdAt: string;
-  updatedAt: string;
+  courseFor: CourseFor;
+  classes: string[];
+  materials: string[];
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface FormData {

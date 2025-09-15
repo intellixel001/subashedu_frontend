@@ -6,6 +6,7 @@ import { FreeClassModal } from "@/app/components/FreeClassModal";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaPlus, FaSearch, FaStop, FaTrash } from "react-icons/fa";
+import { Lesson } from "../components/CourseTable";
 
 interface Instructor {
   name: string;
@@ -15,19 +16,24 @@ interface Instructor {
 
 interface Course {
   _id: string;
+  id: string;
   title: string;
   description: string;
   short_description: string;
   subjects: string[];
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
   tags: string[];
   price: number;
   offer_price: number;
   instructors: Instructor[];
+  type?: string;
   studentsEnrolled: number;
-  courseFor: string;
-  createdAt: string;
-  updatedAt: string;
+  courseFor: CourseFor;
+  classes: string[];
+  materials: string[];
+  lessons?: Lesson[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Class {
