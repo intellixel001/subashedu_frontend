@@ -1,10 +1,13 @@
 import LessonsClient from "./LessonsClient";
 
-// Server Component
-export default function Page({ params }: any) {
-  const courseId = params?.id;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-  if (!courseId) {
+  if (!id) {
     return (
       <div className="p-6 text-center">
         <h2 className="text-xl font-bold text-red-600">Course ID not found</h2>
@@ -15,5 +18,5 @@ export default function Page({ params }: any) {
     );
   }
 
-  return <LessonsClient courseId={courseId} />;
+  return <LessonsClient courseId={id} />;
 }
