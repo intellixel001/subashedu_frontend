@@ -141,7 +141,6 @@ export default function CommonCourseClient({
                     fill
                     className="object-cover transition-transform duration-300 hover:scale-105"
                     placeholder="blur"
-                    blurDataURL={course.blurDataURL || "/placeholder-blur.jpg"}
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
