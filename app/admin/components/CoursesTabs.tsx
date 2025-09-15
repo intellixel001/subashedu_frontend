@@ -1,7 +1,6 @@
 "use client";
-import { Course } from "@/types/course";
 import { useState } from "react";
-import CourseTable from "./CourseTable";
+import CourseTable, { Course } from "./CourseTable";
 
 const tabConfig = [
   {

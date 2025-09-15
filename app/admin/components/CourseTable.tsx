@@ -56,8 +56,8 @@ export interface Course {
   type?: string;
   studentsEnrolled: number;
   courseFor: CourseFor;
-  classes: string[]; // or ObjectId
-  materials: string[]; // or ObjectId
+  classes: string[];
+  materials: string[];
   lessons?: Lesson[];
   createdAt?: string;
   updatedAt?: string;
