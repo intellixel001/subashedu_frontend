@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { addLesson, updateLesson } from "./api";
+import { Content } from "./LessonsClient";
 
 interface Lesson {
   _id?: string;
