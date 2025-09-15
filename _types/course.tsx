@@ -1,3 +1,5 @@
+import { Lesson } from "@/app/admin/components/CourseTable";
+
 interface Instructor {
   _id: string;
   name: string;
@@ -23,7 +25,7 @@ export interface CourseType {
   courseFor: string;
   classes: any[];
   materials: any[];
-  lessons: any[];
+  lessons: Lesson[];
   createdAt: string;
   updatedAt: string;
   __v: number;
