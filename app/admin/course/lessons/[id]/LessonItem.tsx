@@ -167,10 +167,10 @@ export default function LessonItem({
 
         <AccordionDetails>
           {lesson.contents && lesson.contents.length > 0 ? (
-            lesson.contents.map((content) => (
+            lesson.contents.map((content,in) => (
               <ContentItem
-                key={content._id}
-                content={content}
+                key={in!}
+                content={content as Content & { _id: string }}
                 onDelete={handleDeleteContent}
                 onEdit={handleEditContent}
               />
