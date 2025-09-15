@@ -20,7 +20,6 @@ export interface Lesson {
   name: string;
   description: string;
   type: string;
-  link: string;
   requiredForNext?: boolean;
   contents?: Content[];
 }

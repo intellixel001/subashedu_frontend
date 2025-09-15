@@ -19,7 +19,6 @@ export interface Lesson {
   _id?: string;
   name: string;
   type: string;
-  link: string;
   description: string;
   requiredForNext?: boolean;
   contents?: Content[];
