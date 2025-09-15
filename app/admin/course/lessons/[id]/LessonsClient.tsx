@@ -46,10 +46,10 @@ export default function LessonsClient({ courseId }: Props) {
     fetchLessons();
   }, [courseId]);
 
-  const handleAddLesson = (newLesson: Lesson) => {
-    setLessons((prev) => [...prev, newLesson]);
-    setModalOpen(false);
-  };
+  // const handleAddLesson = (newLesson: Lesson) => {
+  //   setLessons((prev) => [...prev, newLesson]);
+  //   setModalOpen(false);
+  // };
 
   const handleEditLesson = (lesson: Lesson) => {
     setEditingLesson(lesson);
