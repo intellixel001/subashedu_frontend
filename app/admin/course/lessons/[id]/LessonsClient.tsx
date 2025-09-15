@@ -7,12 +7,12 @@ import LessonForm from "./LessonForm";
 import LessonList from "./LessonList";
 
 export interface Content {
+  _id?: string;
   name: string;
-  type: string;
-  link: string;
   description: string;
+  type: string;
   requiredForNext?: boolean;
-  _id: string;
+  contents?: Content[];
 }
 
 export interface Lesson {

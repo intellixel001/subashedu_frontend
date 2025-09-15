@@ -28,10 +28,10 @@ export type CourseFor =
 export interface Content {
   _id?: string;
   name: string;
-  type: string;
-  link: string;
-  requiredForNext?: boolean;
   description: string;
+  type: string;
+  requiredForNext?: boolean;
+  contents?: Content[];
 }
 
 export interface Lesson {

@@ -6,8 +6,9 @@ interface Lesson {
   _id?: string;
   name: string;
   description: string;
-  type: "video" | "quiz" | "note";
+  type: string;
   requiredForNext?: boolean;
+  contents?: Content[];
 }
 
 export default function LessonForm({

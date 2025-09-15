@@ -2,10 +2,10 @@
 export interface Content {
   _id?: string;
   name: string;
-  type: "video" | "pdf" | "quiz" | "note" | "link";
-  link: string;
   description: string;
+  type: string;
   requiredForNext?: boolean;
+  contents?: Content[];
 }
 
 export interface Lesson {
