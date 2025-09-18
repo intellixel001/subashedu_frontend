@@ -7,6 +7,7 @@ interface Props {
 }
 
 export default function LessonList({ courseId }: Props) {
+  console.log(courseId);
   const lessons = [
     {
       id: "1",
