@@ -27,7 +27,6 @@ interface Props {
 }
 
 export default function LessonCard({
-  id,
   title,
   duration,
   status,

@@ -6,7 +6,7 @@ export interface BillingInfo {
 export const enrolCourse = async (
   courseId: string,
   data: BillingInfo
-): Promise<any> => {
+): Promise<unknown> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/course/purchase/${courseId}`,
@@ -19,7 +19,7 @@ export const enrolCourse = async (
     );
 
     if (!res.ok) {
-      throw new Error(res || "Failed to enrol in course");
+      throw new Error(res.statusText || "Failed to enrol in course");
     }
 
     const json = await res.json();

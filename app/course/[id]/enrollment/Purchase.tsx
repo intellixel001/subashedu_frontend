@@ -28,7 +28,7 @@ interface Course {
 
 interface PurchaseProps {
   course: Course;
-  studentObject: any;
+  studentObject: unknown;
 }
 
 // ---------------- Billing Form ----------------
@@ -125,7 +125,7 @@ export default function Purchase({ course }: PurchaseProps) {
       setError(null);
       setSuccess(false);
 
-      const result = await enrolCourse(course._id, billingInfo);
+      await enrolCourse(course._id, billingInfo);
       window.location.href = "/dashboard";
 
       setSuccess(true);
