@@ -3,11 +3,11 @@ import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import AlreadyPurchased from "./AlreadyPurchased";
 import Purchase from "./Purchase";
 
-interface EnrollmentPageProps {
-  params: { id: string };
-}
-
-export default async function EnrollmentPage({ params }: EnrollmentPageProps) {
+export default async function EnrollmentPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const courseId = params.id;
   const studentObject = await getCurrentStudent();
 
