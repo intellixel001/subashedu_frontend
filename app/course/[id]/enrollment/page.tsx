@@ -3,21 +3,20 @@ import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import AlreadyPurchased from "./AlreadyPurchased";
 import Purchase from "./Purchase";
 
-export default async function EnrollmentPage({
-  params,
-}: {
-  params: { id: string }; // <- just object, no Promise
-}) {
-  const courseId = params.id; // this will correctly be '123' for /myroute/123/enrollment
+interface EnrollmentPageProps {
+  params: { id: string }; // plain object
+}
+
+export default async function EnrollmentPage({ params }: EnrollmentPageProps) {
+  const courseId = params.id;
   const studentObject = await getCurrentStudent();
 
-  // Fetch course
   const course = await getPublicSingleCourse(courseId);
   if (!course)
     return <p className="text-gray-400 mt-20 text-center">Course not found</p>;
 
-  // Check if user already purchased
-  const alreadyPurchased = course === "purchased"; // adjust this logic if needed
+  const alreadyPurchased = false; // adjust logic if needed
+
   return alreadyPurchased ? (
     <AlreadyPurchased course={course} />
   ) : (
