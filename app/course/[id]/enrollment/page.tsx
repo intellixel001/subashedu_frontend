@@ -5,24 +5,19 @@ import Purchase from "./Purchase";
 
 interface EnrollmentPageProps {
   params: { id: string };
-  userId: string;
 }
 
-export default async function EnrollmentPage({
-  params,
-  userId,
-}: EnrollmentPageProps) {
+export default async function EnrollmentPage({ params }: EnrollmentPageProps) {
   const courseId = params.id;
   const studentObject = await getCurrentStudent();
 
   // Fetch course
   const course = await getPublicSingleCourse(courseId);
-  console.log(course);
   if (!course)
     return <p className="text-gray-400 mt-20 text-center">Course not found</p>;
 
   // Check if user already purchased
-  const alreadyPurchased = course === "purchased";
+  const alreadyPurchased = course === "purchased"; // adjust this logic if needed
   return alreadyPurchased ? (
     <AlreadyPurchased course={course} />
   ) : (
