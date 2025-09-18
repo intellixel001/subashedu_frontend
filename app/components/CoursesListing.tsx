@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getPublicCourse } from "../globalapi/getapi";
 
 export function CoursesListing() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -10,12 +11,11 @@ export function CoursesListing() {
 
   useEffect(() => {
     async function getData() {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/get-all-course`);
-      if (!res.ok) {
+      const res = await getPublicCourse();
+      if (!res?.length) {
         throw new Error("Failed to fetch courses");
       }
-      const result = await res.json();
-      setData(result.data);
+      setData(res);
     }
     getData();
   }, []);
@@ -68,22 +68,29 @@ export function CoursesListing() {
                     {course.short_description}
                   </p>
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-sm text-gray-400">{course.duration}</span>
+                    <span className="text-sm text-gray-400">
+                      {course.duration}
+                    </span>
                     <div className="flex items-center gap-2">
-                      {course.offer_price && course.offer_price.toString().trim() !== "" ? (
+                      {course.offer_price &&
+                      course.offer_price.toString().trim() !== "" ? (
                         <>
-                          <span className="font-bold text-myred-secondary">৳{course.offer_price}</span>
+                          <span className="font-bold text-myred-secondary">
+                            ৳{course.offer_price}
+                          </span>
                           <span className="text-sm text-gray-400 line-through">
                             ৳{course.price}
                           </span>
                         </>
                       ) : (
-                        <span className="font-bold text-myred-secondary">৳{course.price}</span>
+                        <span className="font-bold text-myred-secondary">
+                          ৳{course.price}
+                        </span>
                       )}
                     </div>
                   </div>
                   <Link
-                    href={`${process.env.NEXT_PUBLIC_URL}/course/${course.id}`}
+                    href={`${process.env.NEXT_PUBLIC_URL}/course/${course._id}`}
                     className="block mt-auto"
                   >
                     <button className="w-full bg-gradient-to-r from-myred to-myred-secondary text-gray-100 py-2 rounded-md hover:bg-myred-dark transition-colors duration-200 relative overflow-hidden group">
@@ -122,7 +129,9 @@ export function CoursesListing() {
               ))}
               <button
                 onClick={() =>
-                  paginate(currentPage < totalPages ? currentPage + 1 : totalPages)
+                  paginate(
+                    currentPage < totalPages ? currentPage + 1 : totalPages
+                  )
                 }
                 disabled={currentPage === totalPages}
                 className="px-3 py-1 rounded-r-md border border-myred/30 bg-gray-800 text-gray-300 hover:bg-myred/20 disabled:opacity-50"

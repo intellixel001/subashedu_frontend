@@ -122,6 +122,8 @@ export default function Header({ pathname }) {
     pathname.startsWith("/management") ||
     pathname.startsWith("/dashboard");
 
+  const ckkk = pathname.includes("dashboard/enrolled-courses/view/");
+
   const navigationGroups = useMemo(
     () => [
       {
@@ -157,7 +159,7 @@ export default function Header({ pathname }) {
     []
   );
 
-  if (dontShow) {
+  if (dontShow || ckkk) {
     return null;
   }
 

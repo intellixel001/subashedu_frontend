@@ -68,7 +68,6 @@ export default function LessonItem({
           content._id,
           content
         );
-        console.log(response);
         if (response.name) {
           const updatedContents = lesson.contents?.map((c) =>
             c._id === content._id ? content : c
@@ -83,7 +82,6 @@ export default function LessonItem({
       } else {
         // Add content
         const response = await addContent(courseId, lesson._id, content);
-        console.log(response);
         if (response) {
           const updatedContents = [...(lesson.contents || []), content];
           onUpdateLesson?.({ ...lesson, contents: updatedContents }, index);

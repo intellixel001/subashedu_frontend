@@ -11,6 +11,12 @@ export function StudentSidebarWrapper() {
   const pathname = usePathname();
   const inDashboard = pathname?.includes("dashboard");
 
+  const ckkk = pathname.includes("dashboard/enrolled-courses/view/");
+
+  if (ckkk) {
+    return null;
+  }
+
   return (
     <>
       {/* --- Desktop Sidebar --- */}
