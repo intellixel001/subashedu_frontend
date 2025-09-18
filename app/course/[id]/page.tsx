@@ -8,7 +8,7 @@ import sanitizeHtml from "sanitize-html";
 export default async function CoursePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const { id } = params;
 
