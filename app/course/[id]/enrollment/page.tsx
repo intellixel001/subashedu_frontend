@@ -6,13 +6,13 @@ import Purchase from "./Purchase";
 export default async function EnrollmentPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
   const courseId = params.id;
   const studentObject = await getCurrentStudent();
 
   // Fetch course
-  const course = await getPublicSingleCourse(courseId);
+  const course = await getPublicSingleCourse(courseId); // <- fix typo
   if (!course)
     return <p className="text-gray-400 mt-20 text-center">Course not found</p>;
 
