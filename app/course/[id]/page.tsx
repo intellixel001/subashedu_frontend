@@ -5,12 +5,12 @@ import { notFound } from "next/navigation";
 import { FaUserPlus } from "react-icons/fa";
 import sanitizeHtml from "sanitize-html";
 
-export default async function CoursePage({
+export default async function Page({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   // Fetch course data from the backend
   const course = await getPublicSingleCourse(id);

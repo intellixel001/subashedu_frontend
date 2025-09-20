@@ -146,7 +146,7 @@ export default function DashboardPage() {
       >
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+          transition={{ repeat: Infinity, ease: "linear" }}
         >
           <FaSpinner className="text-4xl text-indigo-600 mb-4" />
         </motion.div>

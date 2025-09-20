@@ -8,8 +8,8 @@ import { BlogEditor } from "./BlogEditor";
 interface Blog {
   _id: string;
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: {
     name: string;
@@ -21,8 +21,8 @@ interface Blog {
 
 interface FormData {
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: {
     name: string;
@@ -56,7 +56,9 @@ export const BlogModal: React.FC<BlogModalProps> = ({
   setIsModalOpen,
   isProcessing,
 }) => {
-  const [authorPhotoPreview, setAuthorPhotoPreview] = useState<string | null>(null);
+  const [authorPhotoPreview, setAuthorPhotoPreview] = useState<string | null>(
+    null
+  );
   const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [authorPhotoFile, setAuthorPhotoFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
@@ -98,7 +100,9 @@ export const BlogModal: React.FC<BlogModalProps> = ({
     }
   };
 
-  const handleThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleThumbnailFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setThumbnailFile(file);
@@ -138,7 +142,12 @@ export const BlogModal: React.FC<BlogModalProps> = ({
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.shortDescription || !formData.description || !formData.author.name) {
+    if (
+      !formData.title ||
+      !formData.shortDescription ||
+      !formData.description ||
+      !formData.author.name
+    ) {
       setFormError("All fields except images are required.");
       return;
     }
@@ -176,9 +185,7 @@ export const BlogModal: React.FC<BlogModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel
-                className="w-full max-w-md sm:max-w-lg lg:w-[90%] lg:max-w-none rounded-xl bg-card p-6 sm:p-8 lg:p-10 shadow-xl animate-fade-in dark:bg-card"
-              >
+              <Dialog.Panel className="w-full max-w-md sm:max-w-lg lg:w-[90%] lg:max-w-none rounded-xl bg-card p-6 sm:p-8 lg:p-10 shadow-xl animate-fade-in dark:bg-card">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-semibold text-foreground dark:text-foreground"

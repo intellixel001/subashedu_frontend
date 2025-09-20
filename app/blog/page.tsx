@@ -6,7 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 interface Blog {
   _id: string;
   title: string;
-  shortDescription: string;
+  shortDescription?: string;
   thumbnail: string;
   author: { name: string; photoUrl?: string };
   createdAt: string;

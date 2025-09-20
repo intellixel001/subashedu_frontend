@@ -1104,7 +1104,10 @@ const LiveClassPage = () => {
                               width={24}
                               height={24}
                               onError={(e) => {
-                                (e.target as HTMLImageElement).setAttribute("src", defaultAvatar);
+                                (e.target as HTMLImageElement).setAttribute(
+                                  "src",
+                                  defaultAvatar
+                                );
                               }}
                             />
                           ) : (

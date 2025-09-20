@@ -33,8 +33,10 @@ export default function ContentForm({ content, onSuccess }: ContentFormProps) {
       type,
       link,
       description,
+
+      status: content?.status || "running",
       requiredForNext,
-      ...(content?._id && { _id: content._id }), // pass _id only if editing
+      ...(content?._id && { _id: content._id }),
     });
 
     // reset form only when adding new content

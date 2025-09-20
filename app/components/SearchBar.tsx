@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
-import debounce from 'lodash/debounce';
-import Link from 'next/link';
+import debounce from "lodash/debounce";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 interface Course {
-  id: string;
+  id?: string;
   title: string;
-  short_description: string;
+  short_description?: string;
   thumbnailUrl: string;
   courseFor: string;
 }
@@ -19,7 +19,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<Course[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -27,7 +27,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
 
   const debouncedSearch = useCallback(
     debounce(async (searchQuery: string) => {
-      if (searchQuery.trim() === '') {
+      if (searchQuery.trim() === "") {
         setResults([]);
         setIsSearching(false);
         return;
@@ -36,7 +36,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
       setIsSearching(true);
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/search?query=${encodeURIComponent(searchQuery)}`
+          `${
+            process.env.NEXT_PUBLIC_SERVER_URL
+          }/api/search?query=${encodeURIComponent(searchQuery)}`
         );
         const data = await response.json();
         if (data.success) {
@@ -45,7 +47,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           setResults([]);
         }
       } catch (error) {
-        console.error('Search error:', error);
+        console.error("Search error:", error);
         setResults([]);
       } finally {
         setIsSearching(false);
@@ -61,13 +63,15 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     };
   }, [query, debouncedSearch]);
 
-  const showDropdown = query.trim() !== '' && (isFocused || isDropdownHovered);
+  const showDropdown = query.trim() !== "" && (isFocused || isDropdownHovered);
 
   return (
     <div className="w-full max-w-5xl relative z-20">
       <div
         className={`relative bg-gray-800 w-full h-14 border border-myred rounded-full px-6 flex items-center shadow-md transition-all duration-300 ${
-          isFocused ? 'ring-2 ring-myred/50 shadow-myred/50' : 'hover:shadow-myred/30'
+          isFocused
+            ? "ring-2 ring-myred/50 shadow-myred/50"
+            : "hover:shadow-myred/30"
         }`}
       >
         <input
@@ -86,7 +90,9 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         />
         <FaMagnifyingGlass
           className={`text-gray-400 transition duration-150 cursor-pointer ${
-            isSearching ? 'animate-pulse text-myred-secondary' : 'hover:text-myred-secondary'
+            isSearching
+              ? "animate-pulse text-myred-secondary"
+              : "hover:text-myred-secondary"
           }`}
         />
       </div>
@@ -107,9 +113,15 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                 <Link key={course.id} href={`/course/${course.id}`}>
                   <li className="p-4 hover:bg-myred-dark hover:text-white active:bg-myred transition-colors duration-200 cursor-pointer flex items-center gap-4">
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-100">{course.title}</h3>
-                      <p className="text-xs text-gray-400 line-clamp-1">{course.short_description}</p>
-                      <span className="text-xs text-myred-secondary capitalize">{course.courseFor}</span>
+                      <h3 className="text-sm font-semibold text-gray-100">
+                        {course.title}
+                      </h3>
+                      <p className="text-xs text-gray-400 line-clamp-1">
+                        {course.short_description}
+                      </p>
+                      <span className="text-xs text-myred-secondary capitalize">
+                        {course.courseFor}
+                      </span>
                     </div>
                   </li>
                 </Link>

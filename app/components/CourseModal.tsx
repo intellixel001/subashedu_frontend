@@ -17,10 +17,10 @@ interface Instructor {
 
 interface Course {
   _id: string;
-  id: string;
+  id?: string;
   title: string;
-  description: string;
-  short_description: string;
+  description?: string;
+  short_description?: string;
   subjects: string[];
   thumbnailUrl?: string;
   tags: string[];
@@ -39,8 +39,8 @@ interface Course {
 
 interface FormData {
   title: string;
-  description: string;
-  short_description: string;
+  description?: string;
+  short_description?: string;
   subjects: string[];
   tags: string[];
   price: string;

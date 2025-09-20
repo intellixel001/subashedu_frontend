@@ -15,8 +15,8 @@ interface Author {
 interface Blog {
   _id: string;
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: Author;
   createdAt: string;
@@ -25,8 +25,8 @@ interface Blog {
 
 interface FormData {
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: Author;
 }

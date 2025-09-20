@@ -15,8 +15,8 @@ interface Author {
 interface Blog {
   _id: string;
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: Author;
   createdAt: string;
@@ -25,8 +25,8 @@ interface Blog {
 
 interface FormData {
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail?: string;
   author: Author;
 }
@@ -60,7 +60,11 @@ export default function BlogAdminDashboard() {
       setError(null);
       setNoBlogsAvailable(false);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-blogs?page=${pageNum}&limit=${limit}&search=${encodeURIComponent(search)}`,
+        `${
+          process.env.NEXT_PUBLIC_SERVER_URL
+        }/api/admin/get-blogs?page=${pageNum}&limit=${limit}&search=${encodeURIComponent(
+          search
+        )}`,
         {
           method: "GET",
           credentials: "include",
@@ -149,7 +153,10 @@ export default function BlogAdminDashboard() {
       formDataToSend.append("title", formData.title);
       formDataToSend.append("shortDescription", formData.shortDescription);
       formDataToSend.append("description", formData.description);
-      formDataToSend.append("author", JSON.stringify({ name: formData.author.name }));
+      formDataToSend.append(
+        "author",
+        JSON.stringify({ name: formData.author.name })
+      );
 
       if (currentBlog) {
         formDataToSend.append("id", currentBlog._id);
@@ -219,7 +226,9 @@ export default function BlogAdminDashboard() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Blog Management</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Blog Management
+        </h1>
         <button
           onClick={openCreateModal}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
@@ -280,7 +289,10 @@ export default function BlogAdminDashboard() {
             <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-3 text-center text-gray-500 dark:text-gray-400">
+                  <td
+                    colSpan={5}
+                    className="px-4 py-3 text-center text-gray-500 dark:text-gray-400"
+                  >
                     Loading...
                   </td>
                 </tr>
@@ -307,7 +319,9 @@ export default function BlogAdminDashboard() {
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="ml-2">
-                          <div className="font-medium text-gray-900 dark:text-white">{blog.title}</div>
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {blog.title}
+                          </div>
                           <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-md">
                             {blog.shortDescription}
                           </div>
@@ -329,7 +343,9 @@ export default function BlogAdminDashboard() {
                             {blog.author.name.charAt(0)}
                           </div>
                         )}
-                        <span className="ml-2 text-gray-900 dark:text-white">{blog.author.name}</span>
+                        <span className="ml-2 text-gray-900 dark:text-white">
+                          {blog.author.name}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -358,7 +374,10 @@ export default function BlogAdminDashboard() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-4 py-3 text-center text-gray-500 dark:text-gray-400">
+                  <td
+                    colSpan={5}
+                    className="px-4 py-3 text-center text-gray-500 dark:text-gray-400"
+                  >
                     No blogs found
                   </td>
                 </tr>
@@ -439,7 +458,8 @@ export default function BlogAdminDashboard() {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Are you sure you want to delete this blog? This action cannot be undone.
+                      Are you sure you want to delete this blog? This action
+                      cannot be undone.
                     </p>
                   </div>
 

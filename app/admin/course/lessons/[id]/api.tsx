@@ -1,23 +1,6 @@
 import { CourseType } from "@/_types/course";
-
-// app/admin/course/lessons/[id]/api.tsx
-export interface Content {
-  _id?: string;
-  name: string;
-  description: string;
-  type: string;
-  link: string;
-  requiredForNext?: boolean;
-}
-
-export interface Lesson {
-  _id?: string;
-  name: string;
-  description: string;
-  type: string;
-  requiredForNext?: boolean;
-  contents?: Content[];
-}
+import { Content } from "@/app/admin/components/CourseTable";
+import { Lesson } from "./LessonItem";
 
 export const getLessons = async (courseId: string): Promise<CourseType> => {
   const res = await fetch(

@@ -17,11 +17,13 @@ import { Content } from "./LessonsClient";
 
 export interface Lesson {
   _id?: string;
+  id?: string;
   name: string;
-  description: string;
-  type: string;
+  description?: string;
+  type?: string;
   requiredForNext?: boolean;
   contents?: Content[];
+  status?: "completed" | "running" | "locked";
 }
 
 interface LessonItemProps {

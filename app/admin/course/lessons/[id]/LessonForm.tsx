@@ -1,16 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { addLesson, updateLesson } from "./api";
-import { Content } from "./LessonsClient";
-
-interface Lesson {
-  _id?: string;
-  name: string;
-  description: string;
-  type: string;
-  requiredForNext?: boolean;
-  contents?: Content[];
-}
+import { Lesson } from "./LessonItem";
 
 export default function LessonForm({
   courseId,
@@ -40,7 +31,13 @@ export default function LessonForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newLesson = { name, description, type, requiredForNext };
+    const newLesson = {
+      name,
+      description,
+      type,
+
+      requiredForNext,
+    };
 
     let savedLesson: Lesson;
     if (lesson?._id) {

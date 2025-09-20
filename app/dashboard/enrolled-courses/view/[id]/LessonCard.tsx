@@ -1,5 +1,6 @@
 "use client";
 
+import { Content } from "@/app/admin/components/CourseTable";
 import { useState } from "react";
 import {
   FaCheckCircle,
@@ -8,27 +9,17 @@ import {
   FaPlayCircle,
 } from "react-icons/fa";
 
-interface Content {
-  id: string;
-  name: string;
-  type: string;
-  link: string;
-  description: string;
-  status: "completed" | "running" | "locked";
-}
-
 interface Props {
-  id: string;
-  title: string;
-  duration: string;
-  status: "completed" | "running" | "locked";
+  id?: string;
+  name: string;
+  status?: "completed" | "running" | "locked";
+
   contents: Content[];
   setCurrentContent: (content: Content) => void;
 }
 
 export default function LessonCard({
-  title,
-  duration,
+  name,
   status,
   contents,
   setCurrentContent,
@@ -60,8 +51,7 @@ export default function LessonCard({
         }`}
       >
         <div>
-          <h4 className="font-medium">{title}</h4>
-          <p className="text-sm opacity-80">{duration}</p>
+          <h4 className="font-medium">{name}</h4>
         </div>
 
         <div className="flex items-center gap-2">
@@ -90,7 +80,7 @@ export default function LessonCard({
           <div className="mt-3 border-l border-gray-700 space-y-2">
             {contents.map((content) => (
               <div
-                key={content.id}
+                key={content.name}
                 onClick={() =>
                   content.status !== "locked" && setCurrentContent(content)
                 }

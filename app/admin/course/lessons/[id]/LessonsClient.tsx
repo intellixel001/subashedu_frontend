@@ -8,20 +8,24 @@ import LessonList from "./LessonList";
 
 export interface Content {
   _id?: string;
+  id?: string;
   name: string;
   link: string;
-  type: string;
-  description: string;
+  type?: string;
+  description?: string;
   requiredForNext?: boolean;
+  status?: "completed" | "running" | "locked";
 }
 
 export interface Lesson {
   _id?: string;
+  id?: string;
   name: string;
-  type: string;
-  description: string;
+  type?: string;
+  description?: string;
   requiredForNext?: boolean;
   contents?: Content[];
+  status?: "completed" | "running" | "locked";
 }
 
 interface Props {

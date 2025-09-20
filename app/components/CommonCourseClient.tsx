@@ -8,10 +8,10 @@ import { CourseFor, Instructor, Lesson } from "../admin/components/CourseTable";
 // Define the Course type
 interface Course {
   _id: string;
-  id: string;
+  id?: string;
   title: string;
-  description: string;
-  short_description: string;
+  description?: string;
+  short_description?: string;
   subjects: string[];
   thumbnailUrl?: string;
   tags: string[];

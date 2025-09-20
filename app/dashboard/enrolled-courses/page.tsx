@@ -1,11 +1,19 @@
+import { CourseType } from "@/_types/course";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
+interface Enrollment {
+  _id: string;
+  status: "approved" | "pending";
+  paymentMethod: string;
+  transactionId: string;
+  course: CourseType;
+}
+
 export default async function Enrolled() {
   const result = await getCourses();
-  const data = result.data || [];
-  console.log(data);
+  const data: Enrollment[] = result.data || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white px-2 sm:px-4 lg:px-6 py-6">
@@ -21,8 +29,8 @@ export default async function Enrolled() {
 
         {data.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {data.map((courseEnroll: unknown) => {
-              const course = courseEnroll.course; // assuming populated course info
+            {data.map((courseEnroll) => {
+              const course = courseEnroll.course;
               const isApproved = courseEnroll.status === "approved";
 
               return (
@@ -59,7 +67,7 @@ export default async function Enrolled() {
                     </p>
 
                     <div className="flex flex-wrap gap-2 mb-2">
-                      {course.subjects.map((subject: string, idx: number) => (
+                      {course.subjects.map((subject, idx) => (
                         <span
                           key={idx}
                           className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
@@ -110,7 +118,7 @@ export default async function Enrolled() {
 }
 
 const getCourses = async () => {
-  const cookiesInstance = cookies();
+  const cookiesInstance = await cookies();
   const accessToken = cookiesInstance.get("accessToken");
   const accessTokenValue =
     accessToken && typeof accessToken !== "string" ? accessToken.value : "";

@@ -2,8 +2,8 @@
 
 interface Content {
   name: string;
-  type: string;
-  description: string;
+  type?: string;
+  description?: string;
   link?: string;
 }
 

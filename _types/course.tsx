@@ -10,17 +10,17 @@ interface Instructor {
 // Course type
 export interface CourseType {
   _id: string;
-  id: string;
+  id?: string;
   title: string;
-  description: string;
-  short_description: string;
+  description?: string;
+  short_description?: string;
   subjects: string[];
   thumbnailUrl: string;
   tags: string[];
   price: number;
   offer_price: number;
   instructors: Instructor[];
-  type: string;
+  type?: string;
   studentsEnrolled: number;
   courseFor: string;
   classes: any[];

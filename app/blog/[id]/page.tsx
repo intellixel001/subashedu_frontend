@@ -6,8 +6,8 @@ import sanitizeHtml from "sanitize-html";
 interface Blog {
   _id: string;
   title: string;
-  shortDescription: string;
-  description: string;
+  shortDescription?: string;
+  description?: string;
   thumbnail: string;
   author: { name: string; photoUrl?: string };
   createdAt: string;

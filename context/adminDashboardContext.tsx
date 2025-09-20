@@ -5,7 +5,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 interface Course {
   _id: string;
   title: string;
-  description: string;
+  description?: string;
 }
 
 interface Material {

@@ -68,9 +68,6 @@ export function CoursesListing() {
                     {course.short_description}
                   </p>
                   <div className="flex justify-between items-center mb-4">
-                    <span className="text-sm text-gray-400">
-                      {course.duration}
-                    </span>
                     <div className="flex items-center gap-2">
                       {course.offer_price &&
                       course.offer_price.toString().trim() !== "" ? (

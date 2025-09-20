@@ -27,28 +27,32 @@ export type CourseFor =
 // Add this Content type
 export interface Content {
   _id?: string;
+  id?: string;
   name: string;
-  description: string;
-  type: string;
+  description?: string;
+  type?: string;
   link: string;
   requiredForNext?: boolean;
+  status?: "completed" | "running" | "locked";
 }
 
 export interface Lesson {
   _id?: string;
+  id?: string;
   name: string;
-  description: string;
-  type: string;
+  description?: string;
+  type?: string;
   requiredForNext?: boolean;
   contents?: Content[];
+  status?: "completed" | "running" | "locked";
 }
 
 export interface Course {
   _id: string;
-  id: string;
+  id?: string;
   title: string;
-  description: string;
-  short_description: string;
+  description?: string;
+  short_description?: string;
   subjects: string[];
   thumbnailUrl?: string;
   tags: string[];
