@@ -1,16 +1,18 @@
 "use client";
 
+import { Content } from "@/app/admin/components/CourseTable";
+
 interface Props {
-  videoUrl: string;
+  currentContent: Content;
 }
 
-export default function VideoPlayer({ videoUrl }: Props) {
+export default function VideoPlayer({ currentContent }: Props) {
   return (
     <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-md">
-      <video controls className="w-full h-full">
-        <source src={videoUrl} type="video/mp4" />
+      {/* <video controls className="w-full h-full">
+        <source src={currentContent} type="video/mp4" />
         Your browser does not support video playback.
-      </video>
+      </video> */}
     </div>
   );
 }

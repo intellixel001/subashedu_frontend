@@ -1,6 +1,10 @@
 import Link from "next/link";
-import { FaChalkboardTeacher, FaGraduationCap, FaUserTie } from "react-icons/fa";
 import { Suspense } from "react";
+import {
+  FaChalkboardTeacher,
+  FaGraduationCap,
+  FaUserTie,
+} from "react-icons/fa";
 import { CoursesListing } from "../components/CoursesListing";
 
 export default async function CoursesPage() {
@@ -86,7 +90,13 @@ export default async function CoursesPage() {
       </section>
 
       {/* All Courses Listing Section */}
-      <Suspense fallback={<div className="text-center py-12 text-gray-300">Loading courses...</div>}>
+      <Suspense
+        fallback={
+          <div className="text-center py-12 text-gray-300">
+            Loading courses...
+          </div>
+        }
+      >
         <CoursesListing />
       </Suspense>
     </main>

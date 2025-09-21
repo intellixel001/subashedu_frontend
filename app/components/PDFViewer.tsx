@@ -1,66 +1,44 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-interface PDFViewerProps {
-  materialId: string;
+export interface MaterialType {
+  _id: string;
+  title: string;
+  pdfs: string[]; // array of PDF URLs or file IDs
+  forCourses: string[]; // array of course IDs this material belongs to
+  price: string | number; // backend may send as string or number
+  accessControl: "purchased" | "free" | "restricted"; // type of access
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number; // mongoose version key
 }
 
-const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
-  const [pdfUrls, setPdfUrls] = useState<string[]>([]);
+interface PDFViewerProps {
+  apiData: MaterialType; // typed material object
+}
+
+const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
+  const [pdfUrls, setPdfUrls] = useState<string[]>(apiData.pdfs || []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [scale, setScale] = useState(1);
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-
-  useEffect(() => {
-    const fetchPDFs = async () => {
-      setIsLoading(true);
-      setError("");
-      try {
-        const res = await fetch(
-          `${API_URL}/api/stream-material/${materialId}`,
-          {
-            credentials: "include",
-          }
-        );
-        const data = await res.json();
-        if (!data.success)
-          throw new Error(data.message || "Error fetching PDFs");
-
-        setPdfUrls(data.urls || []);
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Error loading PDFs");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPDFs();
-  }, [materialId, API_URL]);
 
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3));
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
 
+  if (!apiData) return <div>No material found</div>;
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center">
-      {/* Error / Loading */}
       {error && <div className="text-red-500">{error}</div>}
       {isLoading && <div className="text-gray-600">Loading PDFs...</div>}
 
       {pdfUrls.length > 0 && (
         <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-          {/* Toolbar */}
           <div className="flex justify-between items-center bg-gray-50 px-4 py-3 border-b">
-            <h2 className="text-lg font-bold text-gray-700">
-              📖 Study Material
-            </h2>
+            <h2 className="text-lg font-bold text-gray-700">{apiData.title}</h2>
             <div className="flex items-center gap-3">
               <button
                 onClick={zoomOut}
@@ -78,7 +56,6 @@ const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
             </div>
           </div>
 
-          {/* PDF Viewer */}
           <div className="flex-1 bg-gray-100 flex items-center justify-center">
             <iframe
               src={pdfUrls[currentIndex]}
@@ -90,7 +67,6 @@ const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
             />
           </div>
 
-          {/* Bottom Page Selector */}
           <div className="bg-gray-50 px-4 py-3 border-t flex flex-wrap justify-center gap-2">
             {pdfUrls.map((_, i) => (
               <button
@@ -112,4 +88,4 @@ const PDFBookViewer: React.FC<PDFViewerProps> = ({ materialId }) => {
   );
 };
 
-export default PDFBookViewer;
+export default PDFViewer;

@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -63,7 +62,7 @@ export default async function Section4() {
                   {course.short_description}
                 </p>
                 <div className="mt-auto">
-                  <Link href={`/course/${course.id}`}>
+                  <Link href={`/course/${course._id}`}>
                     <button className="bg-myred-dark text-white px-6 py-2 rounded-full hover:bg-myred-secondary bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm w-full">
                       Enroll Now
                     </button>

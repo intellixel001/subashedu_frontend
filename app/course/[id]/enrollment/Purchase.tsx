@@ -47,6 +47,7 @@ const BillingForm = ({
     bkash: "Send money to: 01724304107 (Bkash Personal)",
     nagad: "Send money to: 01724304107 (Nagad Personal)",
     rocket: "Send money to: 01724304107 (Rocket Personal)",
+    bank: "Send money to: 01724304107 ",
   };
 
   const isValid = data.paymentMethod.trim() && data.transactionId.trim();

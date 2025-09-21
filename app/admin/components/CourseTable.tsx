@@ -29,9 +29,9 @@ export interface Content {
   _id?: string;
   id?: string;
   name: string;
+  link: string;
   description?: string;
   type?: string;
-  link: string;
   requiredForNext?: boolean;
   status?: "completed" | "running" | "locked";
 }

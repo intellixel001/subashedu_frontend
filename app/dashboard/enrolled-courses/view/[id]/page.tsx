@@ -1,3 +1,4 @@
+import { getMyEnrolledCourseById } from "./api";
 import ViewClient from "./ViewClient";
 
 export default async function Page({
@@ -6,6 +7,8 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
+  const courseData = await getMyEnrolledCourseById(id);
 
   if (!id) {
     return (
@@ -21,7 +24,9 @@ export default async function Page({
   return (
     <div className="bg-yellow-900">
       <div className="container mx-auto">
-        <ViewClient courseId={id} />
+        {courseData && id && (
+          <ViewClient courseData={courseData} courseId={id} />
+        )}
       </div>
     </div>
   );
