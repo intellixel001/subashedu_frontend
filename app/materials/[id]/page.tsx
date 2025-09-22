@@ -38,8 +38,6 @@ export default async function PDFReader({
   }
   const apiData = await getSingleMetarials(id);
 
-  console.log({ apiData });
-
   if (!apiData) {
     return <MaterialPurchaseForm materialId={id} />;
   }

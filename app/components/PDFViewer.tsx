@@ -2,16 +2,22 @@
 
 import React, { useState } from "react";
 
+export interface PDFFile {
+  _id: string;
+  url: string;
+  publicId: string;
+}
+
 export interface MaterialType {
   _id: string;
   title: string;
-  pdfs: string[]; // array of PDF URLs or file IDs
-  forCourses: string[]; // array of course IDs this material belongs to
-  price: string | number; // backend may send as string or number
-  accessControl: "purchased" | "free" | "restricted"; // type of access
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-  __v: number; // mongoose version key
+  pdfs: PDFFile[]; // ✅ fixed type
+  forCourses: string[];
+  price: string | number;
+  accessControl: "purchased" | "free" | "restricted";
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 interface PDFViewerProps {
@@ -20,7 +26,8 @@ interface PDFViewerProps {
 }
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
-  const [pdfUrls] = useState<string[]>(apiData.pdfs || []);
+  // ✅ map pdfs to URLs
+  const [pdfUrls] = useState<string[]>(apiData.pdfs.map((p) => p.url));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scale, setScale] = useState(1);
 
@@ -33,6 +40,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center">
       {pdfUrls.length > 0 && (
         <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+          {/* Header */}
           <div className="flex justify-between items-center bg-gray-50 px-4 py-3 border-b">
             <h2 className="text-lg font-bold text-gray-700">{apiData.title}</h2>
             <div className="flex items-center gap-3">
@@ -52,10 +60,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
             </div>
           </div>
 
+          {/* PDF Frame */}
           <div className="flex-1 bg-gray-100 flex items-center justify-center">
             <iframe
               src={pdfUrls[currentIndex]}
-              className="w-full h-[80vh] border-0 rounded-xl shadow-lg bg-white"
+              className="w-full h-[90vh] border-0 rounded-xl shadow-lg bg-white"
               style={{
                 transform: `scale(${scale})`,
                 transformOrigin: "center top",
@@ -63,10 +72,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
             />
           </div>
 
+          {/* Pagination buttons */}
           <div className="bg-gray-50 px-4 py-3 border-t flex flex-wrap justify-center gap-2">
-            {pdfUrls.map((_, i) => (
+            {apiData.pdfs.map((pdf, i) => (
               <button
-                key={i}
+                key={pdf._id}
                 onClick={() => setCurrentIndex(i)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition ${
                   currentIndex === i
@@ -74,7 +84,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 }`}
               >
-                Page {i + 1}
+                File {i + 1}
               </button>
             ))}
           </div>

@@ -1,16 +1,5 @@
-export const getPublicCourse = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/get-all-course`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
-
-  const json = await res.json();
-  return json.data;
-};
+"use server";
+import { cookies } from "next/headers";
 
 export const getPublicSingleCourse = async (courseId: string | number) => {
   try {
@@ -35,12 +24,10 @@ export const getPublicSingleCourse = async (courseId: string | number) => {
   }
 };
 
-import Cookies from "js-cookie";
-
 export const getSingleMetarials = async (id: string | number) => {
   try {
-    // Get token from cookie
-    const token = Cookies.get("accessToken");
+    const cookieStore = await cookies(); // ✅ this is server-safe
+    const token = cookieStore.get("accessToken")?.value;
 
     if (!token) {
       console.error("No access token found in cookies");
@@ -72,12 +59,8 @@ export const getSingleMetarials = async (id: string | number) => {
     const json = await res.json();
     return json.data;
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error(error.message);
-      return null;
-    }
-
-    console.error("Unexpected error", error);
+    if (error instanceof Error) console.error(error.message);
+    else console.error("Unexpected error", error);
     return null;
   }
 };

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getPublicCourse } from "../globalapi/getapi";
+import { getPublicCourse } from "../globalapi/getapic";
 
 export function CoursesListing() {
   const [currentPage, setCurrentPage] = useState(1);

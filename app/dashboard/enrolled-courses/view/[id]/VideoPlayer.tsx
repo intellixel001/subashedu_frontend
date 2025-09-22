@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function VideoPlayer({ currentContent }: Props) {
-  console.log(currentContent);
   return (
     <div className="w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-md">
       {/* <video controls className="w-full h-full">
