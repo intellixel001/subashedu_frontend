@@ -14,6 +14,7 @@ export default function LessonList({
   lessons,
   setCurrentContent,
 }: Props) {
+  console.log(courseId);
   return (
     <div className="flex flex-col gap-3">
       {lessons.map((lesson) => (

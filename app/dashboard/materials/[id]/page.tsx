@@ -1,5 +1,7 @@
+import PDFViewer from "@/app/components/PDFViewer";
+import { getSingleMetarials } from "@/app/globalapi/getapi";
+import SendToLogin from "@/app/materials/[id]/SendToLogin";
 import MaterialPurchaseForm from "@/components/MaterialPurchaseForm";
-import PDFViewerWrapper from "@/components/PDFViewerWrapper";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 
 export default async function PDFReader({
@@ -28,19 +30,16 @@ export default async function PDFReader({
   }
 
   const student = studentObject.data.student;
+  if (!student) {
+    return <SendToLogin />;
+  }
+  const apiData = await getSingleMetarials(id);
 
-  const coursesEnrolled = student.coursesEnrolled;
-  const isPurchased = coursesEnrolled.some((course) => {
-    return course.materials.some((material: string) => material === id);
-  });
+  console.log({ apiData });
 
-  const isPurchased2 = student.materials.some((material) => {
-    return material === id;
-  });
-
-  if (isPurchased || isPurchased2) {
-    return <PDFViewerWrapper materialId={id} />;
-  } else {
+  if (!apiData) {
     return <MaterialPurchaseForm materialId={id} />;
   }
+
+  return <PDFViewer apiData={apiData?.data} />;
 }

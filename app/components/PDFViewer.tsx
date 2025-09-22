@@ -15,14 +15,13 @@ export interface MaterialType {
 }
 
 interface PDFViewerProps {
-  apiData: MaterialType; // typed material object
+  apiData: MaterialType;
+  materialId?: string;
 }
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
-  const [pdfUrls, setPdfUrls] = useState<string[]>(apiData.pdfs || []);
+  const [pdfUrls] = useState<string[]>(apiData.pdfs || []);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [scale, setScale] = useState(1);
 
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3));
@@ -32,9 +31,6 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center">
-      {error && <div className="text-red-500">{error}</div>}
-      {isLoading && <div className="text-gray-600">Loading PDFs...</div>}
-
       {pdfUrls.length > 0 && (
         <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
           <div className="flex justify-between items-center bg-gray-50 px-4 py-3 border-b">

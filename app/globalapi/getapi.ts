@@ -70,9 +70,14 @@ export const getSingleMetarials = async (id: string | number) => {
     }
 
     const json = await res.json();
-    return json.data as MaterialType;
-  } catch (error: any) {
-    console.error("Error fetching material:", error);
+    return json.data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(error.message);
+      return null;
+    }
+
+    console.error("Unexpected error", error);
     return null;
   }
 };
