@@ -32,6 +32,7 @@ export default function ContentPlayer({ courseId }: Props) {
         const data = await getCourseContent(courseId, lessonId, contentId);
         setCurrentContent(data);
       } catch (err) {
+        console.log(err);
         setError(true);
       } finally {
         setLoading(false);
