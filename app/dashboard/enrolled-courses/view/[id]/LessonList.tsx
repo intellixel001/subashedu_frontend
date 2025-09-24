@@ -19,8 +19,9 @@ export default function LessonList({
     <div className="flex flex-col gap-3">
       {lessons.map((lesson) => (
         <LessonCard
-          key={lesson.name}
-          {...lesson}
+          key={lesson._id}
+          id={lesson._id}
+          name={lesson.name}
           contents={lesson.contents || []}
           setCurrentContent={setCurrentContent}
         />
