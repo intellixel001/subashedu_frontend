@@ -117,6 +117,12 @@ export interface MaterialType {
   __v: number;
 }
 
+export interface PDFFile {
+  _id: string;
+  url: string;
+  publicId: string;
+}
+
 interface PDFViewerProps {
   apiData: MaterialType;
 }
