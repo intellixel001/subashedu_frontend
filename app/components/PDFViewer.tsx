@@ -101,10 +101,21 @@ import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { MaterialType } from "./types";
 
 // ✅ Correct worker setup for Next.js 15
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+
+export interface MaterialType {
+  _id: string;
+  title: string;
+  pdfs: PDFFile[]; // ✅ fixed type
+  forCourses: string[];
+  price: string | number;
+  accessControl: "purchased" | "free" | "restricted";
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
 interface PDFViewerProps {
   apiData: MaterialType;
