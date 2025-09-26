@@ -32,7 +32,7 @@ export function StaffSidebar({
   const navItems = [
     {
       name: "Dashboard",
-      href : "/management",
+      href: "/management",
       icon: <FaChartLine className="mr-3" />,
     },
     {

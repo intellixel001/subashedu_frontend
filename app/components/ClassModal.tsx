@@ -1,61 +1,104 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Class } from "../admin/manage-class/page";
+
+interface Instructor {
+  _id: string;
+  name: string;
+}
+
+interface Course {
+  _id: string;
+  title: string;
+  courseFor: string;
+}
+
+interface ClassFormData {
+  title: string;
+  subject: string;
+  instructorId: string;
+  instructor?: string;
+  courseId: string;
+  courseType: string;
+  billingType: "free" | "paid";
+  type: "recorded" | "live";
+  videoLink?: string;
+  startTime?: string;
+}
+
+interface ClassModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  isCreating: boolean;
+  error?: string | null;
+  currentClass?: Class;
+  formData: ClassFormData;
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  handleSubmit: (e: React.FormEvent, formData: ClassFormData) => void;
+  courses?: Course[];
+  instructors?: Instructor[];
+  subjects?: string[];
+}
 
 export function ClassModal({
   isOpen,
   onClose,
-  isLiveModal,
+  isCreating,
+  error,
+  currentClass,
   formData,
   handleInputChange,
   handleSubmit,
   courses = [],
-  isCreating,
-  error,
-  currentClass,
+  instructors = [],
   subjects = [],
-}) {
-  const [videoFile, setVideoFile] = useState(null);
-  const [videoError, setVideoError] = useState(null);
+}: ClassModalProps) {
+  const CLASS_TYPES = [
+    { label: "Class Courses (9-12)", value: "class" },
+    { label: "Admission Courses", value: "admission" },
+    { label: "Job Preparation Courses", value: "job" },
+  ];
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const validTypes = ["video/mp4", "video/webm", "video/ogg"];
-      if (!validTypes.includes(file.type)) {
-        setVideoError("Please upload a valid video file (MP4, WebM, or OGG)");
-        setVideoFile(null);
-      } else if (file.size > 100 * 1024 * 1024) {
-        setVideoError("Video file size must be less than 100MB");
-        setVideoFile(null);
-      } else {
-        setVideoError(null);
-        setVideoFile(file);
-      }
-    } else {
-      setVideoError(null);
-      setVideoFile(null);
-    }
-  };
+  console.log(instructors);
 
-  const onSubmit = (e) => {
+  const BILLING_TYPES = [
+    { label: "Free", value: "free" },
+    { label: "Paid", value: "paid" },
+  ];
+
+  const CLASS_OPTIONS = [
+    { label: "Recorded", value: "recorded" },
+    { label: "Live", value: "live" },
+  ];
+
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLiveModal && !videoFile && !formData.videoLink) {
-      setVideoError("Please upload a video file or provide a video link");
-      return;
+
+    // Validation
+    if (!formData.title.trim()) return alert("Title is required");
+    if (!formData.subject) return alert("Subject is required");
+    if (!formData.instructorId) return alert("Instructor is required");
+    if (!formData.courseId) return alert("Course is required");
+    if (!formData.courseType) return alert("Course type is required");
+    if (!formData.billingType) return alert("Billing type is required");
+    if (!formData.type) return alert("Class type is required");
+
+    if (formData.type === "recorded" && !formData.videoLink?.trim())
+      return alert("Video link is required for recorded class");
+
+    if (formData.type === "live") {
+      if (!formData.videoLink?.trim())
+        return alert("Live link is required for live class");
+      if (!formData.startTime)
+        return alert("Start time is required for live class");
     }
 
-    const sanitizedFormData = {
-      title: formData.title.trim(),
-      subject: formData.subject.trim(),
-      instructor: formData.instructor.trim(),
-      courseId: formData.courseId,
-      videoLink: formData.videoLink?.trim() || "",
-    };
-
-    handleSubmit(e, videoFile, sanitizedFormData);
+    handleSubmit(e, formData);
   };
 
   return (
@@ -90,10 +133,10 @@ export function ClassModal({
                   className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center"
                 >
                   {currentClass
-                    ? isLiveModal
+                    ? formData.type === "live"
                       ? "Edit Live Class"
                       : "Edit Recorded Class"
-                    : isLiveModal
+                    : formData.type === "live"
                     ? "Create Live Class"
                     : "Create Recorded Class"}
                   <button
@@ -106,17 +149,14 @@ export function ClassModal({
                 </Dialog.Title>
 
                 <form onSubmit={onSubmit} className="mt-4 space-y-4">
+                  {/* Title */}
                   <div>
-                    <label
-                      htmlFor="title"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Title
                     </label>
                     <input
                       type="text"
                       name="title"
-                      id="title"
                       value={formData.title}
                       onChange={handleInputChange}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
@@ -125,16 +165,13 @@ export function ClassModal({
                     />
                   </div>
 
+                  {/* Subject */}
                   <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Subject
                     </label>
                     <select
                       name="subject"
-                      id="subject"
                       value={formData.subject}
                       onChange={handleInputChange}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
@@ -142,117 +179,168 @@ export function ClassModal({
                       disabled={isCreating}
                     >
                       <option value="">Select a subject</option>
-                      {subjects.length > 0 ? (
-                        subjects.map((subject, index) => (
-                          <option key={index} value={subject}>
-                            {subject}
-                          </option>
-                        ))
-                      ) : (
-                        <option value="" disabled>
-                          No subjects available
+                      {subjects.map((s, i) => (
+                        <option key={i} value={s}>
+                          {s}
                         </option>
-                      )}
-                   ecosystems </select>
+                      ))}
+                    </select>
                   </div>
 
+                  {/* Instructor */}
                   <div>
-                    <label
-                      htmlFor="instructor"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Instructor
                     </label>
-                    <input
-                      type="text"
-                      name="instructor"
-                      id="instructor"
-                      value={formData.instructor}
+                    <select
+                      name="instructorId"
+                      value={formData.instructorId}
                       onChange={handleInputChange}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
                       required
                       disabled={isCreating}
-                    />
+                    >
+                      <option value="">Select instructor</option>
+                      {instructors.map((inst) => (
+                        <option key={inst._id} value={inst._id}>
+                          {inst.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
+                  {/* Course */}
                   <div>
-                    <label
-                      htmlFor="courseId"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label className="block text-sm font-medium text-gray-700">
                       Course
                     </label>
                     <select
                       name="courseId"
-                      id="courseId"
                       value={formData.courseId}
                       onChange={handleInputChange}
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
                       required
                       disabled={isCreating}
                     >
-                      <option value="">Select a course</option>
-                      {courses.length > 0 ? (
-                        courses.map((course) => (
-                          <option key={course._id} value={course._id}>
-                            {course.title} ({course.courseFor})
-                          </option>
-                        ))
-                      ) : (
-                        <option value="" disabled>
-                          No courses available
+                      <option value="">Select course</option>
+                      {courses.map((course) => (
+                        <option key={course._id} value={course._id}>
+                          {course.title} ({course.courseFor})
                         </option>
-                      )}
+                      ))}
                     </select>
                   </div>
 
-                  {isLiveModal ? (
+                  {/* Course Type */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Course Type
+                    </label>
+                    <select
+                      name="courseType"
+                      value={formData.courseType}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                      required
+                      disabled={isCreating}
+                    >
+                      <option value="">Select type</option>
+                      {CLASS_TYPES.map((type) => (
+                        <option key={type.value} value={type.value}>
+                          {type.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Billing Type */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Billing Type
+                    </label>
+                    <select
+                      name="billingType"
+                      value={formData.billingType}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                      required
+                      disabled={isCreating}
+                    >
+                      {BILLING_TYPES.map((b) => (
+                        <option key={b.value} value={b.value}>
+                          {b.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Class Type */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Class Type
+                    </label>
+                    <select
+                      name="type"
+                      value={formData.type}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                      required
+                      disabled={isCreating}
+                    >
+                      {CLASS_OPTIONS.map((c) => (
+                        <option key={c.value} value={c.value}>
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Video / Live Link */}
+                  {formData.type === "recorded" && (
                     <div>
-                      <label
-                        htmlFor="videoLink"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Video Link (mandatory)
+                      <label className="block text-sm font-medium text-gray-700">
+                        Video Link
                       </label>
                       <input
                         type="url"
                         name="videoLink"
-                        id="videoLink"
                         value={formData.videoLink || ""}
                         onChange={handleInputChange}
+                        placeholder="https://your-video-link.com"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
-                        placeholder="https://youtube.com/video (unlisted)"
+                        required
                         disabled={isCreating}
                       />
                     </div>
-                  ) : (
+                  )}
+
+                  {formData.type === "live" && (
                     <div>
-                      <label
-                        htmlFor="video"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Video File
+                      <label className="block text-sm font-medium text-gray-700">
+                        Live Link (Google Meet/Zoom)
                       </label>
                       <input
-                        type="file"
-                        name="video"
-                        id="video"
-                        accept="video/mp4,video/webm,video/ogg"
-                        onChange={handleFileChange}
-                        className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-myred file:text-white hover:file:bg-myred-dark disabled:bg-gray-100"
+                        type="url"
+                        name="videoLink"
+                        value={formData.videoLink || ""}
+                        onChange={handleInputChange}
+                        placeholder="https://meet.google.com/xyz"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                        required
                         disabled={isCreating}
-                        required={!currentClass && !formData.videoLink}
                       />
-                      {videoError && (
-                        <p className="mt-1 text-sm text-red-600">
-                          {videoError}
-                        </p>
-                      )}
-                      {formData.videoLink && (
-                        <p className="mt-1 text-sm text-gray-500">
-                          Current video: {formData.videoLink}
-                        </p>
-                      )}
+                      <label className="block text-sm font-medium text-gray-700 mt-2">
+                        Start Time
+                      </label>
+                      <input
+                        type="datetime-local"
+                        name="startTime"
+                        value={formData.startTime || ""}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                        required
+                        disabled={isCreating}
+                      />
                     </div>
                   )}
 
@@ -265,8 +353,8 @@ export function ClassModal({
                   <div className="mt-6 flex justify-end space-x-3">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-myred focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       onClick={onClose}
+                      className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-myred focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={isCreating}
                     >
                       Cancel
@@ -276,32 +364,11 @@ export function ClassModal({
                       className="inline-flex justify-center rounded-md border border-transparent bg-myred px-4 py-2 text-sm font-medium text-white hover:bg-myred-dark focus:outline-none focus:ring-2 focus:ring-myred focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={isCreating}
                     >
-                      {isCreating ? (
-                        <svg
-                          className="animate-spin h-5 w-5 text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          ></path>
-                        </svg>
-                      ) : currentClass ? (
-                        "Update"
-                      ) : (
-                        "Create"
-                      )}
+                      {isCreating
+                        ? "Creating..."
+                        : currentClass
+                        ? "Update"
+                        : "Create"}
                     </button>
                   </div>
                 </form>
