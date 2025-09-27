@@ -181,14 +181,14 @@ function Section({
                       <span className="font-medium">Instructor:</span>{" "}
                       {cls.instructor || "Unknown"}
                     </p> */}
-                    <p
+                    {/* <p
                       className={`text-sm mb-4 ${
                         light ? "text-gray-600" : "text-gray-400"
                       }`}
                     >
                       <span className="font-medium">Course:</span>{" "}
                       {cls.courseId?.title || "N/A"}
-                    </p>
+                    </p> */}
 
                     <a
                       href={`/dashboard/live-class/${cls._id}`}
