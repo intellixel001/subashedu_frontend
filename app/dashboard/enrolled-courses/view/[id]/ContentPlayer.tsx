@@ -32,6 +32,7 @@ export default function ContentPlayer({ courseId }: Props) {
         setCurrentContent(data);
       } catch (err) {
         setError(true);
+        console.log(err);
       } finally {
         setLoading(false);
       }

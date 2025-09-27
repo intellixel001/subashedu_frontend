@@ -4,11 +4,11 @@ import { Class } from "@/app/admin/manage-class/page";
 import { useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaClock, FaUsers, FaVideo } from "react-icons/fa";
 
-interface Course {
-  _id: string;
-  title: string;
-  courseFor?: string;
-}
+// interface Course {
+//   _id: string;
+//   title: string;
+//   courseFor?: string;
+// }
 
 export default function ClassesPage() {
   const [myClasses, setMyClasses] = useState<Class[]>([]);

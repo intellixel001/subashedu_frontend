@@ -15,7 +15,8 @@ export interface Class {
   billingType?: "free" | "paid";
   courseType?: string;
   type?: "live" | "recorded";
-  courseId?: Course;
+  courseId?: string;
+  course?: { _id: string; title: string; courseFor: string };
   videoLink: string;
   image: string;
   startTime?: string | null;

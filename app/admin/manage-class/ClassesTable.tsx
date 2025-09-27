@@ -105,7 +105,7 @@ const ClassesTable: React.FC<ClassesTableProps> = ({
                       </td>
                     )}
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center space-x-2">
-                      {/* {onStopLive && cls.isLive && (
+                      {onStopLive && cls.isLive && (
                         <button
                           onClick={() => onStopLive(cls._id)}
                           className="text-red-600 hover:text-red-900 text-[20px]"
@@ -113,7 +113,7 @@ const ClassesTable: React.FC<ClassesTableProps> = ({
                         >
                           <FaStop />
                         </button>
-                      )} */}
+                      )}
                       <button
                         onClick={() => onEdit(cls)}
                         className="text-myred hover:text-myred-dark text-[20px]"
