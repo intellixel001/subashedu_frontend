@@ -173,14 +173,14 @@ function Section({
                       <span className="font-medium">Subject:</span>{" "}
                       {cls.subject}
                     </p>
-                    <p
+                    {/* <p
                       className={`text-sm mb-1 ${
                         light ? "text-gray-600" : "text-gray-400"
                       }`}
                     >
                       <span className="font-medium">Instructor:</span>{" "}
                       {cls.instructor || "Unknown"}
-                    </p>
+                    </p> */}
                     <p
                       className={`text-sm mb-4 ${
                         light ? "text-gray-600" : "text-gray-400"
