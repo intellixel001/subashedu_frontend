@@ -42,7 +42,7 @@ export interface ClassFormData {
 export default function Page() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [courses, setCourses] = useState<CourseType[]>([]);
-  const [subjects, setSubjects] = useState<String[]>([]);
+  const [subjects, setSubjects] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

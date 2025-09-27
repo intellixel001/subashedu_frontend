@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaStop, FaTrash } from "react-icons/fa";
 
 interface ClassItem {
   _id: string;
