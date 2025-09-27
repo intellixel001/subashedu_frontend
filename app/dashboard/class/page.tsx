@@ -1,7 +1,7 @@
 "use client";
 
 import { Class } from "@/app/admin/manage-class/page";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaClock, FaUsers, FaVideo } from "react-icons/fa";
 
 // interface Course {
