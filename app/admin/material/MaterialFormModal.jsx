@@ -143,6 +143,21 @@ const MaterialFormModal = ({
             )}
           </div>
 
+          {/* Image URL */}
+          <div>
+            <label className="block mb-2">Image URL</label>
+            <input
+              type="text"
+              name="image"
+              value={formData.image || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, image: e.target.value }))
+              }
+              placeholder="https://example.com/image.jpg"
+              className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
+            />
+          </div>
+
           {/* Submit */}
           <button
             type="submit"

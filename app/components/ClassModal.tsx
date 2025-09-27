@@ -3,7 +3,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
-import { Class } from "../admin/manage-class/page";
+import { Class, ClassFormData } from "../admin/manage-class/page";
 
 interface Instructor {
   _id: string;
@@ -14,19 +14,6 @@ interface Course {
   _id: string;
   title: string;
   courseFor: string;
-}
-
-interface ClassFormData {
-  title: string;
-  subject: string;
-  instructorId: string;
-  instructor?: string;
-  courseId: string;
-  courseType: string;
-  billingType: "free" | "paid";
-  type: "recorded" | "live";
-  videoLink?: string;
-  startTime?: string;
 }
 
 interface ClassModalProps {
@@ -64,8 +51,6 @@ export function ClassModal({
     { label: "Job Preparation Courses", value: "job" },
   ];
 
-  console.log(instructors);
-
   const BILLING_TYPES = [
     { label: "Free", value: "free" },
     { label: "Paid", value: "paid" },
@@ -81,6 +66,7 @@ export function ClassModal({
 
     // Validation
     if (!formData.title.trim()) return alert("Title is required");
+    if (!formData.image) return alert("image is required");
     if (!formData.subject) return alert("Subject is required");
     if (!formData.instructorId) return alert("Instructor is required");
     if (!formData.courseId) return alert("Course is required");
@@ -100,6 +86,8 @@ export function ClassModal({
 
     handleSubmit(e, formData);
   };
+
+  console.log(formData);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -343,6 +331,23 @@ export function ClassModal({
                       />
                     </div>
                   )}
+
+                  {/* Image URL */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Image URL
+                    </label>
+                    <input
+                      type="url"
+                      name="image"
+                      value={formData.image || ""}
+                      onChange={handleInputChange}
+                      placeholder="https://example.com/image.jpg"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-myred focus:ring-myred sm:text-sm disabled:bg-gray-100"
+                      required
+                      disabled={isCreating}
+                    />
+                  </div>
 
                   {error && (
                     <div className="p-3 bg-red-100 text-red-700 rounded-lg">

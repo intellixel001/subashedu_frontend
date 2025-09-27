@@ -21,8 +21,6 @@ export default async function Page({
     );
   }
 
-  console.log(courseData);
-
   return (
     <div className="bg-yellow-900">
       <div className="container mx-auto">

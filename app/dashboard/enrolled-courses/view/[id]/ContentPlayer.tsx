@@ -23,7 +23,6 @@ export default function ContentPlayer({ courseId }: Props) {
 
   useEffect(() => {
     const fetchContent = async () => {
-      console.log({ lessonId, contentId });
       if (!lessonId || !contentId) return;
       setLoading(true);
       setError(false);
@@ -32,7 +31,6 @@ export default function ContentPlayer({ courseId }: Props) {
         const data = await getCourseContent(courseId, lessonId, contentId);
         setCurrentContent(data);
       } catch (err) {
-        console.log(err);
         setError(true);
       } finally {
         setLoading(false);

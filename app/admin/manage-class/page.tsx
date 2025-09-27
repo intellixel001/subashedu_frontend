@@ -11,24 +11,26 @@ export interface Class {
   _id: string;
   title: string;
   subject?: string;
-  instructorId: string;
+  instructorId?: string;
   billingType?: "free" | "paid";
   courseType?: string;
-  type: "live" | "recorded";
-  course: { _id: string; title: string; courseFor: string };
+  type?: "live" | "recorded";
+  courseId?: Course;
   videoLink: string;
+  image: string;
   startTime?: string | null;
   isActiveLive: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-interface ClassFormData {
+export interface ClassFormData {
   title: string;
   subject: string;
   instructorId: string;
   instructor?: string;
   courseId: string;
+  image: string;
   courseType: string;
   billingType: "free" | "paid";
   type: "recorded" | "live";
@@ -39,6 +41,7 @@ interface ClassFormData {
 export default function Page() {
   const [classes, setClasses] = useState<Class[]>([]);
   const [courses, setCourses] = useState<CourseType[]>([]);
+  const [subjects, setSubjects] = useState<String[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,6 +54,7 @@ export default function Page() {
     subject: "",
     instructorId: "",
     courseId: "",
+    image: "",
     courseType: "class", // default
     billingType: "free", // default
     type: "recorded", // default
@@ -70,7 +74,11 @@ export default function Page() {
         }
       );
       const data = await res.json();
-      if (data.success) setCourses(data.data || []);
+      console.log(data);
+      if (data.success) {
+        setSubjects(data.subjects);
+        setCourses(data.data || []);
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.message || "Failed to fetch courses");
@@ -105,6 +113,12 @@ export default function Page() {
     refreshData();
   }, [refreshData]);
 
+  function formatDateTimeLocal(dateString?: string) {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16);
+  }
+
   // ---------------- Modal Handlers ----------------
   const openClassModal = (cls?: Class) => {
     setCurrentClass(cls || null);
@@ -112,12 +126,13 @@ export default function Page() {
       title: cls?.title || "",
       subject: cls?.subject || "",
       instructorId: cls?.instructorId || "",
-      courseId: cls?.course._id || "",
+      courseId: cls?.courseId || "",
       courseType: cls?.courseType || "class",
       billingType: cls?.billingType || "paid",
+      image: cls?.image || "",
       type: cls?.type || "recorded",
       videoLink: cls?.videoLink || "",
-      startTime: cls?.startTime || "",
+      startTime: formatDateTimeLocal(cls?.startTime), // ✅ fixed here
     });
     setIsModalOpen(true);
   };
@@ -215,6 +230,7 @@ export default function Page() {
         courses={courses}
         isCreating={isCreating}
         error={error}
+        subjects={subjects}
       />
     </div>
   );

@@ -18,6 +18,7 @@ interface Material {
   _id: string;
   title: string;
   price: string;
+  image: string;
   forCourses: (string | Course)[];
   accessControl: "purchased" | "free" | "restricted";
   pdfs: File[] | string[];
@@ -31,6 +32,7 @@ const MaterialsPage = () => {
     title: "",
     price: "",
     forCourses: "",
+    image: "",
     accessControl: "restricted" as "purchased" | "free" | "restricted",
     pdfs: [] as (File | string)[],
   });
@@ -123,6 +125,7 @@ const MaterialsPage = () => {
       price: "",
       forCourses: "",
       accessControl: "restricted",
+      image: "",
       pdfs: [],
     });
     setSelectedCourses([]);
@@ -139,6 +142,7 @@ const MaterialsPage = () => {
     data.append("price", formData.price);
     data.append("forCourses", JSON.stringify(selectedCourses));
     data.append("accessControl", formData.accessControl);
+    data.append("image", formData.image);
     formData.pdfs.forEach((pdf) => data.append("pdfs", pdf));
     if (isEditing) data.append("_id", formData._id);
 
@@ -181,6 +185,7 @@ const MaterialsPage = () => {
       price: material.price,
       forCourses: JSON.stringify(courseIds),
       accessControl: material.accessControl,
+      image: material.image,
       pdfs: material?.pdfs || [],
     });
     setSelectedCourses(courseIds);
