@@ -394,7 +394,7 @@ export default function ManageStudentPage() {
         </select>
 
         {/* Type Filter (Education Level / Custom) */}
-        {/* <select
+        <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
           className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
@@ -402,7 +402,7 @@ export default function ManageStudentPage() {
           <option value="">All Types</option>
           <option value="ssc">SSC</option>
           <option value="hsc">HSC</option>
-        </select> */}
+        </select>
       </div>
 
       {/* Student table */}
