@@ -48,77 +48,77 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.10 0.03 270);
+  --background: oklch(0.1 0.03 270);
   --foreground: oklch(0.97 0.02 270);
   --card: oklch(0.14 0.03 270);
   --card-foreground: oklch(0.97 0.02 270);
   --popover: oklch(0.14 0.03 270);
   --popover-foreground: oklch(0.97 0.02 270);
-  --primary: oklch(0.70 0.20 270);
+  --primary: oklch(0.7 0.2 270);
   --primary-foreground: oklch(0.98 0.01 270);
-  --secondary: oklch(0.20 0.04 270);
+  --secondary: oklch(0.2 0.04 270);
   --secondary-foreground: oklch(0.97 0.02 270);
-  --muted: oklch(0.20 0.04 270);
+  --muted: oklch(0.2 0.04 270);
   --muted-foreground: oklch(0.78 0.05 270);
   --accent: oklch(0.25 0.08 270);
   --accent-foreground: oklch(0.97 0.02 270);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.20 0.04 270);
-  --input: oklch(0.20 0.04 270);
-  --ring: oklch(0.70 0.20 270);
-  --chart-1: oklch(0.65 0.20 270);
-  --chart-2: oklch(0.60 0.15 265);
+  --border: oklch(0.2 0.04 270);
+  --input: oklch(0.2 0.04 270);
+  --ring: oklch(0.7 0.2 270);
+  --chart-1: oklch(0.65 0.2 270);
+  --chart-2: oklch(0.6 0.15 265);
   --chart-3: oklch(0.55 0.12 260);
-  --chart-4: oklch(0.70 0.20 275);
+  --chart-4: oklch(0.7 0.2 275);
   --chart-5: oklch(0.75 0.22 270);
   --sidebar: oklch(0.14 0.03 270);
   --sidebar-foreground: oklch(0.97 0.02 270);
-  --sidebar-primary: oklch(0.70 0.20 270);
+  --sidebar-primary: oklch(0.7 0.2 270);
   --sidebar-primary-foreground: oklch(0.98 0.01 270);
   --sidebar-accent: oklch(0.25 0.08 270);
   --sidebar-accent-foreground: oklch(0.97 0.02 270);
-  --sidebar-border: oklch(0.20 0.04 270);
-  --sidebar-ring: oklch(0.70 0.20 270);
-  --myred: #483AA0;
-  --myred-secondary: #7965C1;
-  --myred-dark: #3B2D82;
+  --sidebar-border: oklch(0.2 0.04 270);
+  --sidebar-ring: oklch(0.7 0.2 270);
+  --myred: #483aa0;
+  --myred-secondary: #7965c1;
+  --myred-dark: #3b2d82;
 }
 
 .dark {
-  --background: oklch(0.10 0.03 270);
+  --background: oklch(0.1 0.03 270);
   --foreground: oklch(0.97 0.02 270);
   --card: oklch(0.14 0.03 270);
   --card-foreground: oklch(0.97 0.02 270);
   --popover: oklch(0.14 0.03 270);
   --popover-foreground: oklch(0.97 0.02 270);
-  --primary: oklch(0.70 0.20 270);
+  --primary: oklch(0.7 0.2 270);
   --primary-foreground: oklch(0.98 0.01 270);
-  --secondary: oklch(0.20 0.04 270);
+  --secondary: oklch(0.2 0.04 270);
   --secondary-foreground: oklch(0.97 0.02 270);
-  --muted: oklch(0.20 0.04 270);
+  --muted: oklch(0.2 0.04 270);
   --muted-foreground: oklch(0.78 0.05 270);
   --accent: oklch(0.25 0.08 270);
   --accent-foreground: oklch(0.97 0.02 270);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.20 0.04 270);
-  --input: oklch(0.20 0.04 270);
-  --ring: oklch(0.70 0.20 270);
-  --chart-1: oklch(0.65 0.20 270);
-  --chart-2: oklch(0.60 0.15 265);
+  --border: oklch(0.2 0.04 270);
+  --input: oklch(0.2 0.04 270);
+  --ring: oklch(0.7 0.2 270);
+  --chart-1: oklch(0.65 0.2 270);
+  --chart-2: oklch(0.6 0.15 265);
   --chart-3: oklch(0.55 0.12 260);
-  --chart-4: oklch(0.70 0.20 275);
+  --chart-4: oklch(0.7 0.2 275);
   --chart-5: oklch(0.75 0.22 270);
   --sidebar: oklch(0.14 0.03 270);
   --sidebar-foreground: oklch(0.97 0.02 270);
-  --sidebar-primary: oklch(0.70 0.20 270);
+  --sidebar-primary: oklch(0.7 0.2 270);
   --sidebar-primary-foreground: oklch(0.98 0.01 270);
   --sidebar-accent: oklch(0.25 0.08 270);
   --sidebar-accent-foreground: oklch(0.97 0.02 270);
-  --sidebar-border: oklch(0.20 0.04 270);
-  --sidebar-ring: oklch(0.70 0.20 270);
-  --myred: #483AA0;
-  --myred-secondary: #7965C1;
-  --myred-dark: #3B2D82;
+  --sidebar-border: oklch(0.2 0.04 270);
+  --sidebar-ring: oklch(0.7 0.2 270);
+  --myred: #483aa0;
+  --myred-secondary: #7965c1;
+  --myred-dark: #3b2d82;
 }
 
 * {
@@ -364,9 +364,6 @@ body::before {
   animation: marquee 30s linear infinite;
 }
 
-
-
-
 /* section 1 animations */
 /* Add these to your existing CSS */
 @keyframes float {
@@ -408,7 +405,7 @@ body::before {
 
 /* Text shine effect */
 .text-shine {
-  background: linear-gradient(90deg, #7965C1, #FFFFFF, #7965C1);
+  background: linear-gradient(90deg, #7965c1, #ffffff, #7965c1);
   background-size: 200% auto;
   color: transparent;
   -webkit-background-clip: text;
@@ -424,7 +421,8 @@ body::before {
 
 /* Pulse animation */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -435,9 +433,6 @@ body::before {
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
-
-
-
 
 /* loading.tsx */
 @keyframes spin {
@@ -459,7 +454,8 @@ body::before {
 }
 
 @keyframes bounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -478,11 +474,6 @@ body::before {
 .animation-delay-300 {
   animation-delay: 300ms;
 }
-
-
-
-
-
 
 /* scroll */
 .custom-scrollbar::-webkit-scrollbar {

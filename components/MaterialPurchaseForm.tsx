@@ -1,20 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { FaArrowRight, FaBook, FaCheckCircle, FaMobileAlt, FaSpinner } from "react-icons/fa";
+import { submitMaterialPayment } from "@/actions/submitMaterialPayment";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
+import {
+  FaArrowRight,
+  FaCheckCircle,
+  FaMobileAlt,
+  FaSpinner,
+} from "react-icons/fa";
 import { MdPayment, MdVerified } from "react-icons/md";
 import { RiLoader4Fill } from "react-icons/ri";
-import { submitMaterialPayment } from "@/actions/submitMaterialPayment";
-import Image from "next/image";
 
 interface MaterialPurchaseFormProps {
   materialId: string;
 }
 
-export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFormProps) {
+export default function MaterialPurchaseForm({
+  materialId,
+}: MaterialPurchaseFormProps) {
   const router = useRouter();
   const [material, setMaterial] = useState<any>(null);
   const [student, setStudent] = useState<any>(null);
@@ -105,7 +112,9 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
           <h2 className="text-2xl font-bold text-gray-100 mb-2">
             Loading Material Details
           </h2>
-          <p className="text-gray-400 mb-6">Preparing your purchase experience</p>
+          <p className="text-gray-400 mb-6">
+            Preparing your purchase experience
+          </p>
           <div className="w-full bg-gray-700 rounded-full h-2.5">
             <div className="bg-myred h-2.5 rounded-full animate-pulse w-3/4"></div>
           </div>
@@ -235,42 +244,40 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
   }, {});
 
   return (
-    <main className="w-full min-h-screen pb-12 pt-30 bg-gradient-to-br from-gray-900 to-gray-800">
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-700">
-          {/* Material Info Header */}
-          <div className="flex flex-col md:flex-row border-b border-gray-700">
-            <div className="relative w-full md:w-2/5 aspect-video bg-gray-900 flex items-center justify-center">
-              <FaBook className="text-myred-secondary text-6xl" />
-              <div className="absolute bottom-4 left-4">
-                <span className="bg-myred text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Purchase Now
-                </span>
-              </div>
+    <main className="w-full pt-[100px] min-h-screen bg-gray-900 py-12">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-700">
+          {/* Material Info - Left */}
+          <div className="relative p-4 bg-gray-900">
+            {/* Material Image */}
+            <div className="w-full relative">
+              <img
+                src={material?.image || "/default-material.png"}
+                alt={material?.title || "Material"}
+                className="object-contain w-full rounded-lg shadow-lg"
+              />
             </div>
-            <div className="p-6 md:w-3/5">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-100 mb-2">
-                    {material?.title || "Material Purchase"}
-                  </h1>
-                  <p className="text-gray-400 mb-4">
-                    Complete your purchase by making the payment
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 mt-4">
-                <div className="bg-gradient-to-r from-myred-dark to-myred text-white px-4 py-2 rounded-lg shadow-md">
-                  <span className="font-bold text-lg">
-                    ৳{material?.price || "0"}
-                  </span>
-                </div>
-              </div>
+
+            <h1 className="text-3xl font-bold text-gray-100 mb-3 text-center">
+              {material?.title || "Material Purchase"}
+            </h1>
+            <p className="text-gray-400 text-center mb-6">
+              Complete your purchase by making the payment below
+            </p>
+
+            <div className="bg-gradient-to-r from-myred-dark to-myred text-white px-6 py-3 rounded-full text-xl font-semibold shadow-md">
+              ৳{material?.price || "0"}
+            </div>
+
+            <div className="absolute bottom-6 left-6">
+              <span className="bg-myred text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                Purchase Now
+              </span>
             </div>
           </div>
 
-          {/* Payment Form */}
-          <div className="p-6 md:p-8">
+          {/* Payment Form - Right */}
+          <div className="p-8 md:p-12 bg-gray-800">
             {state.message && !state.success && (
               <div className="mb-6 p-4 bg-red-900/20 border border-red-700/50 text-red-400 rounded-lg">
                 {state.message}
@@ -296,83 +303,61 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
               />
 
               {/* Payment Instructions */}
-              <div className="mb-6 p-4 bg-myred-dark/10 border border-myred-dark/30 rounded-lg">
+              <div className="p-4 bg-myred-dark/10 border border-myred-dark/30 rounded-lg">
                 <h3 className="text-lg font-semibold text-gray-100 mb-2">
                   Payment Instructions
                 </h3>
                 <p className="text-gray-400 mb-2">
-                  Please send the payment of ৳{material?.price} to the following
-                  number using bKash or Nagad:
+                  Send ৳{material?.price} to the number below via bKash or
+                  Nagad:
                 </p>
                 <div className="flex items-center gap-2 text-myred-secondary font-medium">
                   <FaMobileAlt className="text-xl" />
                   <span>+880 1724-304107</span>
                 </div>
                 <p className="text-gray-400 mt-2">
-                  After making the payment, enter your mobile number and the
-                  Transaction ID in the form below.
+                  After payment, enter your mobile number and transaction ID
+                  below.
                 </p>
               </div>
 
-              {/* Payment Method Section */}
+              {/* Payment Method */}
               <div>
-                <label
-                  htmlFor="paymentMethod"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Payment Method <span className="text-red-400">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <input
-                      type="radio"
-                      id="bkash"
-                      name="paymentMethod"
-                      value="bkash"
-                      className="sr-only peer"
-                      required
-                    />
-                    <label
-                      htmlFor="bkash"
-                      className="flex flex-col items-center p-4 border-2 border-gray-700 rounded-xl cursor-pointer hover:border-myred-secondary peer-checked:border-myred-secondary peer-checked:bg-myred-dark/20 transition-all duration-200"
-                    >
-                      <div className="relative w-20 h-8 mb-2">
-                        <Image
-                          src="/Bkash.PNG"
-                          alt="Bkash Logo"
-                          width={80}
-                          height={32}
-                          className="object-contain"
-                        />
-                      </div>
-                      <span className="text-sm text-gray-400">Bkash</span>
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="nagad"
-                      name="paymentMethod"
-                      value="nagad"
-                      className="sr-only peer"
-                      required
-                    />
-                    <label
-                      htmlFor="nagad"
-                      className="flex flex-col items-center p-4 border-2 border-gray-700 rounded-xl cursor-pointer hover:border-myred-secondary peer-checked:border-myred-secondary peer-checked:bg-myred-dark/20 transition-all duration-200"
-                    >
-                      <div className="relative w-20 h-8 mb-2">
-                        <Image
-                          src="/Nagad.PNG"
-                          alt="Nagad Logo"
-                          width={80}
-                          height={32}
-                          className="object-contain"
-                        />
-                      </div>
-                      <span className="text-sm text-gray-400">Nagad</span>
-                    </label>
-                  </div>
+                  {["bkash", "nagad"].map((method) => (
+                    <div key={method}>
+                      <input
+                        type="radio"
+                        id={method}
+                        name="paymentMethod"
+                        value={method}
+                        className="sr-only peer"
+                        required
+                      />
+                      <label
+                        htmlFor={method}
+                        className="flex flex-col items-center p-4 border-2 border-gray-700 rounded-xl cursor-pointer hover:border-myred-secondary peer-checked:border-myred-secondary peer-checked:bg-myred-dark/20 transition-all duration-200"
+                      >
+                        <div className="relative w-20 h-8 mb-2">
+                          <Image
+                            src={`/${
+                              method.charAt(0).toUpperCase() + method.slice(1)
+                            }.PNG`}
+                            alt={`${method} Logo`}
+                            width={80}
+                            height={32}
+                            className="object-contain"
+                          />
+                        </div>
+                        <span className="text-sm text-gray-400 capitalize">
+                          {method}
+                        </span>
+                      </label>
+                    </div>
+                  ))}
                 </div>
                 {errorMap.paymentMethod && (
                   <p className="mt-2 text-sm text-red-400">
@@ -382,11 +367,9 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Mobile Number */}
                 <div>
-                  <label
-                    htmlFor="mobileNumber"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Your Mobile Number <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
@@ -409,11 +392,9 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
                   )}
                 </div>
 
+                {/* Transaction ID */}
                 <div>
-                  <label
-                    htmlFor="transactionId"
-                    className="block text-sm font-medium text-gray-300 mb-2"
-                  >
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Transaction ID <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
@@ -437,11 +418,9 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
                 </div>
               </div>
 
+              {/* Amount */}
               <div>
-                <label
-                  htmlFor="amount"
-                  className="block text-sm font-medium text-gray-300 mb-2"
-                >
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Amount Paid (BDT) <span className="text-red-400">*</span>
                 </label>
                 <div className="relative">
@@ -463,6 +442,7 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
                 )}
               </div>
 
+              {/* Terms */}
               <div className="flex items-start">
                 <input
                   id="terms"
@@ -483,6 +463,7 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
                 <p className="mt-2 text-sm text-red-400">{errorMap.terms}</p>
               )}
 
+              {/* Submit */}
               <button
                 type="submit"
                 className={`w-full bg-gradient-to-r from-myred-dark to-myred text-white py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 ${
@@ -511,6 +492,3 @@ export default function MaterialPurchaseForm({ materialId }: MaterialPurchaseFor
     </main>
   );
 }
-
-
-

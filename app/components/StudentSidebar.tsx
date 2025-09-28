@@ -2,9 +2,14 @@
 import { deleteStudentCookies } from "@/actions/deleteStudentCookies";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaBook, FaChartLine, FaSignOutAlt, FaTimes, FaUsers } from "react-icons/fa";
+import {
+  FaBook,
+  FaChartLine,
+  FaSignOutAlt,
+  FaTimes,
+  FaUsers,
+} from "react-icons/fa";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { MdOutlineClass } from "react-icons/md";
 import { RiLiveFill } from "react-icons/ri";
 import { SiGoogleclassroom } from "react-icons/si";
 import { useStudentContext } from "../dashboard/context/StudentContext";
@@ -27,8 +32,8 @@ export function StudentSidebar({
       icon: <FaChartLine className="mr-3" />,
     },
     {
-      name: "Live Class",
-      href: "/dashboard/live-class",
+      name: "Class",
+      href: "/dashboard/class",
       icon: <RiLiveFill className="mr-3" />,
     },
     {
@@ -40,11 +45,6 @@ export function StudentSidebar({
       name: "Courses & Content",
       href: "/dashboard/enrolled-courses",
       icon: <FaUsers className="mr-3" />,
-    },
-    {
-      name: "Free Classes",
-      href: "/dashboard/free-classes",
-      icon: <MdOutlineClass className="mr-3" />,
     },
     {
       name: "Materials",
@@ -66,7 +66,7 @@ export function StudentSidebar({
   return (
     <div
       className={`
-        bg-gray-800 text-white p-4 z-50 w-64
+        bg-gray-800 text-white p-4 z-50 w-[40vh]
         h-screen fixed left-0 top-0 transform transition-transform duration-300 ease-in-out
         ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
       `}

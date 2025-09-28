@@ -87,8 +87,6 @@ export function ClassModal({
     handleSubmit(e, formData);
   };
 
-  console.log(formData);
-
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>

@@ -25,7 +25,7 @@ export default async function StudentDashboard() {
   const cards = [
     {
       title: "Join Live Class",
-      path: "/dashboard/live-class",
+      path: "/dashboard/class",
       icon: <FaChalkboardTeacher className="text-3xl text-blue-600" />,
       bgColor: "bg-gradient-to-br from-blue-50 to-blue-100",
       borderColor: "border-blue-200",
@@ -39,7 +39,7 @@ export default async function StudentDashboard() {
     },
     {
       title: "Free Classes",
-      path: "/dashboard/free-classes",
+      path: "/dashboard/class",
       icon: <FaVideo className="text-3xl text-green-600" />,
       bgColor: "bg-gradient-to-br from-green-50 to-green-100",
       borderColor: "border-green-200",

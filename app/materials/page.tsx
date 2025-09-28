@@ -1,115 +1,103 @@
+"use client";
 
 import Link from "next/link";
-import { FaBook, FaExclamationTriangle } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 
-// Define the Material type based on the Mongoose schema
 interface Material {
   _id: string;
   title: string;
   price: string;
+  image?: string; // Optional thumbnail
   createdAt: string;
 }
 
 export default async function Materials() {
-  // Fetch materials server-side
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
   let materials: Material[] = [];
   let error: string | null = null;
 
   try {
     const response = await fetch(`${serverUrl}/api/get-materials`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store"
+      headers: { "Content-Type": "application/json" },
+      cache: "no-store",
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const data = await response.json();
-    if (!data.success) {
+    if (!data.success)
       throw new Error(data.message || "Failed to fetch materials");
-    }
 
     materials = data.materials || [];
   } catch (err) {
     error = err instanceof Error ? err.message : "Error fetching materials";
   }
 
-  // Error state
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-destructive">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-red-600">
         <FaExclamationTriangle className="text-5xl mb-4 animate-pulse" />
         <p className="text-xl font-semibold mb-2">Error loading materials</p>
-        <p className="text-sm">{error}</p>
+        <p className="text-sm opacity-80">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-12 font-questrial pt-30 lg:pt-20">
-      <div className="bg-card rounded-xl shadow-lg mb-8 border border-border animate-fade-in">
-        <div className="bg-myred p-8 text-card-foreground rounded-t-xl">
-          <h1 className="text-3xl md:text-4xl font-bold flex items-center gap-3">
-            <FaBook className="text-4xl glow" />
-            <span className="text-shine">All Materials</span>
-          </h1>
-          <p className="mt-3 text-lg opacity-90">
-            Browse all available learning materials
-          </p>
-        </div>
-
-        <div className="p-8">
-          {materials.length === 0 ? (
-            <div className="text-center py-16 bg-muted rounded-xl animate-fade-in">
-              <FaBook className="mx-auto text-6xl text-muted-foreground mb-4 animate-float" />
-              <h3 className="text-2xl font-semibold text-card-foreground mb-3">
-                No materials available
-              </h3>
-              <p className="text-muted-foreground">
-                Check back later for new learning materials.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {materials.map((material) => (
+    <div className="bg-white pt-[100px]">
+      <div className="container mx-auto px-4 py-12 pb-[100px] font-questrial">
+        {/* Bookshelf layout */}
+        <div className="space-y-24">
+          {Array.from({ length: Math.ceil(materials.length / 4) }).map(
+            (_, shelfIndex) => (
+              <div key={shelfIndex} className="relative">
+                {/* Shelf shadow bar */}
                 <div
-                  key={material._id}
-                  className="border border-border rounded-xl overflow-hidden bg-card hover:shadow-xl transition-all duration-300 animate-fade-in"
-                >
-                  <div className="relative h-32 bg-muted">
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                      <FaBook className="text-4xl glow" />
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="bg-myred/10 p-2 rounded-full text-myred">
-                        <FaBook className="text-lg" />
-                      </div>
-                      <h3 className="font-semibold text-lg truncate text-card-foreground">
-                        {material.title}
-                      </h3>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-myred font-medium text-sm">
-                        ৳ {material.price}
-                      </span>
+                  style={{
+                    boxShadow: "0 20px 50px 10px black",
+                  }}
+                  className="absolute -bottom-5 left-0 right-0 h-10 bg-gray-300 rounded-b-lg rounded-t-sm"
+                ></div>
+
+                {/* Books row */}
+                <div className="grid grid-cols-2 px-5 sm:grid-cols-3 md:grid-cols-4 gap-6 relative z-10">
+                  {materials
+                    .slice(shelfIndex * 4, shelfIndex * 4 + 4)
+                    .map((material) => (
                       <Link
+                        key={material._id}
                         href={`/materials/${material._id}`}
-                        className="px-4 py-2 bg-myred text-primary-foreground rounded-lg hover:bg-myred-secondary transition-colors text-sm font-medium"
-                        aria-label={`View ${material.title} material`}
+                        className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-2 flex flex-col items-center overflow-hidden"
                       >
-                        View Material
+                        {/* Cover image */}
+                        <div className="w-full bg-gray-100 flex items-center justify-center">
+                          {material.image ? (
+                            <img
+                              src={material.image}
+                              alt={material.title}
+                              className="w-full h-[200px] object-cover"
+                            />
+                          ) : (
+                            <span className="text-gray-400 text-lg">
+                              📘 No Cover
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Title + Price */}
+                        <div className="p-4 text-center">
+                          <h3 className="text-base font-semibold text-gray-900 truncate">
+                            {material.title}
+                          </h3>
+                          <p className="text-red-600 font-medium mt-1">
+                            ৳ {material.price}
+                          </p>
+                        </div>
                       </Link>
-                    </div>
-                  </div>
+                    ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )
           )}
         </div>
       </div>

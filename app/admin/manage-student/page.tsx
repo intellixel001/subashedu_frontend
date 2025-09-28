@@ -2,9 +2,8 @@
 import { StudentModal } from "@/app/components/StudentModal";
 import { StudentTableSkeleton } from "@/app/components/StudentSkeleton";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 
@@ -29,7 +28,10 @@ interface Student {
 export default function ManageStudentPage() {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
-  
+  const [selectedCourse, setSelectedCourse] = useState<string>("");
+  const [selectedClass, setSelectedClass] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("");
+
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,6 +57,8 @@ export default function ManageStudentPage() {
   const [studentToDelete, setStudentToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const isModalClosed = isModalOpen === false;
+  const [allcourses, setAllCourses] = useState<any[]>([]);
+  const [allclasses, setAllClasses] = useState<any[]>([]);
 
   useEffect(() => {
     async function getStudents() {
@@ -73,7 +77,9 @@ export default function ManageStudentPage() {
 
         // Check if response is OK
         if (!response.ok) {
-          throw new Error(`Student fetch failed: ${response.status} ${response.statusText}`);
+          throw new Error(
+            `Student fetch failed: ${response.status} ${response.statusText}`
+          );
         }
 
         // Parse JSON response
@@ -81,15 +87,26 @@ export default function ManageStudentPage() {
         try {
           result = await response.json();
         } catch (error) {
-          throw new Error("Received non-JSON response from student API: ", error);
+          throw new Error(
+            "Received non-JSON response from student API: ",
+            error
+          );
         }
 
         // Validate response structure
-        if (!result || typeof result !== "object" || !Array.isArray(result.data)) {
+        if (
+          !result ||
+          typeof result !== "object" ||
+          !Array.isArray(result.data)
+        ) {
           throw new Error("Invalid response structure from student API");
         }
 
+        console.log(result.data);
+
         setStudents(result.data);
+        setAllCourses(result.courses);
+        setAllClasses(result.classess);
       } catch (error) {
         console.error("Error fetching students:", error);
         setStudents([]); // Ensure students is an array on error
@@ -101,13 +118,34 @@ export default function ManageStudentPage() {
   }, [isModalClosed]);
 
   const filteredStudents = (Array.isArray(students) ? students : []).filter(
-    (student) =>
-      student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    (student) => {
+      // Search filter
+      const matchesSearch =
+        student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.registrationNumber
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+      // Course filter
+      const matchesCourse =
+        !selectedCourse || student.enrolledCourses?.includes(selectedCourse);
+
+      // Class filter
+      const matchesClass =
+        !selectedClass || student.classes?.includes(selectedClass);
+
+      // Type filter
+      const matchesType =
+        !selectedType || student.educationLevel.toLowerCase() === selectedType;
+
+      return matchesSearch && matchesCourse && matchesClass && matchesType;
+    }
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -118,38 +156,38 @@ export default function ManageStudentPage() {
   const handleSubmit = async (e: React.FormEvent, photoFile?: File) => {
     e.preventDefault();
     setSubmittingLoading(true);
-  
+
     try {
       const endpoint = currentStudent
         ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/update-student`
         : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/create-student`;
-  
+
       const formDataToSend = new FormData();
-  
+
       // Append all fields
       Object.entries(formData).forEach(([key, value]) => {
         if (value) formDataToSend.append(key, value);
       });
-  
+
       // For updates, password is optional
       if (currentStudent && !formData.password) {
         formDataToSend.delete("password");
         formDataToSend.delete("confirmPassword");
       }
-  
+
       // Only append the file if it exists
       if (photoFile) {
         formDataToSend.append("avatar", photoFile);
       }
-  
+
       const response = await fetch(endpoint, {
         method: "POST",
         credentials: "include",
         body: formDataToSend,
       });
-  
+
       const result = await response.json();
-  
+
       if (result.success) {
         setStudents((prev) =>
           currentStudent
@@ -313,6 +351,48 @@ export default function ManageStudentPage() {
           onChange={(e) => setSearchTerm(e.target.value)}
           disabled={loading}
         />
+      </div>
+
+      <div className="mb-6 flex text-black flex-wrap gap-4 items-center">
+        {/* Course Filter */}
+        <select
+          value={selectedCourse}
+          onChange={(e) => setSelectedCourse(e.target.value)}
+          className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
+        >
+          <option value="">All Courses</option>
+          {allcourses?.map((course: any) => (
+            <option key={course._id} value={course._id}>
+              {course.title}
+            </option>
+          ))}
+        </select>
+
+        {/* Class Filter */}
+        <select
+          value={selectedClass}
+          onChange={(e) => setSelectedClass(e.target.value)}
+          className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
+        >
+          <option value="">All Classes</option>
+          {allclasses?.map((cls: any) => (
+            <option key={cls._id} value={cls._id}>
+              {cls.title}
+            </option>
+          ))}
+        </select>
+
+        {/* Type Filter (Education Level / Custom) */}
+        <select
+          value={selectedType}
+          onChange={(e) => setSelectedType(e.target.value)}
+          className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
+        >
+          <option value="">All Types</option>
+          <option value="ssc">SSC</option>
+          <option value="hsc">HSC</option>
+          {/* Add more options if needed */}
+        </select>
       </div>
 
       {/* Student table */}
@@ -479,8 +559,9 @@ export default function ManageStudentPage() {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to delete this student record? This action
-                      cannot be undone and all associated data will be permanently removed.
+                      Are you sure you want to delete this student record? This
+                      action cannot be undone and all associated data will be
+                      permanently removed.
                     </p>
                   </div>
 

@@ -1,8 +1,8 @@
-import PDFViewer from "@/app/components/PDFViewer";
 import { getSingleMetarials } from "@/app/globalapi/getapi";
 import MaterialPurchaseForm from "@/components/MaterialPurchaseForm";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import SendToLogin from "./SendToLogin";
+import SendToPDF from "./SendToPDF";
 
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
@@ -25,14 +25,9 @@ export default async function PDFReader({
   }
 
   if (!studentObject) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        Student not found
-      </div>
-    );
+    return <SendToLogin />;
   }
-
-  const student = studentObject.data.student;
+  const student = studentObject?.data.student || null;
   if (!student) {
     return <SendToLogin />;
   }
@@ -42,5 +37,5 @@ export default async function PDFReader({
     return <MaterialPurchaseForm materialId={id} />;
   }
 
-  return <PDFViewer apiData={apiData?.data} />;
+  return <SendToPDF id={apiData?._id} />;
 }

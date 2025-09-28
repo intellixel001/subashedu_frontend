@@ -11,7 +11,7 @@ export default async function CoursesPage() {
   return (
     <main className="w-full min-h-screen bg-gray-900 pt-20">
       {/* Our Courses Section */}
-      <section className="py-12 px-2 md:px-4 lg:px-16 bg-transparent">
+      <section className="py-12 px-2 hidden md:px-4 lg:px-16 bg-transparent">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-3xl text-center uppercase text-myred-secondary font-bold mb-8">
             Our Courses
