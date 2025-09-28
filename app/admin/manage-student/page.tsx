@@ -34,6 +34,8 @@ interface Student {
   guardianPhone: string;
   sscYear: string;
   hscYear: string;
+  enrolledCourses?: string[];
+  classes?: string[];
 }
 
 export default function ManageStudentPage() {
