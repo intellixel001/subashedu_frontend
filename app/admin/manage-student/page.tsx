@@ -402,7 +402,6 @@ export default function ManageStudentPage() {
           <option value="">All Types</option>
           <option value="ssc">SSC</option>
           <option value="hsc">HSC</option>
-          {/* Add more options if needed */}
         </select> */}
       </div>
 
