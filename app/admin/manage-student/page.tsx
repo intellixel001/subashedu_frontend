@@ -7,6 +7,17 @@ import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 
+interface Course {
+  _id: string;
+  title: string;
+}
+
+interface Class {
+  _id: string;
+  title: string;
+  courseId?: string;
+}
+
 interface Student {
   _id: string;
   fullName: string;
@@ -57,8 +68,8 @@ export default function ManageStudentPage() {
   const [studentToDelete, setStudentToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const isModalClosed = isModalOpen === false;
-  const [allcourses, setAllCourses] = useState<any[]>([]);
-  const [allclasses, setAllClasses] = useState<any[]>([]);
+  const [allcourses, setAllCourses] = useState<Course[]>([]);
+  const [allclasses, setAllClasses] = useState<Class[]>([]);
 
   useEffect(() => {
     async function getStudents() {
@@ -361,7 +372,7 @@ export default function ManageStudentPage() {
           className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
         >
           <option value="">All Courses</option>
-          {allcourses?.map((course: any) => (
+          {allcourses.map((course) => (
             <option key={course._id} value={course._id}>
               {course.title}
             </option>
@@ -375,7 +386,7 @@ export default function ManageStudentPage() {
           className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
         >
           <option value="">All Classes</option>
-          {allclasses?.map((cls: any) => (
+          {allclasses.map((cls) => (
             <option key={cls._id} value={cls._id}>
               {cls.title}
             </option>
@@ -383,7 +394,7 @@ export default function ManageStudentPage() {
         </select>
 
         {/* Type Filter (Education Level / Custom) */}
-        <select
+        {/* <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
           className="px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#f7374f]"
@@ -392,7 +403,7 @@ export default function ManageStudentPage() {
           <option value="ssc">SSC</option>
           <option value="hsc">HSC</option>
           {/* Add more options if needed */}
-        </select>
+        </select> */}
       </div>
 
       {/* Student table */}
