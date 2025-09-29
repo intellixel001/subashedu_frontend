@@ -24,6 +24,30 @@ export const getPublicSingleCourse = async (courseId: string | number) => {
   }
 };
 
+export const getPublicCourseByType = async (coursetype: string | number) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/get-course-bytype/${coursetype}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch course");
+    }
+
+    const json = await res.json();
+    console.log(json);
+
+    return json.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getSingleMetarials = async (id: string | number) => {
   try {
     const cookieStore = await cookies(); // ✅ this is server-safe

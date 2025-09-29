@@ -1,4 +1,5 @@
 import { getPublicSingleCourse } from "@/app/globalapi/getapi";
+import SendToLogin from "@/app/materials/[id]/SendToLogin";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import AlreadyPurchased from "./AlreadyPurchased";
 import Purchase from "./Purchase";
@@ -10,6 +11,12 @@ export default async function EnrollmentPage({
 }) {
   const { id: courseId } = await params;
   const studentObject = await getCurrentStudent();
+
+  console.log({ studentObject });
+
+  if (!studentObject) {
+    return <SendToLogin />;
+  }
 
   const course = await getPublicSingleCourse(courseId);
   if (!course)
