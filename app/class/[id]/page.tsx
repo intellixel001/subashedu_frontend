@@ -14,7 +14,7 @@ export default async function Page({
   const { id } = await params;
 
   const studentObject = await getCurrentStudent();
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
 
   if (!studentObject?.data) {
