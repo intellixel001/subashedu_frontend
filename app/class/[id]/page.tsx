@@ -6,8 +6,12 @@ import { cookies } from "next/headers";
 import RedirectToCourse from "./RedirectToCourse";
 import ViewClass from "./ViewClass";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
   const studentObject = await getCurrentStudent();
   const cookieStore = cookies();
