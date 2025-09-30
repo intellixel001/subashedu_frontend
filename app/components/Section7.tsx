@@ -187,7 +187,7 @@ export default function Section7() {
                   href={`/class/${freeClass._id}`}
                   className="inline-flex items-center bg-myred-dark text-white px-4 py-2 rounded-full hover:bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm"
                 >
-                  <FaPlayCircle className="mr-2" /> Let's Go
+                  <FaPlayCircle className="mr-2" /> Let&apos;s Go
                 </Link>
               </div>
             </div>
