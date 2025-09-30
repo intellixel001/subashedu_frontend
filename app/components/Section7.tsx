@@ -3,17 +3,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaPlayCircle, FaVideoSlash } from "react-icons/fa";
 
-interface FreeClass {
+export interface FreeClass {
   _id: string;
   title: string;
   subject: string;
   videoLink?: string;
   instructor?: string;
+  instructorId?: string;
   classFor?: "hsc" | "ssc" | "job" | "admission";
+  courseId?: string;
+  courseType?: "hsc" | "ssc" | "job" | "admission";
+  billingType?: "free" | "paid";
   createdAt?: string;
+  updatedAt?: string;
   type: "live" | "recorded";
   startTime?: string;
   image?: string;
+  isActiveLive?: boolean;
+  __v?: number;
 }
 
 export default function Section7() {
@@ -78,28 +85,33 @@ export default function Section7() {
   }, [freeClasses]);
 
   const renderBadge = (freeClass: FreeClass) => {
-    if (freeClass.type === "live" && freeClass.startTime) {
-      if (countdowns[freeClass._id] === "LIVE") {
+    if (freeClass.type?.toLowerCase() === "live" && freeClass.startTime) {
+      const now = new Date().getTime();
+      const start = new Date(freeClass.startTime).getTime();
+
+      if (start > now) {
+        // future → countdown
         return (
-          <span className="absolute top-3 right-3 bg-red-600 text-white text-xs px-2 py-1 rounded-full animate-pulse">
+          <span className="absolute top-3 right-3 bg-yellow-500 text-white text-[25px] px-10 py-3 rounded-full animate-pulse">
+            Starts in {countdowns[freeClass._id] || "Loading..."}
+          </span>
+        );
+      } else {
+        // already started → live now
+        return (
+          <span className="absolute top-3 right-3 bg-red-600 text-white text-[25px] px-10 py-3 rounded-full animate-pulse">
             Live Now
           </span>
         );
       }
-      return (
-        <span className="absolute top-3 right-3 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">
-          Starts in {countdowns[freeClass._id] || "Loading..."}
-        </span>
-      );
     }
-    if (freeClass.type === "recorded") {
-      return (
-        <span className="absolute top-3 right-3 bg-gray-600 text-white text-xs px-2 py-1 rounded-full">
-          Was Live
-        </span>
-      );
-    }
-    return null;
+
+    // anything not live → normal watch
+    return (
+      <span className="absolute top-3 right-3 bg-gray-600 text-white text-[25px] px-10 py-3 rounded-full">
+        Watch Now
+      </span>
+    );
   };
 
   const renderSkeletons = () => (
@@ -172,21 +184,11 @@ export default function Section7() {
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Link
-                  href={`/dashboard/free-classes/${freeClass._id}`}
+                  href={`/class/${freeClass._id}`}
                   className="inline-flex items-center bg-myred-dark text-white px-4 py-2 rounded-full hover:bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm"
                 >
-                  <FaPlayCircle className="mr-2" /> Watch Now
+                  <FaPlayCircle className="mr-2" /> Let's Go
                 </Link>
-                {freeClass.videoLink && (
-                  <a
-                    href={freeClass.videoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm"
-                  >
-                    <FaPlayCircle className="mr-2" /> Watch on YouTube
-                  </a>
-                )}
               </div>
             </div>
           </div>
@@ -201,7 +203,7 @@ export default function Section7() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-myred-secondary uppercase mb-4">
           Watch Our Free Classes
         </h2>
-        <p className="text-gray-400 text-sm sm:text-base">
+        <p className="text-gray-400 text-sm pb-2 sm:text-base">
           Explore valuable topics and learn at your own pace with these free
           sessions. Click the buttons below to access full content.
         </p>

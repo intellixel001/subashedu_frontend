@@ -40,9 +40,37 @@ export const getPublicCourseByType = async (coursetype: string | number) => {
     }
 
     const json = await res.json();
-    console.log(json);
 
     return json.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getSingleClassById = async (
+  id: string,
+  token: string | number
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/get-single-class/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch course");
+    }
+
+    const json = await res.json();
+
+    return json;
   } catch (error) {
     console.error(error);
   }

@@ -115,8 +115,6 @@ export default function ManageStudentPage() {
           throw new Error("Invalid response structure from student API");
         }
 
-        console.log(result.data);
-
         setStudents(result.data);
         setAllCourses(result.courses);
         setAllClasses(result.classess);

@@ -12,8 +12,7 @@ export default async function EnrollmentPage({
   const { id: courseId } = await params;
   const studentObject = await getCurrentStudent();
 
-  console.log({ studentObject });
-
+ 
   if (!studentObject) {
     return <SendToLogin />;
   }
