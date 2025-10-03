@@ -90,7 +90,7 @@ export default function LiveClassClient({ liveClass }: { liveClass: Class }) {
             className="w-full h-[60vh] rounded-lg shadow-lg border border-red-500"
           >
             <source
-              src={liveClass.hlsUrl}
+              src={liveClass.videoLink}
               type="application/vnd.apple.mpegurl"
             />
             Your browser does not support HLS.
