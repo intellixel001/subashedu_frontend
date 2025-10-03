@@ -17,7 +17,7 @@ export default function AdminDashboardLayout({
 
         {/* Main content */}
         <AdminDashboardProvider>
-          <main className="flex-1 px-2 py-4 md:px-4 md:py-6 lg:p-6 bg-gray-100 min-h-screen overflow-y-auto lg:ml-64">
+          <main className="flex-1 bg-gray-100 min-h-screen overflow-y-auto lg:ml-64">
             {children}
             <DeveloperMessage />
           </main>

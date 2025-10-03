@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import HlsPlayer from "./HlsPlayer";
 
 export default function JoinLiveClass({
   startTime,
@@ -44,7 +45,7 @@ export default function JoinLiveClass({
   return (
     <div className="p-6 bg-gray-800 text-white rounded-2xl shadow-md text-center space-y-4">
       <h2 className="text-2xl sm:text-3xl font-bold">Live Class</h2>
-
+      <HlsPlayer src={"http://stream.intelixel.com/live/mystream.m3u8"} />
       {hasStarted ? (
         <>
           <p className="text-gray-200 text-lg">

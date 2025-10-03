@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { FaEdit, FaStop, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 interface ClassItem {
   _id: string;
@@ -105,15 +105,23 @@ const ClassesTable: React.FC<ClassesTableProps> = ({
                       </td>
                     )}
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center space-x-2">
-                      {onStopLive && cls.isLive && (
+                      {/* Go button for live classes */}
+                      {cls.type === "live" && (
                         <button
-                          onClick={() => onStopLive(cls._id)}
-                          className="text-red-600 hover:text-red-900 text-[20px]"
-                          title="Stop Live"
+                          onClick={() =>
+                            window.open(
+                              `/admin/manage-class/${cls._id}`,
+                              "_blank"
+                            )
+                          }
+                          className="text-blue-600 bg-yellow-800 px-4 cursor-pointer rounded-4xl mr-3 hover:text-blue-900 text-[20px]"
+                          title="Go to Class"
                         >
-                          <FaStop />
+                          Go Live
                         </button>
                       )}
+
+                      {/* Edit button */}
                       <button
                         onClick={() => onEdit(cls)}
                         className="text-myred hover:text-myred-dark text-[20px]"
@@ -121,6 +129,8 @@ const ClassesTable: React.FC<ClassesTableProps> = ({
                       >
                         <FaEdit />
                       </button>
+
+                      {/* Delete button */}
                       <button
                         onClick={() => onDelete(cls._id)}
                         className="text-red-600 hover:text-red-900 text-[20px]"
