@@ -10,7 +10,7 @@ export default function RedirectToCourse({ id }: { id?: string }) {
     // Optional: redirect to course page after 3 seconds
     if (id) {
       const timer = setTimeout(() => {
-        router.push(`/courses/${id}/enrollment`);
+        router.push(`/course/${id}/enrollment`);
       }, 3000);
 
       return () => clearTimeout(timer);
