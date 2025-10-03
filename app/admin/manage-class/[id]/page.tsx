@@ -7,7 +7,7 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const classId = params.id;
+  const classId = await params.id;
 
   // Get cookies
   const cookieStore = await cookies();
