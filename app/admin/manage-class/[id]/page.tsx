@@ -36,9 +36,14 @@ export default function Page({ params }: PageProps) {
         const result = await response.json();
         console.log(result);
         setLiveClass(result.liveClass); // result should have liveClass field
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error(err);
-        setError(err.message || "Something went wrong");
+
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Something went wrong");
+        }
       } finally {
         setLoading(false);
       }

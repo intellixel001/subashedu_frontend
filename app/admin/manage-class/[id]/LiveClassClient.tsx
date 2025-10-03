@@ -5,7 +5,7 @@ import { Class } from "../page";
 export default function LiveClassClient({ liveClass }: { liveClass: Class }) {
   const [now, setNow] = useState(new Date());
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const [isActive, setIsActive] = useState(liveClass.isActiveLive);
+  const [isActive] = useState(liveClass.isActiveLive);
 
   // Countdown for upcoming classes
   useEffect(() => {
