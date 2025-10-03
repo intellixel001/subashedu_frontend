@@ -38,7 +38,7 @@ const ClassesTable: React.FC<ClassesTableProps> = ({
             <thead className="bg-gray-50">
               <tr>
                 <th
-                  onClick={onStopLive}
+                  onClick={() => onStopLive("123")}
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Title
