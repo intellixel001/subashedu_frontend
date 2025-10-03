@@ -24,6 +24,7 @@ export interface Class {
   isActiveLive: boolean;
   createdAt: string;
   updatedAt: string;
+  classFor?: string;
 }
 
 export interface ClassFormData {
