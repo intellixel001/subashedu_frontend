@@ -1,22 +1,13 @@
 "use client";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-
-interface ClassItem {
-  _id: string;
-  title: string;
-  subject?: string;
-  instructor?: string;
-  course?: { title: string; courseFor?: string }; // optional
-  classFor?: string; // for free classes
-  isLive?: boolean; // for live classes
-}
+import { Class } from "./page";
 
 interface ClassesTableProps {
   title: string;
-  classes?: ClassItem[]; // can be undefined
+  classes?: Class[]; // can be undefined
   loading: boolean;
-  onEdit: (cls: ClassItem) => void;
+  onEdit: (cls: Class) => void;
   onDelete: (id: string) => void;
   onStopLive?: (id: string) => void; // only for live classes
 }
