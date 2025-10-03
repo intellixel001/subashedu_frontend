@@ -2,12 +2,12 @@ import { cookies } from "next/headers";
 import { Class } from "../page";
 import LiveClassClient from "./LiveClassClient";
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default async function Page({ params }: PageProps) {
-  const classId = await params.id;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id: classId } = await params;
 
   // Get cookies
   const cookieStore = await cookies();
