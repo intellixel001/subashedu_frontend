@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Class } from "../page";
 import LiveClassClient from "./LiveClassClient";
 
-interface PageProps {
-  params: { id: string };
-}
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id: classId } = await params;
 
-export default function Page({ params }: PageProps) {
-  const classId = params?.id;
   const [liveClass, setLiveClass] = useState<Class | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
