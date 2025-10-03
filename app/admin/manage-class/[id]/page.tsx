@@ -1,46 +1,39 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { cookies } from "next/headers";
 import { Class } from "../page";
 import LiveClassClient from "./LiveClassClient";
 
 interface PageProps {
-  params: { id: string }; // plain object
+  params: { id: string };
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const classId = params.id;
 
-  const [liveClass, setLiveClass] = useState<Class | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // Get cookies
+  const cookieStore = await cookies();
+  const token = cookieStore.get("adminAccessToken")?.value;
 
-  useEffect(() => {
-    async function fetchClass() {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-class/${classId}`,
-          { credentials: "include" }
-        );
-        if (!response.ok) throw new Error("Failed to fetch class data");
+  console.log(token);
+  if (!token) {
+    throw new Error("User is not authenticated");
+  }
 
-        const result = await response.json();
-        setLiveClass(result.liveClass);
-      } catch (err: unknown) {
-        if (err instanceof Error) setError(err.message);
-        else setError("Something went wrong");
-      } finally {
-        setLoading(false);
-      }
+  // Fetch class data with Bearer token
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-class/${classId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store", // always fetch fresh
     }
+  );
 
-    fetchClass();
-  }, [classId]);
+  if (!res.ok) throw new Error("Failed to fetch class data");
 
-  if (loading) return <div>Loading class info...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!liveClass) return <div>No class found</div>;
+  const data = await res.json();
+  const liveClass: Class = data.liveClass;
 
   return (
     <div className="bg-yellow-900 min-h-screen mx-auto p-4">
