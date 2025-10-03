@@ -12,6 +12,7 @@ export interface Class {
   title: string;
   subject?: string;
   instructorId?: string;
+  instructor?: string;
   billingType?: "free" | "paid";
   courseType?: string;
   type?: "live" | "recorded";
