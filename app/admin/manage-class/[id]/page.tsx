@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { Class } from "../page";
 import LiveClassClient from "./LiveClassClient";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id: classId } = await params;
+interface PageProps {
+  params: { id: string }; // plain object
+}
+
+export default function Page({ params }: PageProps) {
+  const classId = params.id;
 
   const [liveClass, setLiveClass] = useState<Class | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchClass() {
@@ -21,30 +21,15 @@ export default async function Page({
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/get-class/${classId}`,
-          {
-            method: "GET",
-            credentials: "include", // include cookies if auth needed
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { credentials: "include" }
         );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch class data");
-        }
+        if (!response.ok) throw new Error("Failed to fetch class data");
 
         const result = await response.json();
-        console.log(result);
-        setLiveClass(result.liveClass); // result should have liveClass field
+        setLiveClass(result.liveClass);
       } catch (err: unknown) {
-        console.error(err);
-
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Something went wrong");
-        }
+        if (err instanceof Error) setError(err.message);
+        else setError("Something went wrong");
       } finally {
         setLoading(false);
       }
