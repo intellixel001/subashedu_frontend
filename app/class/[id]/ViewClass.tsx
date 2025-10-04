@@ -1,8 +1,8 @@
-import { FreeClass } from "@/app/components/Section7";
+import { Class } from "@/app/admin/manage-class/page";
 import JoinLiveClass from "./JoinLiveClass";
 import RecordedClassPlayer from "./RecordedClassPlayer";
 
-export default function ViewClass({ freeClass }: { freeClass: FreeClass }) {
+export default function ViewClass({ freeClass }: { freeClass: Class }) {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">{freeClass.title}</h1>

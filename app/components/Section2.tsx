@@ -1,11 +1,18 @@
 import { BsJournalBookmarkFill } from "react-icons/bs";
 import { GiTeacher } from "react-icons/gi";
 import { IoIosPeople } from "react-icons/io";
+import Section2Client from "./Section2Client";
 
-async function getData() {
+type StatsData = {
+  studentCount: number;
+  staffCount: number;
+  materialCount: number;
+};
+
+async function getData(): Promise<StatsData | null> {
   try {
     const res = await fetch(`${process.env.SERVER_URL}/api/get-homepage-data`, {
-      cache: 'no-store',
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -15,19 +22,19 @@ async function getData() {
     const result = await res.json();
     return result.data || null;
   } catch (err) {
-    console.error("Failed to fetch homepage data:", err.message);
+    console.error("Failed to fetch homepage data:", (err as Error).message);
     return null;
   }
 }
 
-export default async function Section2() {
+export default async function Section2Server() {
   const data = await getData();
 
   if (!data) {
     return (
-      <section className="py-6 px-4 sm:px-6 lg:px-8">
-        <div className="text-center text-gray-400">
-          Unable to load statistics at this time. Please try again later.
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+        <div className="text-center text-gray-500">
+          তথ্য লোড করতে ব্যর্থ। অনুগ্রহ করে পরে চেষ্টা করুন।
         </div>
       </section>
     );
@@ -36,47 +43,29 @@ export default async function Section2() {
   const statsCards = [
     {
       id: 1,
-      icon: <IoIosPeople className="text-4xl" />,
-      text: `${data.studentCount}+ students`,
-      description: "Join our growing community of learners",
+      icon: <IoIosPeople className="text-4xl text-white" />,
+      value: data.studentCount,
+      label: "ছাত্রছাত্রী",
+      description: "আমাদের শিক্ষার্থীদের সম্প্রদায়ে যোগ দিন",
+      gradient: "bg-gradient-to-r from-blue-400 to-purple-400",
     },
     {
       id: 2,
-      icon: <GiTeacher className="text-4xl" />,
-      text: `${data.staffCount} teachers and moderators`,
-      description: "Learn from certified experts",
+      icon: <GiTeacher className="text-4xl text-white" />,
+      value: data.staffCount,
+      label: "শিক্ষক ও মডারেটর",
+      description: "সার্টিফাইড এক্সপার্টদের থেকে শিখুন",
+      gradient: "bg-gradient-to-r from-green-400 to-teal-400",
     },
     {
       id: 3,
-      icon: <BsJournalBookmarkFill className="text-4xl" />,
-      text: `${data.materialCount}+ learning materials`,
-      description: "Comprehensive educational resources",
+      icon: <BsJournalBookmarkFill className="text-4xl text-white" />,
+      value: data.materialCount,
+      label: "শিক্ষণ উপকরণ",
+      description: "সর্বাঙ্গীণ শিক্ষামূলক সম্পদ",
+      gradient: "bg-gradient-to-r from-pink-400 to-red-400",
     },
   ];
 
-  return (
-    <section className="py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {statsCards.map((card) => (
-            <div
-              key={card.id}
-              className="group relative bg-gray-800 rounded-xl shadow-lg hover:shadow-myred/50 transition-all duration-300 overflow-hidden border border-myred/50"
-            >
-              <div className="p-8 flex flex-col items-center text-center">
-                <div className="mb-6 w-20 h-20 rounded-full bg-myred/10 text-myred-secondary flex items-center justify-center group-hover:bg-myred-secondary group-hover:text-white transition-colors duration-300">
-                  {card.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-100 mb-2">
-                  {card.text}
-                </h3>
-                <p className="text-gray-400 normal-case">{card.description}</p>
-                <div className="mt-6 w-12 h-1 bg-myred-secondary group-hover:bg-myred group-hover:w-20 transition-all duration-300"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+  return <Section2Client statsCards={statsCards} />;
 }

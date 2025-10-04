@@ -1,66 +1,63 @@
-
-import React from 'react'
-import { FaBookOpen, FaFileAlt, FaPencilRuler, FaTrophy } from 'react-icons/fa'
+import { FaBookOpen, FaFileAlt, FaPencilRuler, FaTrophy } from "react-icons/fa";
 
 export default function Section8() {
+  const features = [
+    {
+      icon: <FaBookOpen />,
+      title: "শিখুন",
+      description: "আন্তরিক শিক্ষার মাধ্যমে দক্ষতা অর্জন করুন",
+    },
+    {
+      icon: <FaPencilRuler />,
+      title: "চর্চা করুন",
+      description: "প্র্যাকটিসের মাধ্যমে নিজেকে শক্তিশালী করুন",
+    },
+    {
+      icon: <FaFileAlt />,
+      title: "পরীক্ষা",
+      description: "পরীক্ষার মাধ্যমে মূল্যায়ন করুন আপনার উন্নতি",
+    },
+    {
+      icon: <FaTrophy />,
+      title: "সাফল্য",
+      description: "সফলতার শিখরে পৌঁছান আমাদের সাহায্যে",
+    },
+  ];
+
   return (
-    <section className="text-white flex flex-col items-center justify-center px-4 sm:px-6 pt-10 pb-6 relative">
-      <div className="mb-2 text-center px-4">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide mb-2 text-myred-secondary">
-          GROW WITH US
-        </h2>
-        <p className="text-gray-400 text-base sm:text-lg md:text-xl">
-          Your journey to success starts here
-        </p>
-      </div>
-
-      <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[18rem] md:h-[18rem] lg:w-[22rem] lg:h-[22rem] mt-12">
-        <div className="absolute inset-0 rounded-full border border-myred/50 opacity-50"></div>
-
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="text-gray-100 transition rounded-full p-2 sm:p-3 text-center bg-gray-800 shadow-lg w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 flex flex-col items-center justify-center">
-            <div className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 text-myred-secondary">
-              <FaBookOpen />
-            </div>
-            <h3 className="text-xs sm:text-sm md:text-base font-semibold">
-              Learn
-            </h3>
-          </div>
+    <section className="relative py-16 px-4 sm:px-6 lg:px-20 bg-gradient-to-b from-blue-50 via-white to-blue-50 text-gray-900">
+      <div className="container mx-auto">
+        {/* Heading */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">
+            আমাদের সঙ্গে উন্নতি করুন
+          </h2>
+          <p className="text-gray-600 sm:text-lg md:text-xl max-w-2xl mx-auto">
+            আপনার শিক্ষার যাত্রা এখানে শুরু হয়, শিখুন, চর্চা করুন, পরীক্ষা দিন
+            এবং সফল হোন।
+          </p>
         </div>
 
-        <div className="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2">
-          <div className="text-gray-100 transition rounded-full p-2 sm:p-3 text-center bg-gray-800 shadow-lg w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 flex flex-col items-center justify-center">
-            <div className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 text-myred-secondary">
-              <FaPencilRuler />
+        {/* Feature Circles */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 justify-items-center items-center">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="relative flex flex-col items-center text-center group"
+            >
+              <div className="rounded-full w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex items-center justify-center bg-gradient-to-tr from-blue-500 to-teal-400 text-white text-3xl sm:text-4xl md:text-5xl shadow-lg transition-transform duration-300 group-hover:scale-110">
+                {feature.icon}
+              </div>
+              <h3 className="mt-4 text-xl sm:text-2xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                {feature.title}
+              </h3>
+              <p className="mt-2 text-gray-600 text-sm sm:text-base max-w-xs">
+                {feature.description}
+              </p>
             </div>
-            <h3 className="text-xs sm:text-sm md:text-base font-semibold">
-              Practice
-            </h3>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="text-gray-100 transition rounded-full p-2 sm:p-3 text-center bg-gray-800 shadow-lg w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 flex flex-col items-center justify-center">
-            <div className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 text-myred-secondary">
-              <FaFileAlt />
-            </div>
-            <h3 className="text-xs sm:text-sm md:text-base font-semibold">
-              Exam
-            </h3>
-          </div>
-        </div>
-
-        <div className="absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="text-gray-100 transition rounded-full p-2 sm:p-3 text-center bg-gray-800 shadow-lg w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 flex flex-col items-center justify-center">
-            <div className="text-lg sm:text-xl md:text-2xl mb-1 sm:mb-2 text-myred-secondary">
-              <FaTrophy />
-            </div>
-            <h3 className="text-xs sm:text-sm md:text-base font-semibold">
-              Success
-            </h3>
-          </div>
+          ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

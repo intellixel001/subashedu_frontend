@@ -12,7 +12,6 @@ export default async function EnrollmentPage({
   const { id: courseId } = await params;
   const studentObject = await getCurrentStudent();
 
- 
   if (!studentObject) {
     return <SendToLogin />;
   }
@@ -26,7 +25,7 @@ export default async function EnrollmentPage({
   return alreadyPurchased ? (
     <AlreadyPurchased course={course} />
   ) : (
-    <div className="bg-white py-[150px]">
+    <div className="bg-white">
       <Purchase studentObject={studentObject?.data?.student} course={course} />
     </div>
   );

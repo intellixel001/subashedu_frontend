@@ -6,12 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import {
-  FaArrowRight,
-  FaCheckCircle,
-  FaMobileAlt,
-  FaSpinner,
-} from "react-icons/fa";
+import { FaArrowRight, FaMobileAlt, FaSpinner } from "react-icons/fa";
 import { MdPayment, MdVerified } from "react-icons/md";
 import { RiLoader4Fill } from "react-icons/ri";
 
@@ -48,21 +43,16 @@ export default function MaterialPurchaseForm({
     async function fetchData() {
       setLoading(true);
       try {
-        // Fetch material details
+        // Fetch material
         const materialRes = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/get-material-for-purchase/${materialId}`,
           { cache: "no-store", credentials: "include" }
         );
-        if (!materialRes.ok) {
-          throw new Error("Failed to fetch material details");
-        }
+        if (!materialRes.ok) throw new Error("Material পাওয়া যায়নি");
         const materialResult = await materialRes.json();
-        if (!materialResult?.data) {
-          throw new Error("Material data not found");
-        }
         setMaterial(materialResult.data);
 
-        // Fetch student details
+        // Fetch student
         const studentRes = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/current-student`,
           { credentials: "include" }
@@ -72,16 +62,13 @@ export default function MaterialPurchaseForm({
             setNeedsLogin(true);
             return;
           }
-          throw new Error("Failed to fetch student details");
+          throw new Error("Student তথ্য পাওয়া যায়নি");
         }
         const studentResult = await studentRes.json();
-        if (!studentResult?.data?.student) {
-          setNeedsLogin(true);
-          return;
-        }
-        setStudent(studentResult.data.student);
+        if (!studentResult?.data?.student) setNeedsLogin(true);
+        else setStudent(studentResult.data.student);
 
-        // Check for pending payment
+        // Payment status
         const paymentRes = await fetch(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/api/student/material-payment-status/${materialId}`,
           { credentials: "include" }
@@ -101,22 +88,17 @@ export default function MaterialPurchaseForm({
 
   if (loading) {
     return (
-      <main className="w-full min-h-screen flex items-center justify-center">
-        <div className="text-center p-8 bg-gray-800 rounded-2xl shadow-xl max-w-md w-full mx-4 border border-gray-700">
+      <main className="w-full flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-lg max-w-md w-full border border-gray-200">
           <div className="flex justify-center mb-6">
-            <div className="relative w-20 h-20 animate-pulse">
-              <div className="absolute inset-0 bg-myred-dark rounded-full"></div>
-              <RiLoader4Fill className="absolute inset-0 m-auto text-myred-secondary text-3xl animate-spin" />
-            </div>
+            <RiLoader4Fill className="text-red-500 text-5xl animate-spin" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-100 mb-2">
-            Loading Material Details
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            ম্যাটেরিয়াল লোড হচ্ছে
           </h2>
-          <p className="text-gray-400 mb-6">
-            Preparing your purchase experience
-          </p>
-          <div className="w-full bg-gray-700 rounded-full h-2.5">
-            <div className="bg-myred h-2.5 rounded-full animate-pulse w-3/4"></div>
+          <p className="text-gray-500 mb-6">আপনার পারচেজ প্রস্তুত করা হচ্ছে</p>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="bg-red-500 h-2.5 rounded-full animate-pulse w-3/4"></div>
           </div>
         </div>
       </main>
@@ -125,13 +107,13 @@ export default function MaterialPurchaseForm({
 
   if (needsLogin || !student) {
     return (
-      <main className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="text-center p-8 bg-gray-800 rounded-2xl shadow-xl max-w-md w-full mx-4 border border-gray-700">
+      <main className="w-full flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-lg max-w-md w-full border border-gray-200">
           <div className="flex justify-center mb-6">
-            <div className="relative w-24 h-24 bg-gradient-to-br from-myred-dark to-myred-secondary rounded-full flex items-center justify-center">
+            <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 text-white"
+                className="h-12 w-12 text-red-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -145,19 +127,19 @@ export default function MaterialPurchaseForm({
               </svg>
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-gray-100 mb-3">
-            Login Required
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+            লগইন প্রয়োজন
           </h2>
-          <p className="text-gray-400 mb-6">
-            You need to login to purchase this material
+          <p className="text-gray-500 mb-6">
+            ম্যাটেরিয়াল ক্রয়ের জন্য লগইন করুন
           </p>
           <Link href="/login">
-            <button className="w-full bg-gradient-to-r from-myred-dark to-myred text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-myred/50">
-              Continue to Login <FaArrowRight />
+            <button className="w-full bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2">
+              লগইন করুন <FaArrowRight />
             </button>
           </Link>
-          <p className="text-sm text-gray-500 mt-4">
-            {`Don't have an account? You can register after clicking login`}
+          <p className="text-sm text-gray-400 mt-4">
+            অ্যাকাউন্ট না থাকলে লগইন করে নিবন্ধন করুন
           </p>
         </div>
       </main>
@@ -166,34 +148,30 @@ export default function MaterialPurchaseForm({
 
   if (isPaymentPending || submissionSuccess) {
     return (
-      <main className="pt-24 w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="text-center p-8 bg-gray-800 rounded-2xl shadow-xl max-w-md w-full mx-4 border border-gray-700">
+      <main className="w-full min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-lg max-w-md w-full border border-gray-200">
           <div className="flex justify-center mb-6">
-            <div className="relative w-24 h-24 bg-myred-dark/20 rounded-full flex items-center justify-center">
-              <RiLoader4Fill className="text-myred-secondary text-4xl animate-spin" />
-              <div className="absolute inset-0 border-4 border-myred-dark/30 border-t-myred-secondary rounded-full animate-spin"></div>
-            </div>
+            <RiLoader4Fill className="text-red-500 text-5xl animate-spin" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-100 mb-3">
-            Payment Verification in Progress
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+            পেমেন্ট যাচাই প্রক্রিয়াধীন
           </h2>
-          <p className="text-gray-400 mb-4">
-            {`We're verifying your payment details. This usually takes a few hours.`}
+          <p className="text-gray-500 mb-4">
+            আপনার পেমেন্ট যাচাই করা হচ্ছে। এটি কয়েক ঘণ্টা সময় নিতে পারে।
           </p>
-          <div className="bg-myred-dark/10 border border-myred-dark/30 rounded-lg p-4 mb-6">
-            <div className="flex items-center justify-center gap-2 text-myred-secondary">
-              <MdVerified className="text-xl" />
-              <span className="font-medium">Payment Under Review</span>
+          <div className="bg-red-100 border border-red-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-center gap-2 text-red-500 font-medium">
+              <MdVerified className="text-xl" /> পেমেন্ট যাচাই করা হচ্ছে
             </div>
           </div>
           <button
             onClick={() => router.push("/dashboard")}
-            className="w-full bg-gradient-to-r from-myred-dark to-myred text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 hover:shadow-myred/50"
+            className="w-full bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
           >
-            Go to Dashboard <FaArrowRight />
+            ড্যাশবোর্ডে যান <FaArrowRight />
           </button>
-          <p className="text-sm text-gray-500 mt-4">
-            {`Please check back here or in your dashboard within a few hours.`}
+          <p className="text-sm text-gray-400 mt-4">
+            কিছু সময় পরে পুনরায় চেক করুন
           </p>
         </div>
       </main>
@@ -202,94 +180,68 @@ export default function MaterialPurchaseForm({
 
   if (error) {
     return (
-      <main className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="text-center p-8 bg-gray-800 rounded-2xl shadow-xl max-w-md w-full mx-4 border border-gray-700">
+      <main className="w-full min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-lg max-w-md w-full border border-gray-200">
           <div className="flex justify-center mb-6">
-            <div className="relative w-24 h-24 bg-myred-dark/20 rounded-full flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 text-myred-secondary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-12 w-12 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-100 mb-3">
-            Oops! Something went wrong
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+            দুঃখিত! সমস্যা হয়েছে
           </h2>
-          <p className="text-gray-400 mb-6">{error}</p>
+          <p className="text-gray-500 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="w-full bg-gradient-to-r from-myred-dark to-myred text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200 hover:shadow-myred/50"
+            className="w-full bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
           >
-            Try Again
+            আবার চেষ্টা করুন
           </button>
         </div>
       </main>
     );
   }
 
-  // Map errors to fields
   const errorMap = state.errors.reduce((acc: any, err: any) => {
     acc[err.path[0]] = err.message;
     return acc;
   }, {});
 
   return (
-    <main className="w-full pt-[100px] min-h-screen bg-gray-900 py-12">
+    <main className="w-full min-h-screen bg-gray-50 py-12">
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-700">
-          {/* Material Info - Left */}
-          <div className="relative p-4 bg-gray-900">
-            {/* Material Image */}
-            <div className="w-full relative">
-              <img
-                src={material?.image || "/default-material.png"}
-                alt={material?.title || "Material"}
-                className="object-contain w-full rounded-lg shadow-lg"
-              />
-            </div>
-
-            <h1 className="text-3xl font-bold text-gray-100 mb-3 text-center">
-              {material?.title || "Material Purchase"}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+          {/* Material Info */}
+          <div className="relative p-4 bg-gray-100 flex flex-col items-center">
+            <img
+              src={material?.image || "/default-material.png"}
+              alt={material?.title || "Material"}
+              className="object-contain w-full h-64 rounded-lg shadow-lg mb-4"
+            />
+            <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
+              {material?.title || "ম্যাটেরিয়াল ক্রয়"}
             </h1>
-            <p className="text-gray-400 text-center mb-6">
-              Complete your purchase by making the payment below
+            <p className="text-gray-500 text-center mb-4">
+              নিচের পেমেন্ট মাধ্যমে আপনার পারচেজ সম্পন্ন করুন
             </p>
-
-            <div className="bg-gradient-to-r from-myred-dark to-myred text-white px-6 py-3 rounded-full text-xl font-semibold shadow-md">
+            <div className="bg-red-500 text-white px-6 py-3 rounded-full text-xl font-semibold shadow-md mb-6">
               ৳{material?.price || "0"}
-            </div>
-
-            <div className="absolute bottom-6 left-6">
-              <span className="bg-myred text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
-                Purchase Now
-              </span>
             </div>
           </div>
 
-          {/* Payment Form - Right */}
-          <div className="p-8 md:p-12 bg-gray-800">
-            {state.message && !state.success && (
-              <div className="mb-6 p-4 bg-red-900/20 border border-red-700/50 text-red-400 rounded-lg">
-                {state.message}
-              </div>
-            )}
-            {state.success && (
-              <div className="mb-6 p-4 bg-green-900/20 border border-green-700/50 text-green-400 rounded-lg flex items-center gap-2">
-                <FaCheckCircle className="text-green-400" />
-                {state.message}
-              </div>
-            )}
-
+          {/* Payment Form */}
+          <div className="p-8 md:p-12">
             <form action={formAction} className="space-y-6">
               <input
                 type="hidden"
@@ -302,29 +254,25 @@ export default function MaterialPurchaseForm({
                 value={material?._id || ""}
               />
 
-              {/* Payment Instructions */}
-              <div className="p-4 bg-myred-dark/10 border border-myred-dark/30 rounded-lg">
-                <h3 className="text-lg font-semibold text-gray-100 mb-2">
-                  Payment Instructions
+              <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  পেমেন্ট নির্দেশনা
                 </h3>
-                <p className="text-gray-400 mb-2">
-                  Send ৳{material?.price} to the number below via bKash or
-                  Nagad:
+                <p className="text-gray-500 mb-2">
+                  ৳{material?.price} পাঠান নিচের নম্বরে (bKash/Nagad):
                 </p>
-                <div className="flex items-center gap-2 text-myred-secondary font-medium">
-                  <FaMobileAlt className="text-xl" />
-                  <span>+880 1724-304107</span>
+                <div className="flex items-center gap-2 text-red-500 font-medium">
+                  <FaMobileAlt /> +880 1724-304107
                 </div>
-                <p className="text-gray-400 mt-2">
-                  After payment, enter your mobile number and transaction ID
-                  below.
+                <p className="text-gray-500 mt-2">
+                  পেমেন্টের পর মোবাইল নম্বর ও ট্রানজেকশন আইডি প্রদান করুন।
                 </p>
               </div>
 
               {/* Payment Method */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Payment Method <span className="text-red-400">*</span>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  পেমেন্ট পদ্ধতি <span className="text-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   {["bkash", "nagad"].map((method) => (
@@ -339,7 +287,7 @@ export default function MaterialPurchaseForm({
                       />
                       <label
                         htmlFor={method}
-                        className="flex flex-col items-center p-4 border-2 border-gray-700 rounded-xl cursor-pointer hover:border-myred-secondary peer-checked:border-myred-secondary peer-checked:bg-myred-dark/20 transition-all duration-200"
+                        className="flex flex-col items-center p-4 border-2 border-gray-200 rounded-xl cursor-pointer hover:border-red-500 peer-checked:border-red-500 peer-checked:bg-red-50 transition-all duration-200"
                       >
                         <div className="relative w-20 h-8 mb-2">
                           <Image
@@ -352,7 +300,7 @@ export default function MaterialPurchaseForm({
                             className="object-contain"
                           />
                         </div>
-                        <span className="text-sm text-gray-400 capitalize">
+                        <span className="text-sm text-gray-700 capitalize">
                           {method}
                         </span>
                       </label>
@@ -360,128 +308,108 @@ export default function MaterialPurchaseForm({
                   ))}
                 </div>
                 {errorMap.paymentMethod && (
-                  <p className="mt-2 text-sm text-red-400">
+                  <p className="mt-2 text-sm text-red-500">
                     {errorMap.paymentMethod}
                   </p>
                 )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Mobile Number */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Your Mobile Number <span className="text-red-400">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    মোবাইল নম্বর <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <FaMobileAlt />
                     </div>
                     <input
                       type="tel"
-                      id="mobileNumber"
                       name="mobileNumber"
                       placeholder="01XXXXXXXXX"
-                      className="pl-10 w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-myred-secondary focus:border-myred-secondary transition-all duration-200 text-gray-100"
+                      className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                       required
                     />
                   </div>
                   {errorMap.mobileNumber && (
-                    <p className="mt-2 text-sm text-red-400">
+                    <p className="mt-2 text-sm text-red-500">
                       {errorMap.mobileNumber}
                     </p>
                   )}
                 </div>
 
-                {/* Transaction ID */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Transaction ID <span className="text-red-400">*</span>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    ট্রানজেকশন আইডি <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                       <MdPayment />
                     </div>
                     <input
                       type="text"
-                      id="transactionId"
                       name="transactionId"
                       placeholder="Ex: 8A7D6F5G4H3J"
-                      className="pl-10 w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-myred-secondary focus:border-myred-secondary transition-all duration-200 text-gray-100"
+                      className="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200"
                       required
                     />
                   </div>
                   {errorMap.transactionId && (
-                    <p className="mt-2 text-sm text-red-400">
+                    <p className="mt-2 text-sm text-red-500">
                       {errorMap.transactionId}
                     </p>
                   )}
                 </div>
               </div>
 
-              {/* Amount */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Amount Paid (BDT) <span className="text-red-400">*</span>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  পরিশোধিত অর্থ (BDT)
                 </label>
                 <div className="relative">
                   <input
                     type="number"
-                    id="amount"
                     name="amount"
                     value={material?.price || ""}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg cursor-not-allowed pr-12 text-gray-100"
                     readOnly
-                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed text-gray-700"
                   />
                   <span className="absolute right-3 top-3 text-gray-400">
                     ৳
                   </span>
                 </div>
-                {errorMap.amount && (
-                  <p className="mt-2 text-sm text-red-400">{errorMap.amount}</p>
-                )}
               </div>
 
-              {/* Terms */}
               <div className="flex items-start">
                 <input
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-5 w-5 text-myred-secondary focus:ring-myred-secondary bg-gray-700 border-gray-600 rounded mt-0.5"
+                  className="h-5 w-5 text-red-500 focus:ring-red-500 border-gray-300 rounded mt-0.5"
                   required
                 />
                 <label
                   htmlFor="terms"
-                  className="ml-3 block text-sm text-gray-400"
+                  className="ml-3 block text-sm text-gray-700"
                 >
-                  I confirm that I have made the payment and the information
-                  provided is correct
+                  আমি নিশ্চিত যে আমি পেমেন্ট করেছি এবং তথ্য সঠিক
                 </label>
               </div>
-              {errorMap.terms && (
-                <p className="mt-2 text-sm text-red-400">{errorMap.terms}</p>
-              )}
 
-              {/* Submit */}
               <button
                 type="submit"
-                className={`w-full bg-gradient-to-r from-myred-dark to-myred text-white py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 ${
-                  pending
-                    ? "opacity-80 cursor-not-allowed"
-                    : "hover:from-myred hover:to-myred-secondary hover:shadow-myred/50"
-                }`}
                 disabled={pending}
+                className={`w-full bg-red-500 text-white py-4 rounded-lg font-medium hover:bg-red-600 transition-all duration-200 flex items-center justify-center gap-2 ${
+                  pending ? "opacity-80 cursor-not-allowed" : ""
+                }`}
               >
                 {pending ? (
                   <>
-                    <FaSpinner className="animate-spin" />
-                    Processing Purchase...
+                    <FaSpinner className="animate-spin" /> প্রসেসিং...
                   </>
                 ) : (
                   <>
-                    Complete Purchase
-                    <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                    ক্রয় সম্পন্ন করুন <FaArrowRight />
                   </>
                 )}
               </button>

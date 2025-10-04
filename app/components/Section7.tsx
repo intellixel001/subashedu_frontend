@@ -9,18 +9,9 @@ export interface FreeClass {
   subject: string;
   videoLink?: string;
   instructor?: string;
-  instructorId?: string;
-  classFor?: "hsc" | "ssc" | "job" | "admission";
-  courseId?: string;
-  courseType?: "hsc" | "ssc" | "job" | "admission";
-  billingType?: "free" | "paid";
-  createdAt?: string;
-  updatedAt?: string;
-  type: "live" | "recorded";
   startTime?: string;
+  type: "live" | "recorded";
   image?: string;
-  isActiveLive?: boolean;
-  __v?: number;
 }
 
 export default function Section7() {
@@ -56,7 +47,6 @@ export default function Section7() {
   useEffect(() => {
     const interval = setInterval(() => {
       const newCountdowns: Record<string, string> = {};
-
       freeClasses.forEach((fc) => {
         if (fc.type === "live" && fc.startTime) {
           const now = new Date().getTime();
@@ -73,11 +63,10 @@ export default function Section7() {
               .toString()
               .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
           } else {
-            newCountdowns[fc._id] = "LIVE";
+            newCountdowns[fc._id] = "লাইভ চলছে";
           }
         }
       });
-
       setCountdowns(newCountdowns);
     }, 1000);
 
@@ -85,31 +74,26 @@ export default function Section7() {
   }, [freeClasses]);
 
   const renderBadge = (freeClass: FreeClass) => {
-    if (freeClass.type?.toLowerCase() === "live" && freeClass.startTime) {
+    if (freeClass.type === "live" && freeClass.startTime) {
       const now = new Date().getTime();
       const start = new Date(freeClass.startTime).getTime();
-
       if (start > now) {
-        // future → countdown
         return (
-          <span className="absolute top-3 right-3 bg-yellow-500 text-white text-[25px] px-10 py-3 rounded-full animate-pulse">
-            Starts in {countdowns[freeClass._id] || "Loading..."}
+          <span className="absolute top-3 right-3 bg-yellow-400 text-gray-900 font-bold text-sm px-3 py-1 rounded-full animate-pulse">
+            শুরু হবে {countdowns[freeClass._id] || "লোড হচ্ছে..."}
           </span>
         );
       } else {
-        // already started → live now
         return (
-          <span className="absolute top-3 right-3 bg-red-600 text-white text-[25px] px-10 py-3 rounded-full animate-pulse">
-            Live Now
+          <span className="absolute top-3 right-3 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-full animate-pulse">
+            লাইভ চলছে
           </span>
         );
       }
     }
-
-    // anything not live → normal watch
     return (
-      <span className="absolute top-3 right-3 bg-gray-600 text-white text-[25px] px-10 py-3 rounded-full">
-        Watch Now
+      <span className="absolute top-3 right-3 bg-gray-300 text-gray-800 font-medium text-sm px-3 py-1 rounded-full">
+        দেখুন
       </span>
     );
   };
@@ -119,15 +103,15 @@ export default function Section7() {
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={i}
-          className="bg-gray-800 border border-gray-700 rounded-2xl shadow-md overflow-hidden animate-pulse"
+          className="bg-gray-200 rounded-2xl shadow animate-pulse overflow-hidden"
         >
-          <div className="aspect-video bg-gray-700"></div>
+          <div className="aspect-video bg-gray-300"></div>
           <div className="p-5 space-y-3">
-            <div className="h-4 bg-gray-600 rounded w-3/4"></div>
-            <div className="h-3 bg-gray-600 rounded w-1/2"></div>
-            <div className="flex gap-3">
-              <div className="h-8 bg-gray-700 rounded w-20"></div>
-              <div className="h-8 bg-gray-700 rounded w-20"></div>
+            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+            <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+            <div className="flex gap-3 flex-wrap">
+              <div className="h-8 bg-gray-300 rounded w-20"></div>
+              <div className="h-8 bg-gray-300 rounded w-20"></div>
             </div>
           </div>
         </div>
@@ -140,19 +124,18 @@ export default function Section7() {
       return (
         <div className="text-center py-12">
           <FaVideoSlash className="mx-auto text-5xl text-gray-400 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-100 mb-2">
-            No Free Classes Available
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            কোনো ফ্রি ক্লাস উপলব্ধ নেই
           </h3>
-          <p className="text-gray-400">
-            We&apos;re preparing new free classes for you. Please check back
-            soon!
+          <p className="text-gray-600">
+            আমরা নতুন ফ্রি ক্লাস তৈরি করছি। অনুগ্রহ করে পরে আবার দেখুন।
           </p>
           <div className="mt-6">
             <Link
               href="/courses"
-              className="inline-block bg-myred-dark text-white px-6 py-2 rounded-full hover:bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm"
+              className="inline-block bg-gradient-to-r from-blue-500 to-teal-500 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300"
             >
-              Browse Our Courses
+              আমাদের কোর্স দেখুন
             </Link>
           </div>
         </div>
@@ -160,34 +143,33 @@ export default function Section7() {
     }
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {freeClasses.map((freeClass) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+        {freeClasses.map((fc) => (
           <div
-            key={freeClass._id}
-            className="bg-gray-800 border border-myred/30 rounded-2xl shadow-md hover:scale-[1.02] hover:shadow-myred/50 transition-all duration-300 ease-in-out overflow-hidden relative"
+            key={fc._id}
+            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:scale-[1.02] hover:shadow-lg transition-all duration-300 relative overflow-hidden"
           >
             <div className="aspect-video relative">
               <img
-                src={freeClass.image || "/default-thumb.jpg"}
-                alt={freeClass.title}
+                src={fc.image || "/default-thumb.jpg"}
+                alt={fc.title}
                 className="w-full h-full object-cover"
               />
-              {renderBadge(freeClass)}
+              {renderBadge(fc)}
             </div>
             <div className="p-5">
-              <h3 className="text-lg font-semibold text-gray-100 mb-2">
-                {freeClass.title}
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {fc.title}
               </h3>
-              <p className="text-gray-400 mb-4 text-sm">
-                {freeClass.subject}{" "}
-                {freeClass.instructor ? `by ${freeClass.instructor}` : ""}
+              <p className="text-gray-600 mb-4 text-sm">
+                {fc.subject} {fc.instructor ? `দ্বারা ${fc.instructor}` : ""}
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Link
-                  href={`/class/${freeClass._id}`}
-                  className="inline-flex items-center bg-myred-dark text-white px-4 py-2 rounded-full hover:bg-myred hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all text-sm"
+                  href={`/class/${fc._id}`}
+                  className="inline-flex items-center bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm"
                 >
-                  <FaPlayCircle className="mr-2" /> Let&apos;s Go
+                  <FaPlayCircle className="mr-2" /> চলুন শুরু করি
                 </Link>
               </div>
             </div>
@@ -198,15 +180,18 @@ export default function Section7() {
   };
 
   return (
-    <section className="watchFreeClasses px-4 sm:px-6 py-8 sm:py-12">
-      <div className="text-center mb-10 max-w-7xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-myred-secondary uppercase mb-4">
-          Watch Our Free Classes
-        </h2>
-        <p className="text-gray-400 text-sm pb-2 sm:text-base">
-          Explore valuable topics and learn at your own pace with these free
-          sessions. Click the buttons below to access full content.
-        </p>
+    <section className="px-4 sm:px-6 py-12 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+      <div className="container mx-auto">
+        <div className="text-center max-w-7xl mx-auto mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 uppercase mb-3">
+            আমাদের ফ্রি ক্লাসসমূহ
+          </h2>
+          <p className="text-gray-600 text-sm sm:text-base">
+            বিভিন্ন বিষয় শিখুন এবং নিজের গতিতে উন্নতি করুন। নিচের বোতামগুলো
+            ক্লিক করুন।
+          </p>
+        </div>
+
         {loading ? renderSkeletons() : renderCards()}
       </div>
     </section>

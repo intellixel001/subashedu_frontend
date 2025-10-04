@@ -498,3 +498,16 @@ body::before {
   scrollbar-width: thin;
   scrollbar-color: #4a5568 #2d3748;
 }
+
+/* Add animation in globals.css or tailwind.config.css */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}

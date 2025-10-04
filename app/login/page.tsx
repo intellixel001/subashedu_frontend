@@ -16,176 +16,126 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (state.success) {
-      router.push("/dashboard"); 
+      router.push("/dashboard");
     }
-  }, [state?.success, router]); 
+  }, [state?.success, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-30 pb-4 px-4 bg-[var(--background)] animate-gradientBG">
-      <div className="w-full max-w-md">
-        {/* Logo/Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[var(--myred)] text-shine">Suvash Edu</h1>
-          <p className="mt-2 text-[var(--muted-foreground)]">
-            Your gateway to quality education
-          </p>
-        </div>
-
-        {/* Login Card */}
-        <div className="bg-[var(--card)] rounded-[var(--radius)] shadow-md overflow-hidden border border-[var(--border)] transition-all hover:shadow-lg hover:glow animate-fade-in">
-          {/* Card Header */}
-          <div className="bg-[var(--myred)] py-4 px-6">
-            <h2 className="text-xl font-semibold text-[var(--primary-foreground)] text-center text-shine">
-              Student Login
-            </h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4 sm:px-6 lg:px-12">
+      <div className="max-w-6xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+        {/* Left Side: Form */}
+        <div className="w-full lg:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-myred-secondary">
+              সুবাস এডু
+            </h1>
+            <p className="mt-2 text-gray-600">আপনার মানসম্মত শিক্ষার গেটওয়ে</p>
           </div>
 
-          {/* Card Body */}
-          <div className="p-6 space-y-5">
-            {/* Display general error message */}
+          {/* Form Card */}
+          <div className="bg-white rounded-2xl shadow-md p-6 sm:p-8 border border-gray-200">
             {state?.message && (
               <div
-                className={`p-3 rounded-[var(--radius-sm)] text-sm ${
+                className={`p-3 rounded-md text-sm mb-4 ${
                   state.success
-                    ? "bg-[var(--chart-1)]/10 text-[var(--chart-1)]"
-                    : "bg-[var(--destructive)]/10 text-[var(--destructive)]"
-                } border border-[var(--destructive)]`}
+                    ? "bg-green-100 text-green-600 border border-green-300"
+                    : "bg-red-100 text-red-600 border border-red-300"
+                }`}
               >
                 {state.message}
               </div>
             )}
 
             <form action={action} className="space-y-5">
-              {/* Username/Email Field */}
-              <div className="space-y-1">
+              {/* Registration No / Email */}
+              <div>
                 <label
                   htmlFor="loginId"
-                  className="block text-sm font-medium text-[var(--foreground)]"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  Registration No. or Email
+                  রেজিস্ট্রেশন নম্বর অথবা ইমেইল
                 </label>
-                <div className="relative rounded-[var(--radius-sm)] shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <div className="flex space-x-1">
-                      <FaIdCard className="h-4 w-4 text-[var(--muted-foreground)]" />
-                    </div>
-                  </div>
+                <div className="relative mt-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <FaIdCard />
+                  </span>
                   <input
                     id="loginId"
                     name="loginId"
                     type="text"
                     required
-                    className={`focus:ring-[var(--ring)] focus:border-[var(--myred)] block w-full pl-10 pr-3 py-2 border text-[var(--foreground)] bg-[var(--card)] ${
+                    placeholder="আপনার রেজিস্ট্রেশন নম্বর বা ইমেইল লিখুন"
+                    className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
                       state.errors?.some((e) => e.path.includes("loginId"))
-                        ? "border-[var(--destructive)]"
-                        : "border-[var(--border)]"
-                    } rounded-[var(--radius-sm)] placeholder-[var(--muted-foreground)] transition-all`}
-                    placeholder="Enter registration no. or email"
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-myred-secondary focus:border-myred-secondary transition`}
                   />
                 </div>
-                {state.errors
-                  ?.filter((error) => error.path.includes("loginId"))
-                  .map((error, index) => (
-                    <p key={index} className="text-sm text-[var(--destructive)] mt-1">
-                      {error.message}
-                    </p>
-                  ))}
               </div>
 
-              {/* Password Field */}
-              <div className="space-y-1">
+              {/* Password */}
+              <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-[var(--foreground)]"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  Password
+                  পাসওয়ার্ড
                 </label>
-                <div className="relative rounded-[var(--radius-sm)] shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaLock className="h-4 w-4 text-[var(--muted-foreground)]" />
-                  </div>
+                <div className="relative mt-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <FaLock />
+                  </span>
                   <input
                     id="password"
                     name="password"
                     type="password"
                     required
-                    className={`focus:ring-[var(--ring)] focus:border-[var(--myred)] block w-full pl-10 pr-3 py-2 border text-[var(--foreground)] bg-[var(--card)] ${
+                    placeholder="আপনার পাসওয়ার্ড লিখুন"
+                    className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
                       state.errors?.some((e) => e.path.includes("password"))
-                        ? "border-[var(--destructive)]"
-                        : "border-[var(--border)]"
-                    } rounded-[var(--radius-sm)] placeholder-[var(--muted-foreground)] transition-all`}
-                    placeholder="Enter your password"
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-myred-secondary focus:border-myred-secondary transition`}
                   />
                 </div>
-                {state.errors
-                  ?.filter((error) => error.path.includes("password"))
-                  .map((error, index) => (
-                    <p key={index} className="text-sm text-[var(--destructive)] mt-1">
-                      {error.message}
-                    </p>
-                  ))}
               </div>
 
-              {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="rememberMe"
-                    type="checkbox"
-                    className="h-4 w-4 text-[var(--myred)] focus:ring-[var(--ring)] border-[var(--border)] rounded-[var(--radius-sm)]"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 block text-sm text-[var(--muted-foreground)]"
-                  >
-                    Remember me
-                  </label>
-                </div>
-
-                <Link
-                  href="/forgot-password"
-                  className="text-sm font-medium text-[var(--myred)] hover:text-[var(--myred-secondary)] transition-colors"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
-              {/* Submit Button */}
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={pending}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-[var(--radius-sm)] shadow-sm text-sm font-medium text-[var(--primary-foreground)] bg-[var(--myred)] hover:bg-[var(--myred-secondary)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--ring)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed animate-pulse"
+                className="w-full py-2 px-4 bg-myred-secondary hover:bg-myred text-white rounded-lg font-semibold transition disabled:opacity-50"
               >
-                {pending ? "Signing In..." : "Sign In"}
+                {pending ? "সাইন ইন হচ্ছে..." : "সাইন ইন"}
               </button>
             </form>
 
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[var(--border)]"></div>
-              </div>
-              <div className="relative flex justify-center">
-                <span className="px-2 bg-[var(--card)] text-sm text-[var(--muted-foreground)]">
-                  New to Suvash Edu?
-                </span>
-              </div>
+            <div className="mt-6 flex justify-between items-center text-sm text-gray-600">
+              <Link
+                href="/forgot-password"
+                className="hover:text-myred-secondary transition"
+              >
+                পাসওয়ার্ড ভুলে গেছেন?
+              </Link>
+              <Link
+                href="/register"
+                className="hover:text-myred-secondary transition"
+              >
+                নতুন একাউন্ট তৈরি করুন
+              </Link>
             </div>
-
-            {/* Register Button */}
-            <Link
-              href="/register"
-              className="w-full flex justify-center py-2 px-4 border border-[var(--border)] rounded-[var(--radius-sm)] shadow-sm text-sm font-medium text-[var(--foreground)] bg-[var(--card)] hover:bg-[var(--muted)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--ring)] transition-colors"
-            >
-              Join Now
-            </Link>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-6 text-center text-xs text-[var(--muted-foreground)]">
-          © {new Date().getFullYear()} Suvash Edu. All rights reserved.
+        {/* Right Side: Image / Illustration */}
+        <div className="w-full lg:w-1/2 relative hidden lg:block">
+          <img
+            src="/login-illustration-light.png"
+            alt="Learning Illustration"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-white/40 to-white/90"></div>
         </div>
       </div>
     </div>

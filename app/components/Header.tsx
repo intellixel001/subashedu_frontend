@@ -6,18 +6,21 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CiVideoOn } from "react-icons/ci";
 import {
+  FaBars,
   FaBookOpen,
   FaChevronDown,
   FaGraduationCap,
   FaInfoCircle,
   FaPhoneAlt,
+  FaSearch,
+  FaTimes,
   FaUserPlus,
 } from "react-icons/fa";
 import { AnnouncementBar } from "./AnnouncementBar";
+import { SearchModal } from "./SearchModal";
 
 export function QuickNavigation() {
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
 
   const navigationGroups = useMemo(
     () => [
@@ -58,58 +61,43 @@ export function QuickNavigation() {
     setActiveTab((prev) => (prev === tab ? null : tab));
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
-    <div className=" w-full bg-gray-800 z-1000">
-      <div className="lg:hidden flex divide-x divide-myred/50 border-b border-myred/50">
-        {navigationGroups.map((group) => (
-          <div key={group.name} className="relative flex-1">
-            <button
-              className={`w-full py-2 text-xs font-medium ${
-                activeTab === group.name
-                  ? "text-myred-secondary"
-                  : "text-gray-100"
-              } hover:text-myred-secondary focus:ring-2 focus:ring-myred focus:ring-offset-2`}
-              onClick={() => toggleTab(group.name)}
-            >
-              <div className="flex items-center justify-center gap-1">
-                {group.icon}
-                <span>{group.name}</span>
-              </div>
-            </button>
-
-            <div
-              className={`absolute left-0 right-0 bg-gray-800 shadow-sm z-10 transition-all duration-200
-                ${
-                  activeTab === group.name
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0 pointer-events-none"
-                }`}
-            >
-              <div className="py-1 space-y-0">
-                {group.links.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className="block px-3 py-2 text-xs text-gray-100 hover:text-myred-secondary hover:bg-myred-dark active:bg-myred focus:ring-2 focus:ring-myred focus:ring-offset-2"
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+    <div className="lg:hidden w-full bg-white border-t border-gray-200">
+      {navigationGroups.map((group) => (
+        <div key={group.name} className="relative border-b border-gray-100">
+          <button
+            className={`w-full py-3 text-sm font-medium flex items-center justify-between px-4
+              ${activeTab === group.name ? "text-myred" : "text-gray-700"}
+              hover:text-myred`}
+            onClick={() => toggleTab(group.name)}
+          >
+            <div className="flex items-center gap-2">
+              {group.icon}
+              {group.name}
             </div>
+            <FaChevronDown
+              className={`w-3 h-3 transition-transform ${
+                activeTab === group.name ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          <div
+            className={`overflow-hidden transition-all duration-300
+              ${activeTab === group.name ? "max-h-60" : "max-h-0"}`}
+          >
+            {group.links.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="block px-6 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-myred"
+              >
+                {link.name}
+              </Link>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -117,12 +105,24 @@ export function QuickNavigation() {
 export default function Header({ pathname }) {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [showNotice, setShowNotice] = useState<boolean>(true);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+
   const dontShow =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/management") ||
     pathname.startsWith("/dashboard");
 
   const ckkk = pathname.includes("dashboard/enrolled-courses/view/");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navigationGroups = useMemo(
     () => [
@@ -164,114 +164,128 @@ export default function Header({ pathname }) {
   }
 
   return (
-    <header className="fixed w-full  top-0 z-50 bg-gray-800 shadow-sm">
-      <nav className="w-full h-14 sm:h-16 border-b border-myred/50">
-        <div className="container mx-auto flex px-2 lg:px-4 items-center justify-between">
-          <Link href="/" className="mr-auto ">
-            <Image
-              className="h-10 w-auto sm:h-12"
-              src={Logo}
-              alt="Suvash Edu logo"
-              priority
-            />
-          </Link>
-
-          <div className="hidden lg:flex items-center space-x-2">
-            <Link
-              href="/courses"
-              className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaBookOpen className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
-              <span>Courses</span>
+    <>
+      <header
+        className={`w-full top-0 transition-all duration-300
+        ${
+          scrolled
+            ? "fixed bg-white shadow-lg z-50"
+            : "static bg-white border-b border-gray-200"
+        }`}
+      >
+        <nav className="w-full py-3">
+          <div className="container mx-auto flex px-4 items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="mr-auto flex items-center gap-2">
+              <Image src={Logo} alt="Suvash Edu logo" className="h-10 w-auto" />
             </Link>
 
-            {navigationGroups.map((group) => (
-              <div
-                key={group.name}
-                className="relative"
-                onMouseEnter={() => setActiveTab(group.name)}
-                onMouseLeave={() => setActiveTab(null)}
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center space-x-4">
+              <Link
+                href="/courses"
+                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-myred transition-colors"
               >
-                <button className="flex items-center justify-between gap-2 px-4 py-2 text-gray-100 hover:text-myred-secondary active:text-myred font-medium transition-colors focus:ring-2 focus:ring-myred focus:ring-offset-2">
-                  <div className="flex items-center gap-2">
+                <FaBookOpen className="mr-2 text-myred" />
+                <span>Courses</span>
+              </Link>
+
+              {navigationGroups.map((group) => (
+                <div
+                  key={group.name}
+                  className="relative"
+                  onMouseEnter={() => setActiveTab(group.name)}
+                  onMouseLeave={() => setActiveTab(null)}
+                >
+                  <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-myred font-medium">
                     {group.icon}
                     {group.name}
-                  </div>
-                  <FaChevronDown
-                    className={`w-3 h-3 transition-transform ${
-                      activeTab === group.name ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+                    <FaChevronDown
+                      className={`w-3 h-3 transition-transform ${
+                        activeTab === group.name ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
 
-                <div
-                  className={`absolute left-0 mt-1 bg-gray-800 rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 min-w-[200px]
+                  <div
+                    className={`absolute left-0 bg-white rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 min-w-[200px]
                   ${
                     activeTab === group.name
                       ? "opacity-100 translate-y-0"
                       : "opacity-0 translate-y-2 pointer-events-none"
                   }`}
-                >
-                  {group.links.map((link) => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className="flex items-center gap-2 px-4 py-3 text-gray-100 hover:bg-myred-dark hover:text-myred-secondary active:bg-myred active:text-white transition-colors text-sm focus:ring-2 focus:ring-myred focus:ring-offset-2"
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
+                  >
+                    {group.links.map((link) => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        className="block px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-myred text-sm"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            <Link
-              href="/contact"
-              className="flex items-center justify-center text-sm px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaPhoneAlt className="mr-2 text-myred-secondary hover:text-myred active:text-myred text-sm" />
-              <span>Contact</span>
-            </Link>
+              <Link
+                href="/contact"
+                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-myred transition-colors"
+              >
+                <FaPhoneAlt className="mr-2 text-myred" />
+                <span>Contact</span>
+              </Link>
 
-            <Link
-              href="/dashboard"
-              className="flex items-center justify-center text-sm bg-myred py-2 px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaUserPlus className="mr-2 text-sm" />
-              <span>Join now</span>
-            </Link>
+              {/* Search icon */}
+              <button
+                onClick={() => setShowSearch(true)}
+                className="p-2 text-gray-700 hover:text-myred"
+              >
+                <FaSearch size={16} />
+              </button>
+
+              <Link
+                href="/dashboard"
+                className="flex items-center justify-center text-sm bg-myred py-2 px-4 rounded-full text-white hover:bg-myred-secondary transition-colors"
+              >
+                <FaUserPlus className="mr-2 text-sm" />
+                <span>Join now</span>
+              </Link>
+            </div>
+
+            {/* Mobile menu toggle */}
+            <div className="lg:hidden flex items-center space-x-4">
+              {/* Search on mobile */}
+              <button
+                onClick={() => setShowSearch(true)}
+                className="p-2 text-gray-700 hover:text-myred"
+              >
+                <FaSearch size={18} />
+              </button>
+
+              <button
+                onClick={() => setMobileMenu(!mobileMenu)}
+                className="text-gray-700"
+              >
+                {mobileMenu ? <FaTimes size={20} /> : <FaBars size={20} />}
+              </button>
+            </div>
           </div>
+        </nav>
 
-          <div className="flex lg:hidden items-center space-x-2 md:space-x-4 ml-2 md:ml-4">
-            <Link
-              href="/courses"
-              className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaBookOpen className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
-              <span>Courses</span>
-            </Link>
+        {/* Mobile Menu */}
+        {mobileMenu && <QuickNavigation />}
 
-            <Link
-              href="/contact"
-              className="flex items-center justify-center text-[10px] md:text-sm px-2 sm:px-3 py-1 text-gray-100 hover:text-myred-secondary active:text-myred focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaPhoneAlt className="mr-1 sm:mr-2 text-myred-secondary hover:text-myred active:text-myred text-[10px] md:text-sm" />
-              <span>Contact</span>
-            </Link>
+        {!scrolled && (
+          <AnnouncementBar
+            showNotice={showNotice}
+            setShowNotice={setShowNotice}
+          />
+        )}
+      </header>
 
-            <Link
-              href="/dashboard"
-              className="flex items-center justify-center text-[10px] md:text-sm bg-myred bg-myred-dark py-1 px-3 sm:py-2 sm:px-4 rounded-full text-white hover:bg-myred-secondary hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-colors"
-            >
-              <FaUserPlus className="mr-1 sm:mr-2 text-[10px] md:text-sm " />
-              <span>Join now</span>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <QuickNavigation />
-      <AnnouncementBar showNotice={showNotice} setShowNotice={setShowNotice} />
-    </header>
+      {/* Search Modal */}
+      <SearchModal isOpen={showSearch} onClose={() => setShowSearch(false)} />
+    </>
   );
 }

@@ -81,7 +81,7 @@ export default function Materials() {
   }
 
   return (
-    <div className="bg-white pt-[100px]">
+    <div className="bg-white">
       <div className="container mx-auto px-4 py-12 pb-[100px] font-questrial">
         {/* Bookshelf layout */}
         <div className="space-y-24">

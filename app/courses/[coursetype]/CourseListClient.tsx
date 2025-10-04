@@ -1,22 +1,16 @@
 "use client";
 
+import { CourseType } from "@/_types/course";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaBook, FaSadTear, FaUsers } from "react-icons/fa";
 
-interface Course {
-  _id: string;
-  id: string;
-  title: string;
-  short_description: string;
-  thumbnailUrl: string;
-  price: number;
-  offer_price: number;
-  studentsEnrolled: number;
-}
-
-export default function CourseListClient({ courses }: { courses: Course[] }) {
+export default function CourseListClient({
+  courses,
+}: {
+  courses: CourseType[];
+}) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,17 +19,16 @@ export default function CourseListClient({ courses }: { courses: Course[] }) {
   }, []);
 
   if (loading) {
-    // Skeleton loader
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="animate-pulse bg-gray-800 rounded-2xl p-4 shadow-md"
+            className="animate-pulse bg-white rounded-2xl p-4 shadow-md"
           >
-            <div className="w-full h-40 bg-gray-700 rounded-xl mb-4"></div>
-            <div className="h-6 bg-gray-700 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+            <div className="w-full h-40 bg-gray-200 rounded-xl mb-4"></div>
+            <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
           </div>
         ))}
       </div>
@@ -43,14 +36,15 @@ export default function CourseListClient({ courses }: { courses: Course[] }) {
   }
 
   if (!courses || courses.length === 0) {
-    // No course found UI
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center space-y-4">
         <FaSadTear className="text-5xl text-gray-400 animate-bounce" />
-        <h2 className="text-xl font-semibold text-white">No Courses Found</h2>
-        <p className="text-gray-400 max-w-md">
-          We couldn’t find any courses for this category. Please check back
-          later or explore other categories.
+        <h2 className="text-xl font-semibold text-gray-800">
+          কোনো কোর্স পাওয়া যায়নি
+        </h2>
+        <p className="text-gray-500 max-w-md">
+          এই ক্যাটাগরিতে কোনো কোর্স নেই। পরে আবার চেষ্টা করুন অথবা অন্যান্য
+          কোর্স দেখুন।
         </p>
       </div>
     );
@@ -59,8 +53,8 @@ export default function CourseListClient({ courses }: { courses: Course[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {courses.map((course) => (
-        <Link key={course._id} href={"/course/" + course?._id + "/enrollment"}>
-          <div className="bg-gray-900 text-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden">
+        <Link key={course._id} href={`/course/${course._id}/enrollment`}>
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-300 overflow-hidden border border-gray-200">
             <Image
               src={course.thumbnailUrl}
               alt={course.title}
@@ -68,22 +62,24 @@ export default function CourseListClient({ courses }: { courses: Course[] }) {
               height={200}
               className="w-full h-48 object-cover"
             />
-            <div className="p-4 space-y-3">
-              <h2 className="text-lg font-semibold">{course.title}</h2>
-              <p className="text-gray-300 text-sm line-clamp-2">
+            <div className="p-4 space-y-2">
+              <h2 className="text-lg font-semibold text-gray-800">
+                {course.title}
+              </h2>
+              <p className="text-gray-500 text-sm line-clamp-2">
                 {course.short_description}
               </p>
-              <div className="flex justify-between items-center text-sm">
-                <span className="flex items-center gap-1 text-gray-400">
-                  <FaUsers /> {course.studentsEnrolled}+
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span className="flex items-center gap-1">
+                  <FaUsers /> {course.studentsEnrolled}+ শিক্ষার্থী
                 </span>
-                <span className="flex items-center gap-1 text-gray-400">
-                  <FaBook /> Course
+                <span className="flex items-center gap-1">
+                  <FaBook /> কোর্স
                 </span>
               </div>
               <div className="flex justify-between items-center pt-2">
                 <div>
-                  <span className="text-red-400 font-bold">
+                  <span className="text-red-500 font-bold">
                     ৳{course.offer_price}
                   </span>
                   <span className="text-gray-400 line-through ml-2">
@@ -91,10 +87,10 @@ export default function CourseListClient({ courses }: { courses: Course[] }) {
                   </span>
                 </div>
                 <Link
-                  href={"/course/" + course?._id + "/enrollment"}
-                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm"
+                  href={`/course/${course._id}/enrollment`}
+                  className="px-3 py-1 bg-myred-secondary hover:bg-myred text-white rounded-lg text-sm transition"
                 >
-                  Enroll
+                  ভর্তি করুন
                 </Link>
               </div>
             </div>
