@@ -47,7 +47,7 @@ export default function EnrolledCoursesPage({
         <div className="flex flex-col items-center justify-center py-24">
           <div className="text-center max-w-md">
             <h2 className="text-2xl font-bold mb-4">
-              You haven't enrolled in any courses yet
+              You have not enrolled in any courses yet
             </h2>
             <p className="mb-6 text-gray-300">
               Start your learning journey by browsing our courses and enrolling
