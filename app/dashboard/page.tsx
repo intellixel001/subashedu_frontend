@@ -1,4 +1,3 @@
-import { CourseType } from "@/_types/course";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -11,13 +10,13 @@ import {
 } from "react-icons/fa";
 import EnrolledCoursesPage from "./components/StudentDashboard";
 
-interface Enrollment {
-  _id: string;
-  status: "approved" | "pending";
-  paymentMethod: string;
-  transactionId: string;
-  course: CourseType;
-}
+// interface Enrollment {
+//   _id: string;
+//   status: "approved" | "pending";
+//   paymentMethod: string;
+//   transactionId: string;
+//   course: CourseType;
+// }
 
 export default async function StudentDashboard() {
   const studentObject = await getCurrentStudent();
