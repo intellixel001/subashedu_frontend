@@ -10,9 +10,10 @@ import VideoTools from "./VideoTools";
 
 interface Props {
   courseId: string;
+  img: string;
 }
 
-export default function ContentPlayer({ courseId }: Props) {
+export default function ContentPlayer({ courseId, img }: Props) {
   const searchParams = useSearchParams();
   const lessonId = searchParams.get("lessonid");
   const contentId = searchParams.get("contentid");
@@ -44,9 +45,21 @@ export default function ContentPlayer({ courseId }: Props) {
   // --- UI States ---
   if (!lessonId || !contentId) {
     return (
-      <div className="w-full aspect-video flex flex-col items-center justify-center bg-gray-900 rounded-2xl text-gray-300">
-        <FaBookOpen className="w-12 h-12 mb-3 text-blue-400" />
-        <p className="text-lg font-medium">Select a lesson to start learning</p>
+      <div className="w-full aspect-video flex items-center justify-center bg-gray-900 rounded-2xl overflow-hidden">
+        {img ? (
+          <img
+            src={img}
+            alt="Course Thumbnail"
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-gray-300">
+            <FaBookOpen className="w-12 h-12 mb-3 text-blue-400" />
+            <p className="text-lg font-medium">
+              Select a lesson to start learning
+            </p>
+          </div>
+        )}
       </div>
     );
   }

@@ -1,6 +1,5 @@
 "use client";
 import { deleteAdminCookies } from "@/actions/deleteAdminCookies";
-import { IoBookSharp } from "react-icons/io5";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsCashStack } from "react-icons/bs";
@@ -14,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { GiGraduateCap } from "react-icons/gi";
 import { IoIosNotifications, IoIosNotificationsOutline } from "react-icons/io";
+import { IoBookSharp } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { SiGoogleclassroom } from "react-icons/si";
 import { useAdminContext } from "../admin/context/AdminContext";
@@ -102,7 +102,6 @@ export function AdminSidebar({
         custom-scrollbar
       `}
     >
-
       {/* Header for mobile */}
       <div className="flex justify-between items-center mb-6 lg:hidden">
         <h1 className="text-xl font-bold">Admin Panel</h1>

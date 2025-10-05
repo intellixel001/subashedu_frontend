@@ -80,8 +80,16 @@ export function StudentSidebar({
       </div>
 
       {/* Header for desktop */}
-      <div className="hidden lg:block mb-8 p-4">
-        <h1 className="text-xl font-bold">Admin Panel</h1>
+      <div className="hidden lg:flex items-center justify-center mb-2">
+        <Link href="/" className="flex items-center justify-center">
+          <img
+            src={
+              "https://suvashedu.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo-removebg-preview.1b527b54.png&w=384&q=75"
+            }
+            alt="Suvash Edu logo"
+            className="w-[50%]"
+          />
+        </Link>
       </div>
 
       <nav className="space-y-2">

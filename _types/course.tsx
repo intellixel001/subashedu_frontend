@@ -40,4 +40,5 @@ export interface CourseType {
   enrollmentCreatedAt?: string;
   enrollmentUpdatedAt?: string;
   enrollmentVersion?: number;
+  [key: string]: unknown;
 }
