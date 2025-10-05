@@ -1,3 +1,5 @@
+"use client";
+
 import { CourseType } from "@/_types/course";
 import { getCurrentStudent } from "@/lib/getCurrentStudent";
 import { cookies } from "next/headers";
@@ -13,18 +15,29 @@ import EnrolledCoursesPage from "./components/StudentDashboard";
 
 interface Enrollment {
   _id: string;
-  status: "approved" | "pending";
+  status: "approved" | "pending" | "rejected";
   paymentMethod: string;
   transactionId: string;
   course: CourseType;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default async function StudentDashboard() {
   const studentObject = await getCurrentStudent();
   const result = await getCourses();
-  const data: Enrollment[] = result.data || [];
+  const enrollments: Enrollment[] = result.data || [];
 
-  console.log(data);
+  // --- Map enrollment data to match CourseType + optional enrollment fields ---
+  const data: CourseType[] = enrollments.map((enrollment) => ({
+    ...enrollment.course,
+    enrollmentId: enrollment._id,
+    status: enrollment.status,
+    paymentMethod: enrollment.paymentMethod,
+    tranjectionid: enrollment.transactionId,
+    enrollmentCreatedAt: enrollment.createdAt,
+    enrollmentUpdatedAt: enrollment.updatedAt,
+  }));
 
   // --- Greeting based on time ---
   const currentHour = new Date().getHours();
@@ -78,7 +91,7 @@ export default async function StudentDashboard() {
       </h1>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+      <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-5 gap-5 mb-8">
         {cards.map((card, index) => (
           <Link
             href={card.path}
@@ -95,6 +108,7 @@ export default async function StudentDashboard() {
         ))}
       </div>
 
+      {/* Enrolled Courses */}
       <EnrolledCoursesPage data={data} />
     </div>
   );
