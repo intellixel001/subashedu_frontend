@@ -57,9 +57,7 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
                 <img
                   src={course.thumbnailUrl}
                   alt={course.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="w-full h-full object-cover"
                 />
               </div>
 
