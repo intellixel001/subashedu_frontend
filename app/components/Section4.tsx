@@ -1,4 +1,4 @@
-import { CourseType } from "@/types"; // optional: your type definition
+import { CourseType } from "@/_types/course";
 import CourseSlider from "./CourseSlider"; // client component
 
 async function getData(): Promise<CourseType[]> {
