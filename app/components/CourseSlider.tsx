@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -32,7 +31,6 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
       spaceBetween={20}
       centeredSlides={true}
       loop={true}
-      loopedSlides={loopedCourses.length}
       freeMode={true}
       speed={3000}
       autoplay={{
@@ -56,7 +54,7 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
               }`}
             >
               <div className="relative w-full h-[180px] min-h-[180px] max-h-[180px] overflow-hidden rounded-t-2xl">
-                <Image
+                <img
                   src={course.thumbnailUrl}
                   alt={course.title}
                   fill
