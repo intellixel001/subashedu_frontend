@@ -5,17 +5,10 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Swiper styles
+import { CourseType } from "@/_types/course";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-interface CourseType {
-  id: string;
-  _id: string;
-  title: string;
-  short_description: string;
-  thumbnailUrl: string;
-}
 
 interface CourseSliderProps {
   courses: CourseType[];
