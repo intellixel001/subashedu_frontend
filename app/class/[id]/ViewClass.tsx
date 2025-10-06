@@ -10,6 +10,7 @@ export default function ViewClass({ freeClass }: { freeClass: Class }) {
 
       {freeClass.type === "live" ? (
         <JoinLiveClass
+          freeClass={freeClass}
           startTime={freeClass.startTime}
           isActiveLive={freeClass.isActiveLive}
         />

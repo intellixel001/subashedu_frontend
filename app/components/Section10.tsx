@@ -41,53 +41,65 @@ export default function Section10() {
   ];
 
   return (
-    <section className="w-full py-16 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-blue-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto text-center">
-        <div className="mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-teal-900 mb-4">
-            আমাদের সাফল্যের <span className="text-myred-secondary">যাত্রা</span>
-          </h2>
-          <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-3xl mx-auto">
-            শীর্ষস্থানীয় বিশ্ববিদ্যালয় থেকে হাজার হাজার শিক্ষার্থী আমাদের সাথে
-            তাদের শিক্ষাজীবনকে রূপান্তরিত করেছে।
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {universities.map((uni) => (
-            <div
-              key={uni.id}
-              className="group relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 overflow-hidden"
-            >
-              <div className="p-8 flex flex-col items-center text-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-teal-400 text-white flex items-center justify-center mb-6 text-3xl">
-                  {uni.icon}
+    <section className="w-full bg-[#082f49] relative">
+      <div className="max-w-7xl relative mx-auto">
+        <div className="text-center py-20 px-6 sm:px-12 lg:px-20 lg:pb-[150px] pb-[350px]">
+          {/* University Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {universities.map((uni) => (
+              <div
+                key={uni.id}
+                className="group relative bg-gradient-to-tr from-blue-600 to-teal-500 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2 cursor-pointer"
+              >
+                <div className="p-8 flex flex-col items-center text-center">
+                  <div className="w-24 h-24 rounded-full bg-white text-[#082f49] flex items-center justify-center mb-6 text-3xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {uni.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-yellow-400 transition-colors duration-300">
+                    {uni.name}
+                  </h3>
+                  <p className="text-gray-200 mb-4 text-sm">
+                    {uni.description}
+                  </p>
+                  <div className="flex items-center justify-center gap-2 mb-1">
+                    <FaUsers className="text-yellow-400" />
+                    <span className="text-2xl font-bold text-yellow-400">
+                      {uni.students}
+                    </span>
+                  </div>
+                  <p className="text-gray-300 uppercase text-xs font-medium tracking-wider">
+                    সফল শিক্ষার্থী
+                  </p>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                  {uni.name}
-                </h3>
-                <p className="text-gray-500 mb-4 text-sm">{uni.description}</p>
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <FaUsers className="text-myred-secondary" />
-                  <span className="text-2xl font-bold text-myred-secondary">
-                    {uni.students}
-                  </span>
-                </div>
-                <p className="text-gray-400 uppercase text-xs font-medium tracking-wider">
-                  সফল শিক্ষার্থী
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        <div className="text-center mt-16">
-          <button className="relative overflow-hidden bg-myred-dark text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-600 hover:shadow-myred/50 focus:ring-2 focus:ring-myred focus:ring-offset-2 transition-all duration-300 shadow-lg group">
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              <FaUsers /> আমাদের কমিউনিটিতে যোগ দিন
-            </span>
-            <span className="absolute inset-0 bg-gradient-to-r from-myred-dark to-myred opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          </button>
+        {/* Overlay Section Below Cards */}
+        <div className="absolute bottom-[-200px] w-full mx-auto bg-gradient-to-t from-white via-white shadow-lg rounded-4xl to-transparent">
+          <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="text-white">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+                আমাদের শিক্ষার যাত্রা
+              </h3>
+              <p className="text-black mb-6 text-base sm:text-lg">
+                আমাদের প্ল্যাটফর্মে যোগ দিন এবং বিভিন্ন বিশ্ববিদ্যালয় থেকে
+                শিক্ষার্থীদের সঙ্গে যুক্ত হোন। সফলতার পথে এগিয়ে চলুন, প্রতিটি
+                কোর্স আপনাকে শক্তিশালী করবে।
+              </p>
+              <button className="bg-yellow-400 text-[#082f49] font-bold px-6 py-3 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
+                আরও জানুন
+              </button>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <img
+                src="https://media.gettyimages.com/id/1298899298/vector/man-at-the-institute-studying-geometric-shapes.jpg?s=612x612&w=0&k=20&c=QA_3_XYQQDK6C6fwv4cCBNF1BtPIPNsHOxsjWeBE5qM="
+                alt="Students collage"
+                className="rounded-3xl shadow-2xl max-w-full lg:max-w-lg max-h-[250px]"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

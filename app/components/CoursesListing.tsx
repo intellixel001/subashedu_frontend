@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -12,39 +13,36 @@ export function CoursesListing() {
   useEffect(() => {
     async function getData() {
       const res = await getPublicCourse();
-      if (!res?.length) {
-        throw new Error("Failed to fetch courses");
-      }
+      if (!res?.length) return setData([]);
       setData(res);
     }
     getData();
   }, []);
 
-  // Get current courses for pagination
+  // Pagination
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
   const currentCourses = data.slice(indexOfFirstCourse, indexOfLastCourse);
   const totalPages = Math.ceil(data.length / coursesPerPage);
 
-  // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <section className="mx-auto px-2 md:px-4 lg:px-16 py-4 bg-transparent">
-      <h1 className="text-3xl md:text-4xl text-center uppercase text-myred-secondary font-bold mb-8">
+    <section className="mx-auto px-4 sm:px-6 lg:px-16 py-12 bg-gray-50">
+      <h1 className="text-3xl md:text-4xl text-center font-extrabold text-gray-900 mb-10">
         All Courses
       </h1>
 
-      {/* Courses grid */}
+      {/* Courses Grid */}
       {currentCourses.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {currentCourses.map((course) => (
               <div
                 key={course.id}
-                className="bg-gray-800/70 backdrop-blur-md rounded-lg shadow-md hover:shadow-myred/50 transition-shadow duration-300 flex flex-col border border-myred/30"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-200 flex flex-col overflow-hidden hover:-translate-y-1 transform"
               >
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-52 rounded-t-2xl overflow-hidden">
                   <Image
                     src={course.thumbnailUrl}
                     alt={course.title}
@@ -54,19 +52,21 @@ export function CoursesListing() {
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex justify-between items-start mb-2">
-                    <span className="bg-myred/20 text-myred text-xs px-2 py-1 rounded">
+                    <span className="bg-blue-100 text-blue-600 text-xs font-semibold px-2 py-1 rounded-full">
                       {course.subject}
                     </span>
-                    <span className="bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
+                    <span className="bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full">
                       {course.class}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-100 mb-2 line-clamp-2 min-h-[3rem]">
+
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 min-h-[3rem]">
                     {course.title}
                   </h3>
-                  <p className="text-gray-300 mb-4 line-clamp-5 flex-grow">
+                  <p className="text-gray-600 mb-4 line-clamp-4 flex-grow">
                     {course.short_description}
                   </p>
+
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-2">
                       {course.offer_price &&
@@ -86,13 +86,13 @@ export function CoursesListing() {
                       )}
                     </div>
                   </div>
+
                   <Link
                     href={`${process.env.NEXT_PUBLIC_URL}/course/${course._id}`}
-                    className="block mt-auto"
+                    className="mt-auto"
                   >
-                    <button className="w-full bg-gradient-to-r from-myred to-myred-secondary text-gray-100 py-2 rounded-md hover:bg-myred-dark transition-colors duration-200 relative overflow-hidden group">
-                      <span className="relative z-10">Enroll Now</span>
-                      <span className="absolute inset-0 bg-myred-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <button className="w-full bg-gradient-to-r from-blue-500 to-teal-500 text-white py-3 rounded-full font-semibold hover:from-blue-600 hover:to-teal-600 shadow-md hover:shadow-lg transition-all duration-300">
+                      Enroll Now
                     </button>
                   </Link>
                 </div>
@@ -101,12 +101,12 @@ export function CoursesListing() {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-10">
             <nav className="inline-flex rounded-md shadow">
               <button
                 onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 rounded-l-md border border-myred/30 bg-gray-800 text-gray-300 hover:bg-myred/20 disabled:opacity-50"
+                className="px-4 py-2 rounded-l-md border border-gray-200 bg-white text-gray-700 hover:bg-blue-50 disabled:opacity-50 transition-all"
               >
                 Previous
               </button>
@@ -114,12 +114,11 @@ export function CoursesListing() {
                 <button
                   key={index}
                   onClick={() => paginate(index + 1)}
-                  className={`px-3 py-1 border-t border-b border-myred/30 ${
+                  className={`px-4 py-2 border-t border-b border-gray-200 ${
                     currentPage === index + 1
-                      ? "bg-myred text-gray-100"
-                      : "bg-gray-800 text-gray-300 hover:bg-myred/20"
-                  }`}
-                  disabled={currentPage === index + 1}
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-gray-700 hover:bg-blue-50"
+                  } transition-all`}
                 >
                   {index + 1}
                 </button>
@@ -131,7 +130,7 @@ export function CoursesListing() {
                   )
                 }
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded-r-md border border-myred/30 bg-gray-800 text-gray-300 hover:bg-myred/20 disabled:opacity-50"
+                className="px-4 py-2 rounded-r-md border border-gray-200 bg-white text-gray-700 hover:bg-blue-50 disabled:opacity-50 transition-all"
               >
                 Next
               </button>
@@ -140,7 +139,7 @@ export function CoursesListing() {
         </>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-300 text-lg">
+          <p className="text-gray-500 text-lg">
             No courses available at the moment.
           </p>
         </div>

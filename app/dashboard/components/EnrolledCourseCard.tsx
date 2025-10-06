@@ -34,7 +34,7 @@ export function EnrolledCourseCard({
         <img
           src={thumbnail}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+          className="w-full h-[250px] object-cover transition-transform duration-700 hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         {isLive && (

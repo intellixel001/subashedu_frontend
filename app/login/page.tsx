@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-6xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+      <div className="max-w-6xl w-full bg-white rounded-3xl shadow-r-2xl overflow-hidden flex flex-col lg:flex-row">
         {/* Left Side: Form */}
         <div className="w-full lg:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
           <div className="text-center mb-8">
@@ -131,11 +131,11 @@ export default function LoginPage() {
         {/* Right Side: Image / Illustration */}
         <div className="w-full lg:w-1/2 relative hidden lg:block">
           <img
-            src="/login-illustration-light.png"
+            src="https://media.gettyimages.com/id/530956742/photo/amman-jordan-teaching-at-the-school-bilayer-al-quds-amman-there-jordanian-and-syrian-children.jpg?s=612x612&w=0&k=20&c=1grTyqcVzv6-yPhgJxgkQxMCy5VCIvZq8YrEi7UJ4r0="
             alt="Learning Illustration"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-white/40 to-white/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-white/90"></div>
         </div>
       </div>
     </div>

@@ -1,14 +1,16 @@
 "use client";
 
+import { Class } from "@/app/admin/manage-class/page";
 import { useEffect, useState } from "react";
-import HlsPlayer from "./HlsPlayer";
 
 export default function JoinLiveClass({
   startTime,
   isActiveLive,
+  freeClass,
 }: {
   startTime?: string;
   isActiveLive?: boolean;
+  freeClass: Class;
 }) {
   const [countdown, setCountdown] = useState<string>("");
 
@@ -21,7 +23,7 @@ export default function JoinLiveClass({
       const diff = start - now;
 
       if (diff <= 0) {
-        setCountdown("");
+        setCountdown(""); // countdown finished
         clearInterval(interval);
       } else {
         const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -40,21 +42,27 @@ export default function JoinLiveClass({
 
   const now = new Date().getTime();
   const start = startTime ? new Date(startTime).getTime() : 0;
-  const hasStarted = isActiveLive || (startTime && start <= now);
+
+  // Show join button if class is active or start time passed
+  const showJoinButton = isActiveLive || !startTime || start <= now;
 
   return (
     <div className="p-6 bg-gray-800 text-white rounded-2xl shadow-md text-center space-y-4">
       <h2 className="text-2xl sm:text-3xl font-bold">Live Class</h2>
-      <HlsPlayer src={"https://stream.intelixel.com/live/mystream.m3u8"} />
-      {hasStarted ? (
-        <>
-          <p className="text-gray-200 text-lg">
-            The class is now live! Click below to join and start learning.
-          </p>
+
+      {/* HLS Player */}
+      {/* <HlsPlayer src={"http://147.93.123.63/live/mystream.m3u8"} /> */}
+
+      {showJoinButton ? (
+        <a
+          href={freeClass?.videoLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <button className="bg-green-600 hover:bg-green-700 transition-colors text-white px-8 py-4 rounded-lg font-bold text-xl shadow-md">
             Join Now
           </button>
-        </>
+        </a>
       ) : countdown ? (
         <>
           <p className="text-gray-300 text-lg">

@@ -9,96 +9,76 @@ import { CoursesListing } from "../components/CoursesListing";
 
 export default async function CoursesPage() {
   return (
-    <main className="w-full min-h-screen bg-gray-900 pt-20">
+    <main className="w-full min-h-screen bg-white">
       {/* Our Courses Section */}
-      <section className="py-12 px-2 hidden md:px-4 lg:px-16 bg-transparent">
+      <section className="py-12 px-2 md:px-4 lg:px-16 bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl md:text-3xl text-center uppercase text-myred-secondary font-bold mb-8">
-            Our Courses
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Class 9-12 Box */}
-            <div className="group bg-gray-800/70 backdrop-blur-md rounded-xl shadow-lg hover:shadow-myred/50 transition-all duration-300 overflow-hidden border border-myred/30">
-              <div className="p-8 flex flex-col items-center text-center">
-                <div className="mb-6 w-20 h-20 rounded-full bg-myred/20 text-myred flex items-center justify-center group-hover:bg-myred group-hover:text-gray-100 transition-colors duration-300">
-                  <FaChalkboardTeacher className="text-3xl" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-100 mb-2">
-                  Class 9-12
-                </h3>
-                <p className="text-gray-300 mb-6 line-clamp-2 h-[50px]">
-                  Comprehensive curriculum for high school excellence
-                </p>
-                <Link
-                  href="/courses/class%209-12"
-                  className="w-full px-6 py-2 bg-gradient-to-r from-myred to-myred-secondary text-gray-100 rounded-md hover:bg-myred-dark transition-colors duration-200 relative overflow-hidden group"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Cards Array */}
+            {[
+              {
+                title: "Class 9-12",
+                description:
+                  "Comprehensive curriculum for high school excellence",
+                link: "/courses/class%209-12",
+                icon: <FaChalkboardTeacher className="text-3xl" />,
+                gradient: "bg-gradient-to-tr from-blue-400 to-purple-500",
+              },
+              {
+                title: "Admission Preparation",
+                description: "Guidance for top university placements",
+                link: "/courses/admission",
+                icon: <FaGraduationCap className="text-3xl" />,
+                gradient: "bg-gradient-to-tr from-green-400 to-teal-400",
+              },
+              {
+                title: "Job Preparation",
+                description: "Career-focused training and interview prep",
+                link: "/courses/job%20preparation",
+                icon: <FaUserTie className="text-3xl" />,
+                gradient: "bg-gradient-to-tr from-pink-400 to-red-400",
+              },
+            ].map((course, idx) => (
+              <div
+                key={idx}
+                className="group flex flex-col items-center text-center rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 p-6 bg-white border border-gray-200 hover:-translate-y-1"
+              >
+                <div
+                  className={`mb-4 w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl ${course.gradient} shadow-md group-hover:scale-110 transition-transform duration-300`}
                 >
-                  <span className="relative z-10">View Now</span>
-                  <span className="absolute inset-0 bg-myred-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-                <div className="mt-6 w-12 h-1 bg-myred group-hover:w-20 transition-all duration-300"></div>
-              </div>
-            </div>
-
-            {/* Admission Preparation Box */}
-            <div className="group bg-gray-800/70 backdrop-blur-md rounded-xl shadow-lg hover:shadow-myred/50 transition-all duration-300 overflow-hidden border border-myred/30">
-              <div className="p-8 flex flex-col items-center text-center">
-                <div className="mb-6 w-20 h-20 rounded-full bg-myred/20 text-myred flex items-center justify-center group-hover:bg-myred group-hover:text-gray-100 transition-colors duration-300">
-                  <FaGraduationCap className="text-3xl" />
+                  {course.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-100 mb-2">
-                  Admission Preparation
+                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors duration-300">
+                  {course.title}
                 </h3>
-                <p className="text-gray-300 mb-6 line-clamp-2 h-[50px]">
-                  Guidance for top university placements
+                <p className="text-gray-600 text-sm mb-4">
+                  {course.description}
                 </p>
-                <Link
-                  href="/courses/admission"
-                  className="w-full px-6 py-2 bg-gradient-to-r from-myred to-myred-secondary text-gray-100 rounded-md hover:bg-myred-dark transition-colors duration-200 relative overflow-hidden group"
-                >
-                  <span className="relative z-10">View Now</span>
-                  <span className="absolute inset-0 bg-myred-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Link href={course.link}>
+                  <button
+                    className={`px-6 py-2 rounded-full text-white font-semibold transition-all duration-300 ${course.gradient} hover:brightness-110 shadow-md`}
+                  >
+                    View Now
+                  </button>
                 </Link>
-                <div className="mt-6 w-12 h-1 bg-myred group-hover:w-20 transition-all duration-300"></div>
               </div>
-            </div>
-
-            {/* Job Preparation Box */}
-            <div className="group bg-gray-800/70 backdrop-blur-md rounded-xl shadow-lg hover:shadow-myred/50 transition-all duration-300 overflow-hidden border border-myred/30">
-              <div className="p-8 flex flex-col items-center text-center">
-                <div className="mb-6 w-20 h-20 rounded-full bg-myred/20 text-myred flex items-center justify-center group-hover:bg-myred group-hover:text-gray-100 transition-colors duration-300">
-                  <FaUserTie className="text-3xl" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-100 mb-2">
-                  Job Preparation
-                </h3>
-                <p className="text-gray-300 mb-6 line-clamp-2 h-[50px]">
-                  Career-focused training and interview prep
-                </p>
-                <Link
-                  href="/courses/job%20preparation"
-                  className="w-full px-6 py-2 bg-gradient-to-r from-myred to-myred-secondary text-gray-100 rounded-md hover:bg-myred-dark transition-colors duration-200 relative overflow-hidden group"
-                >
-                  <span className="relative z-10">View Now</span>
-                  <span className="absolute inset-0 bg-myred-dark opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </Link>
-                <div className="mt-6 w-12 h-1 bg-myred group-hover:w-20 transition-all duration-300"></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* All Courses Listing Section */}
-      <Suspense
-        fallback={
-          <div className="text-center py-12 text-gray-300">
-            Loading courses...
-          </div>
-        }
-      >
-        <CoursesListing />
-      </Suspense>
+      <div className="container mx-auto">
+        {/* All Courses Listing Section */}
+        <Suspense
+          fallback={
+            <div className="text-center py-12 text-gray-300">
+              Loading courses...
+            </div>
+          }
+        >
+          <CoursesListing />
+        </Suspense>
+      </div>
     </main>
   );
 }

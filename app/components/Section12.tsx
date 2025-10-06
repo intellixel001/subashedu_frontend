@@ -2,8 +2,8 @@
 
 export default function Section12() {
   return (
-    <section className="w-full py-16 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-blue-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full py-16 px-6 sm:px-5 lg:px-5 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+      <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           {/* Video Section */}
           <div className="w-full lg:w-1/2 aspect-video rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.03] transition-transform duration-500 border-4 border-gray-800">

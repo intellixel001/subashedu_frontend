@@ -25,13 +25,11 @@ export default function Section7() {
       try {
         const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
         const response = await fetch(`${serverUrl}/api/free-class`);
-
         if (!response.ok) {
           setFreeClasses([]);
           setLoading(false);
           return;
         }
-
         const data = await response.json();
         setFreeClasses(data.data || []);
       } catch {
@@ -69,7 +67,6 @@ export default function Section7() {
       });
       setCountdowns(newCountdowns);
     }, 1000);
-
     return () => clearInterval(interval);
   }, [freeClasses]);
 
@@ -79,28 +76,28 @@ export default function Section7() {
       const start = new Date(freeClass.startTime).getTime();
       if (start > now) {
         return (
-          <span className="absolute top-3 right-3 bg-yellow-400 text-gray-900 font-bold text-sm px-3 py-1 rounded-full animate-pulse">
+          <span className="absolute top-3 right-3 bg-yellow-400 text-gray-900 font-bold text-xs sm:text-sm px-3 py-1 rounded-full animate-pulse shadow-md">
             শুরু হবে {countdowns[freeClass._id] || "লোড হচ্ছে..."}
           </span>
         );
       } else {
         return (
-          <span className="absolute top-3 right-3 bg-red-500 text-white font-bold text-sm px-3 py-1 rounded-full animate-pulse">
+          <span className="absolute top-3 right-3 bg-red-500 text-white font-bold text-xs sm:text-sm px-3 py-1 rounded-full animate-pulse shadow-md">
             লাইভ চলছে
           </span>
         );
       }
     }
     return (
-      <span className="absolute top-3 right-3 bg-gray-300 text-gray-800 font-medium text-sm px-3 py-1 rounded-full">
+      <span className="absolute top-3 right-3 bg-gray-300 text-gray-800 font-medium text-xs sm:text-sm px-3 py-1 rounded-full shadow-sm">
         দেখুন
       </span>
     );
   };
 
   const renderSkeletons = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {Array.from({ length: 3 }).map((_, i) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
           className="bg-gray-200 rounded-2xl shadow animate-pulse overflow-hidden"
@@ -124,10 +121,10 @@ export default function Section7() {
       return (
         <div className="text-center py-12">
           <FaVideoSlash className="mx-auto text-5xl text-gray-400 mb-4" />
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
             কোনো ফ্রি ক্লাস উপলব্ধ নেই
           </h3>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm sm:text-base">
             আমরা নতুন ফ্রি ক্লাস তৈরি করছি। অনুগ্রহ করে পরে আবার দেখুন।
           </p>
           <div className="mt-6">
@@ -143,13 +140,13 @@ export default function Section7() {
     }
 
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {freeClasses.map((fc) => (
           <div
             key={fc._id}
-            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:scale-[1.02] hover:shadow-lg transition-all duration-300 relative overflow-hidden"
+            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
           >
-            <div className="aspect-video relative">
+            <div className="aspect-video relative rounded-t-2xl overflow-hidden">
               <img
                 src={fc.image || "/default-thumb.jpg"}
                 alt={fc.title}
@@ -157,21 +154,21 @@ export default function Section7() {
               />
               {renderBadge(fc)}
             </div>
-            <div className="p-5">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {fc.title}
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                {fc.subject} {fc.instructor ? `দ্বারা ${fc.instructor}` : ""}
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                <Link
-                  href={`/class/${fc._id}`}
-                  className="inline-flex items-center bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm"
-                >
-                  <FaPlayCircle className="mr-2" /> চলুন শুরু করি
-                </Link>
+            <div className="p-5 flex flex-col justify-between h-[180px]">
+              <div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-1">
+                  {fc.title}
+                </h3>
+                <p className="text-gray-600 mb-2 text-sm sm:text-base">
+                  {fc.subject} {fc.instructor ? `দ্বারা ${fc.instructor}` : ""}
+                </p>
               </div>
+              <Link
+                href={`/class/${fc._id}`}
+                className="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base font-medium"
+              >
+                <FaPlayCircle className="mr-2" /> চলুন শুরু করি
+              </Link>
             </div>
           </div>
         ))}
@@ -180,10 +177,10 @@ export default function Section7() {
   };
 
   return (
-    <section className="px-4 sm:px-6 py-12 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+    <section className="px-4 sm:px-6 py-16 bg-gradient-to-b from-blue-50 via-white to-blue-100">
       <div className="container mx-auto">
-        <div className="text-center max-w-7xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 uppercase mb-3">
+        <div className="text-center max-w-7xl mx-auto mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 uppercase mb-3">
             আমাদের ফ্রি ক্লাসসমূহ
           </h2>
           <p className="text-gray-600 text-sm sm:text-base">
@@ -191,7 +188,6 @@ export default function Section7() {
             ক্লিক করুন।
           </p>
         </div>
-
         {loading ? renderSkeletons() : renderCards()}
       </div>
     </section>

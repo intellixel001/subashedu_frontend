@@ -1,6 +1,7 @@
 "use client";
 
 import { Class } from "@/app/admin/manage-class/page";
+import Link from "next/link";
 import { JSX, useEffect, useState } from "react";
 import { FaChalkboardTeacher, FaClock, FaUsers, FaVideo } from "react-icons/fa";
 
@@ -142,38 +143,38 @@ function Section({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {classes
               .map((cls) => (
-                <div
-                  key={cls._id}
-                  className={`${
-                    light
-                      ? "bg-white border-gray-200"
-                      : "bg-[#f9f9f9]/5 border-gray-700"
-                  } border rounded-xl overflow-hidden hover:shadow-lg hover:scale-[1.02] transition transform`}
-                >
-                  {cls.image && (
-                    <img
-                      src={cls.image}
-                      alt={cls.title}
-                      className="h-40 w-full object-cover"
-                    />
-                  )}
-                  <div className="p-5 flex flex-col h-full">
-                    <h3
-                      className={`font-bold text-lg mb-2 ${
-                        light ? "text-gray-800" : "text-white"
-                      }`}
-                    >
-                      {cls.title}
-                    </h3>
-                    <p
-                      className={`text-sm mb-1 ${
-                        light ? "text-gray-600" : "text-gray-400"
-                      }`}
-                    >
-                      <span className="font-medium">Subject:</span>{" "}
-                      {cls.subject}
-                    </p>
-                    {/* <p
+                <Link key={cls._id} href={"/class/" + cls?._id}>
+                  <div
+                    className={`${
+                      light
+                        ? "bg-white border-gray-200"
+                        : "bg-[#f9f9f9]/5 border-gray-700"
+                    } border rounded-xl overflow-hidden hover:shadow-lg hover:scale-[1.02] transition transform`}
+                  >
+                    {cls.image && (
+                      <img
+                        src={cls.image}
+                        alt={cls.title}
+                        className="h-40 w-full object-cover"
+                      />
+                    )}
+                    <div className="p-5 flex flex-col h-full">
+                      <h3
+                        className={`font-bold text-lg mb-2 ${
+                          light ? "text-gray-800" : "text-white"
+                        }`}
+                      >
+                        {cls.title}
+                      </h3>
+                      <p
+                        className={`text-sm mb-1 ${
+                          light ? "text-gray-600" : "text-gray-400"
+                        }`}
+                      >
+                        <span className="font-medium">Subject:</span>{" "}
+                        {cls.subject}
+                      </p>
+                      {/* <p
                       className={`text-sm mb-1 ${
                         light ? "text-gray-600" : "text-gray-400"
                       }`}
@@ -181,7 +182,7 @@ function Section({
                       <span className="font-medium">Instructor:</span>{" "}
                       {cls.instructor || "Unknown"}
                     </p> */}
-                    {/* <p
+                      {/* <p
                       className={`text-sm mb-4 ${
                         light ? "text-gray-600" : "text-gray-400"
                       }`}
@@ -190,14 +191,16 @@ function Section({
                       {cls.courseId?.title || "N/A"}
                     </p> */}
 
-                    <a
-                      href={`/dashboard/live-class/${cls._id}`}
-                      className="mt-auto w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 hover:shadow-md transition flex items-center justify-center gap-2"
-                    >
-                      <FaVideo /> {cls.type === "live" ? "Join Live" : "Watch"}
-                    </a>
+                      <a
+                        href={`/dashboard/live-class/${cls._id}`}
+                        className="mt-auto w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 hover:shadow-md transition flex items-center justify-center gap-2"
+                      >
+                        <FaVideo />{" "}
+                        {cls.type === "live" ? "Join Live" : "Watch"}
+                      </a>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))
               .reverse()}
           </div>

@@ -40,68 +40,60 @@ export default function Section1() {
   ];
 
   return (
-    <section className="relative flex flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-white to-blue-50 text-gray-900 py-20 px-4 lg:px-0">
-      {/* Hero Title */}
-      <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 max-w-4xl leading-tight">
-        <span className="text-myred">আপনার শিক্ষার যাত্রা</span>
-        <br />
-        <span className="text-gray-700 font-semibold">
-          সুবাশ এডুর সঙ্গে সফলতার পথে
-        </span>
-      </h1>
+    <section className="flex flex-col lg:flex-row items-center justify-between bg-gradient-to-l from-gray-400 via-gray-300 to-gray-100 text-gray-900 py-20 px-6 lg:px-20">
+      {/* Left Text Column */}
+      <div className="lg:w-1/2 flex flex-col justify-center space-y-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+          <span className="text-myred">আপনার শিক্ষার যাত্রা</span>
+          <br />
+          <span className="text-gray-700 font-semibold">
+            সুবাশ এডুর সঙ্গে সফলতার পথে
+          </span>
+        </h1>
 
-      {/* Hero Description */}
-      <p className="text-center text-gray-600 text-sm sm:text-base mb-8 max-w-3xl">
-        ভর্তি প্রস্তুতি থেকে চাকরি প্রস্তুতি পর্যন্ত সকল শিক্ষামূলক কোর্স, ফ্রি
-        ক্লাস এবং প্রয়োজনীয় শিক্ষাসংক্রান্ত সম্পদগুলো এক জায়গায়। শিক্ষার্থীদের
-        জন্য সহজ, দ্রুত এবং কার্যকরী।
-      </p>
+        <p className="text-gray-600 text-base sm:text-lg max-w-md">
+          ভর্তি প্রস্তুতি থেকে চাকরি প্রস্তুতি পর্যন্ত সকল শিক্ষামূলক কোর্স,
+          ফ্রি ক্লাস এবং প্রয়োজনীয় শিক্ষাসংক্রান্ত সম্পদগুলো এক জায়গায়।
+          শিক্ষার্থীদের জন্য সহজ, দ্রুত এবং কার্যকরী।
+        </p>
 
-      {/* Navigation Pills */}
-      <div className="flex flex-wrap justify-center gap-3 mb-8">
-        {navigationItems.map((item, idx) => (
-          <Link
-            href={item.href}
-            key={idx}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 hover:bg-myred/10 transition-colors text-sm sm:text-base shadow-sm"
-          >
-            {item.icon}
-            <span>{item.text}</span>
+        {/* Navigation Pills */}
+        <div className="flex flex-wrap gap-2 sm:gap-3">
+          {navigationItems.slice(0, 5).map((item, idx) => (
+            <Link
+              href={item.href}
+              key={idx}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 hover:bg-myred/10 transition-colors text-sm sm:text-base shadow-sm"
+            >
+              {item.icon}
+              <span>{item.text}</span>
+            </Link>
+          ))}
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 mt-6">
+          <Link href="/courses">
+            <button className="px-10 py-4 sm:py-5 bg-gradient-to-r from-myred to-myred-secondary text-white font-extrabold text-lg sm:text-xl rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+              সমস্ত কোর্স দেখুন
+            </button>
           </Link>
-        ))}
+
+          <Link href="https://www.youtube.com/@Suvash.Edu.B/videos">
+            <button className="px-10 py-4 sm:py-5 bg-gradient-to-r from-myred-dark to-myred text-white font-extrabold text-lg sm:text-xl rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
+              <CiVideoOn className="text-2xl sm:text-3xl" /> ফ্রি ক্লাস দেখুন
+            </button>
+          </Link>
+        </div>
       </div>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 z-10">
-        <Link href="/courses">
-          <button className="px-8 py-3 bg-gradient-to-r from-myred to-myred-secondary text-white font-bold rounded-full shadow-md hover:shadow-myred/50 transition-all">
-            সমস্ত কোর্স দেখুন
-          </button>
-        </Link>
-        <Link href="https://www.youtube.com/@Suvash.Edu.B/videos">
-          <button className="px-8 py-3 bg-gradient-to-r from-myred-dark to-myred text-white font-bold rounded-full shadow-md hover:shadow-myred/50 transition-all flex items-center gap-2">
-            <CiVideoOn /> ফ্রি ক্লাস দেখুন
-          </button>
-        </Link>
-      </div>
-
-      {/* Extra Info Section */}
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-5xl w-full text-gray-700">
-        <div className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h3 className="font-bold mb-2">ফ্রি ক্লাস</h3>
-          <p>
-            নির্দিষ্ট বিষয়গুলোতে ফ্রি ভিডিও ক্লাসের মাধ্যমে শিক্ষার্থীদের
-            সহায়তা।
-          </p>
-        </div>
-        <div className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h3 className="font-bold mb-2">ভর্তি প্রস্তুতি</h3>
-          <p>প্রতিটি শিক্ষার্থীর জন্য ভর্তির প্রস্তুতির সমন্বিত কোর্স।</p>
-        </div>
-        <div className="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition">
-          <h3 className="font-bold mb-2">চাকরি প্রস্তুতি</h3>
-          <p>প্রফেশনাল পরীক্ষার জন্য সম্পূর্ণ কোর্স ও প্র্যাকটিস সেট।</p>
-        </div>
+      {/* Right Image Column */}
+      <div className="lg:w-1/2 mt-10 lg:mt-0 flex justify-center">
+        <img
+          src="/assets/hero.png"
+          alt="Education Hero"
+          className="w-full max-full rounded-xl"
+        />
       </div>
     </section>
   );

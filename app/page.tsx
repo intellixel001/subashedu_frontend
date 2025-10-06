@@ -15,11 +15,11 @@ export const revalidate = 3600;
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-white">
       <Section1 />
       <Section2 />
-      <Section3 />
       <Section4 />
+      <Section3 />
       {/* <Section5 /> */}
       {/* <Section6 /> */}
       <Section7 />

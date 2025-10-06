@@ -36,31 +36,40 @@ function useCountUp(end: number, duration: number = 2000) {
   return count;
 }
 
-// Individual StatCard component
-function StatCardComponent({ card }: { card: StatCard }) {
-  const count = useCountUp(card.value); // ✅ Hook used at top level of component
+// Individual StatCard section inside the big card
+function StatCardSection({
+  card,
+  isLast,
+}: {
+  card: StatCard;
+  isLast: boolean;
+}) {
+  const count = useCountUp(card.value);
 
   return (
     <div
-      className="relative bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 cursor-pointer"
-      onClick={() => console.log(`Clicked on ${card.label}`)}
+      className={`flex-1 p-8 flex items-center text-left ${
+        !isLast ? "border-b md:border-b-0 md:border-r border-gray-200" : ""
+      }`}
     >
-      <div className="p-8 flex flex-col items-center text-center">
-        <div
-          className={`mb-6 w-20 h-20 rounded-full flex items-center justify-center ${card.gradient}`}
-        >
-          {card.icon}
+      <div
+        className={`mr-4 w-16 h-16 rounded-full flex items-center justify-center ${card.gradient}`}
+      >
+        {card.icon}
+      </div>
+      <div>
+        <div className="flex items-center">
+          <h3 className="text-3xl mr-2 sm:text-4xl font-bold text-gray-900">
+            {count}+
+          </h3>
+          <h4 className="text-xl font-semibold text-gray-700">{card.label}</h4>
         </div>
-        <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-          {count}+
-        </h3>
-        <h4 className="text-xl font-semibold text-gray-700 mb-2">
-          {card.label}
-        </h4>
-        <p className="text-gray-500 text-sm">{card.description}</p>
-        <div
-          className={`mt-6 w-16 h-1 rounded-full ${card.gradient} transition-all duration-300`}
-        ></div>
+        <div>
+          <p className="text-gray-500 text-sm">{card.description}</p>
+          <div
+            className={`mt-2 w-16 h-1 rounded-full ${card.gradient} transition-all duration-300`}
+          ></div>
+        </div>
       </div>
     </div>
   );
@@ -68,17 +77,15 @@ function StatCardComponent({ card }: { card: StatCard }) {
 
 export default function Section2Client({ statsCards }: Props) {
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 via-white to-blue-50">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-gray-900 mb-12">
-          আমাদের শিক্ষার পরিসংখ্যান
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {statsCards.map((card) => (
-            <StatCardComponent key={card.id} card={card} />
-          ))}
-        </div>
+    <section className="mt-[-70px] bg-gradient-to-t from-white via-white to-transparent flex justify-center">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl flex flex-col md:flex-row overflow-hidden border border-gray-200">
+        {statsCards.map((card, idx) => (
+          <StatCardSection
+            key={card.id}
+            card={card}
+            isLast={idx === statsCards.length - 1}
+          />
+        ))}
       </div>
     </section>
   );
