@@ -97,10 +97,14 @@ const MaterialsPage = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <FaSpinner className="animate-spin text-5xl text-[#f7374f] mb-4" />
-        <p className="text-lg font-medium text-gray-600">Loading materials...</p>
+        <p className="text-lg font-medium text-gray-600">
+          Loading materials...
+        </p>
       </div>
     );
   }
+
+  console.log(error);
 
   // Error state
   if (error) {

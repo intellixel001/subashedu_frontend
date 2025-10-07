@@ -47,7 +47,7 @@ export default function Section1() {
           <span className="text-myred">আপনার শিক্ষার যাত্রা</span>
           <br />
           <span className="text-gray-700 font-semibold">
-            সুবাশ এডুর সঙ্গে সফলতার পথে
+            সুভাস এডুর সঙ্গে সফলতার পথে
           </span>
         </h1>
 
