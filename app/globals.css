@@ -131,7 +131,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: "Questrial", sans-serif;
+  /* font-family: "Questrial", sans-serif; */
   font-weight: 100;
   font-style: normal;
   overflow-x: hidden;
@@ -510,4 +510,49 @@ body::before {
 }
 .animate-slideDown {
   animation: slideDown 0.3s ease-out;
+}
+
+/* importent var  */
+.brand-text-color {
+  color: #fca00a;
+}
+
+.brand-bg-color {
+  background-color: #fca00a;
+}
+
+.brand2-bg-color {
+  background-color: #8b8a8b;
+}
+
+/* globals.css */
+
+.brand-button {
+  background-color: #fca00a;
+  color: black;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 9999px; /* rounded-full */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; /* spacing between icon/text */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle initial shadow */
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.brand-button:hover {
+  background-color: #feb33b;
+  color: #3b82f6;
+  transform: translateY(-4px) scale(1.05); /* lift + slight grow */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 6px 6px rgba(0, 0, 0, 0.15); /* bigger, layered shadow for 3D vibe */
+}
+
+.brabrand-hover-button:hover {
+  background-color: #feb33b;
+  cursor: pointer;
+  color: #3b82f6;
+  transform: translateY(-4px) scale(1.05); /* lift + slight grow */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25), 0 6px 6px rgba(0, 0, 0, 0.15); /* bigger, layered shadow for 3D vibe */
 }

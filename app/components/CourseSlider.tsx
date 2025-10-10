@@ -25,9 +25,9 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
       centeredSlides={true}
       loop={true}
       freeMode={true}
-      speed={3000}
+      speed={1000}
       autoplay={{
-        delay: 0,
+        delay: 1000,
         disableOnInteraction: false,
       }}
       modules={[Autoplay]}
@@ -39,11 +39,13 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
       }}
     >
       {loopedCourses.map((course, idx) => (
-        <SwiperSlide key={idx} className="flex justify-center">
+        <SwiperSlide key={idx} className="flex justify-center pb-20">
           {({ isActive }) => (
             <div
-              className={`bg-white border border-gray-200 rounded-2xl shadow-md flex flex-col overflow-hidden transition-transform duration-500 ${
-                isActive ? "scale-110 z-20" : "scale-90"
+              className={`bg-white hover:scale-110 hover:rounded-xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-gray-200 flex flex-col overflow-hidden transition-transform duration-500 ${
+                isActive
+                  ? "rounded-xl scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
+                  : "rounded-2xl shadow-md"
               }`}
             >
               <div className="relative w-full h-[180px] min-h-[180px] max-h-[180px] overflow-hidden rounded-t-2xl">
@@ -61,9 +63,9 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
                 <p className="text-gray-600 mb-4 text-sm line-clamp-5 h-[100px]">
                   {course.short_description}
                 </p>
-                <div className="mt-auto">
-                  <Link href={`/course/${course._id}`}>
-                    <button className="w-full py-2 px-6 rounded-full text-white font-medium bg-gradient-to-r from-blue-500 to-blue-600 shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300">
+                <div className="mt-auto text-center">
+                  <Link className="text-center" href={`/course/${course._id}`}>
+                    <button className="w-full py-2  flex items-center justify-center px-6 rounded-full brand-button text-center block font-[700]">
                       এখন ভর্তি হন
                     </button>
                   </Link>

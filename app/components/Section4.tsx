@@ -24,7 +24,7 @@ export default async function Section4() {
   const upcomingCourses = await getData();
 
   return (
-    <section className="px-6 py-16 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+    <section className="px-6 py-16 bg-transparent">
       <div className="container mx-auto">
         {/* Section Heading */}
         <div className="text-center mb-12">

@@ -77,7 +77,7 @@ function StatCardSection({
 
 export default function Section2Client({ statsCards }: Props) {
   return (
-    <section className="mt-[-70px] bg-gradient-to-t from-white via-white to-transparent flex justify-center">
+    <section className="mt-[-70px] flex justify-center">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-6xl flex flex-col md:flex-row overflow-hidden border border-gray-200">
         {statsCards.map((card, idx) => (
           <StatCardSection

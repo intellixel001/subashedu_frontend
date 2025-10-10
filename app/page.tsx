@@ -15,8 +15,9 @@ export const revalidate = 3600;
 
 export default function Home() {
   return (
-    <main className="bg-white">
+    <main>
       <Section1 />
+
       <Section2 />
       <Section4 />
       <Section3 />

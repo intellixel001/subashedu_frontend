@@ -26,8 +26,8 @@ export default function Section8() {
   ];
 
   return (
-    <section className="relative text-gray-900 py-16 px-4 sm:px-6 lg:px-20">
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-[#354895] rounded-[40px] p-10">
+    <section className="relative text-gray-900 px-4 sm:px-6 pb-10 lg:px-20">
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white rounded-[40px] p-10">
         {/* Left Column - Features */}
         <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
           {features.map((feature, index) => (

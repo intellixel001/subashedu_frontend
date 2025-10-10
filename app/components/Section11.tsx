@@ -56,7 +56,7 @@ export default function Section11() {
   ];
 
   return (
-    <section className="w-full py-20 px-6 sm:px-5 lg:px-5 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+    <section className="w-full py-20 px-6 sm:px-5 lg:px-5 bg-transparent">
       <div className="container mx-auto">
         {/* Section Heading */}
         <div className="text-center mb-16">

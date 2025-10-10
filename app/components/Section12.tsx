@@ -2,7 +2,7 @@
 
 export default function Section12() {
   return (
-    <section className="w-full py-16 px-6 sm:px-5 lg:px-5 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+    <section className="w-full py-16 px-6 sm:px-5 lg:px-5 bg-transparent">
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           {/* Video Section */}

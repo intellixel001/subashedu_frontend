@@ -27,13 +27,13 @@ const reviews = [
 
 export default function Section9() {
   return (
-    <section className="py-16 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+    <section className="py-16 px-6 sm:px-12 lg:px-20 bg-transparent">
       <div className="container mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500 mb-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
             শিক্ষার্থীর অভিজ্ঞতা
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-gray-600 mt-3 text-base sm:text-lg">
             আমাদের শিক্ষার্থীরা তাদের শেখার অভিজ্ঞতা সম্পর্কে কী বলছে তা শুনুন।
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function Section9() {
         </div>
 
         <div className="flex justify-center mt-12">
-          <button className="bg-blue-600 text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold hover:bg-teal-500 transition-colors duration-300 text-sm sm:text-base">
+          <button className="brand-button px-6 py-2 sm:px-8 sm:py-3 rounded-full font-semibold transition-colors duration-300 text-sm sm:text-base">
             আরও রিভিউ পড়ুন
           </button>
         </div>

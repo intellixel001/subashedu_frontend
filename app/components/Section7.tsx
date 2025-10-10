@@ -165,7 +165,7 @@ export default function Section7() {
               </div>
               <Link
                 href={`/class/${fc._id}`}
-                className="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-teal-500 text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 text-sm sm:text-base font-medium"
+                className="inline-flex items-center justify-center brand-button px-4 py-2 rounded-full transition-all duration-300 text-sm sm:text-base font-medium"
               >
                 <FaPlayCircle className="mr-2" /> চলুন শুরু করি
               </Link>
@@ -177,13 +177,13 @@ export default function Section7() {
   };
 
   return (
-    <section className="px-4 sm:px-6 py-16 bg-gradient-to-b from-blue-50 via-white to-blue-100">
+    <section className="px-4 sm:px-6 py-24 bg-transparent">
       <div className="container mx-auto">
         <div className="text-center max-w-7xl mx-auto mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 uppercase mb-3">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
             আমাদের ফ্রি ক্লাসসমূহ
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base">
+          <p className="text-gray-600 mt-3 text-base sm:text-lg">
             বিভিন্ন বিষয় শিখুন এবং নিজের গতিতে উন্নতি করুন। নিচের বোতামগুলো
             ক্লিক করুন।
           </p>
