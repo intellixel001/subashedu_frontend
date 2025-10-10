@@ -18,7 +18,7 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
   const loopedCourses = [...courses, ...courses];
 
   // We'll keep a reference to the Swiper instance
-  let swiperInstance: any = null;
+  let swiperInstance: unknown = null;
 
   return (
     <div
