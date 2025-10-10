@@ -47,7 +47,7 @@ export function AnnouncementBar({
   }
 
   return (
-    <div className="h-9 sm:h-11 w-full bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-800 border-b border-indigo-100 flex items-center justify-between px-4 shadow-sm">
+    <div className="h-9 sm:h-11 w-full bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white flex items-center justify-between px-4">
       {/* Scrolling text */}
       <div className="w-full overflow-hidden">
         <div className="animate-marquee whitespace-nowrap text-xs sm:text-sm font-[700] text-white">

@@ -100,7 +100,7 @@ export default function Section7() {
       {Array.from({ length: 4 }).map((_, i) => (
         <div
           key={i}
-          className="bg-gray-200 rounded-2xl shadow animate-pulse overflow-hidden"
+          className="bg-white rounded-2xl shadow animate-pulse overflow-hidden"
         >
           <div className="aspect-video bg-gray-300"></div>
           <div className="p-5 space-y-3">
@@ -144,7 +144,7 @@ export default function Section7() {
         {freeClasses.map((fc) => (
           <div
             key={fc._id}
-            className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 relative overflow-hidden"
+            className="group relative rounded-2xl shadow-lg hover:shadow-lg transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 bg-white hover:bg-gradient-to-tl hover:to-white via-[#f2f4f7] from-white hover:-translate-y-5"
           >
             <div className="aspect-video relative rounded-t-2xl overflow-hidden">
               <img

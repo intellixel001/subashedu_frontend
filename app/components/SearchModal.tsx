@@ -21,7 +21,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[999] bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900">
+    <div className="fixed inset-0 z-[999] min-h-screen overflow-y-auto bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white">
       <div className="flex container mx-auto flex-col min-h-screen overflow-y-auto animate-slideDown relative">
         {/* Always visible close button */}
         <button

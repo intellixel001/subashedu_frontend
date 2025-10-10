@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   FaBook,
   FaChalkboardTeacher,
@@ -17,6 +18,7 @@ export default function Section11() {
       title: "অনলাইন প্রোগ্রাম",
       description: "ইন্টারেক্টিভ লাইভ ও রেকর্ডেড ক্লাস",
       gradient: "from-blue-500 to-blue-700",
+      limk: "#withmentor",
     },
     {
       id: 2,
@@ -24,6 +26,7 @@ export default function Section11() {
       title: "অভিজ্ঞ শিক্ষক",
       description: "শিল্প বিশেষজ্ঞদের কাছ থেকে শিখুন",
       gradient: "from-green-400 to-teal-500",
+      limk: "/blog",
     },
     {
       id: 3,
@@ -31,12 +34,14 @@ export default function Section11() {
       title: "শিক্ষণ উপকরণ",
       description: "সম্পূর্ণ শিক্ষামূলক রিসোর্স",
       gradient: "from-purple-500 to-pink-500",
+      limk: "/materials",
     },
     {
       id: 4,
       icon: <FaLightbulb />,
       title: "ধারণা ভিত্তিক ক্লাস",
       description: "মূল ধারণার উপর জোর",
+      limk: "/class",
       gradient: "from-yellow-400 to-orange-500",
     },
     {
@@ -45,6 +50,7 @@ export default function Section11() {
       title: "একক পরীক্ষা পদ্ধতি",
       description: "নিয়মিত মূল্যায়ন এবং অগ্রগতি ট্র্যাকিং",
       gradient: "from-indigo-500 to-purple-600",
+      limk: "",
     },
     {
       id: 6,
@@ -52,6 +58,7 @@ export default function Section11() {
       title: "প্রশ্ন ও উত্তর সেবা",
       description: "আপনার প্রশ্নের জন্য সঙ্গে সঙ্গে সমাধান",
       gradient: "from-red-400 to-pink-500",
+      limk: "",
     },
   ];
 
@@ -73,23 +80,39 @@ export default function Section11() {
           {services.map((service) => (
             <div
               key={service.id}
-              className={`group relative rounded-3xl shadow-2xl overflow-hidden transform hover:-translate-y-2 transition-all duration-500`}
-              style={{
-                background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-              }}
+              className="group relative rounded-2xl shadow-lg hover:shadow-lg transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 bg-white hover:bg-gradient-to-tl hover:to-white via-[#f2f4f7] from-white hover:-translate-y-5"
             >
-              <div
-                className={`p-8 flex flex-col items-center text-center bg-gradient-to-br ${service.gradient} text-white rounded-3xl shadow-lg transition-transform duration-500 group-hover:scale-105`}
-              >
-                <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white text-gray-900 text-3xl mb-6 shadow-md">
+              <div className="p-8 flex flex-col items-center text-center">
+                {/* Icon */}
+                <div className="w-20 h-20 rounded-full flex items-center justify-center bg-[#fca00a]/10 text-[#fca00a] text-4xl mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-2">
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 text-gray-900 group-hover:text-[#fca00a] transition-colors duration-300">
                   {service.title}
                 </h3>
-                <p className="text-sm sm:text-base">{service.description}</p>
-                <div className="mt-6 w-12 h-1 bg-white rounded-full group-hover:w-20 transition-all duration-300"></div>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-700 mb-6">
+                  {service.description}
+                </p>
+
+                {/* Accent Line */}
+                <div className="mt-auto w-12 h-1 bg-[#fca00a]/80 rounded-full group-hover:w-20 transition-all duration-300"></div>
+
+                {/* Optional Button */}
+                <div className="mt-6">
+                  <Link href={service?.limk || ""}>
+                    <button className="px-6 py-2 text-sm font-semibold rounded-full bg-[#fca00a] text-white shadow-md hover:bg-[#e69207] transition-colors duration-300">
+                      বিস্তারিত দেখুন
+                    </button>
+                  </Link>
+                </div>
               </div>
+
+              {/* Subtle corner overlay effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#fca00a]/10 to-transparent pointer-events-none"></div>
             </div>
           ))}
         </div>

@@ -48,7 +48,7 @@ export default function Section10() {
       }}
       className="w-full relative"
     >
-      <div className="bg-black/50">
+      <div className="bg-[#f2f4f7]/90">
         <div className="max-w-7xl relative mx-auto">
           <div className="text-center py-20 px-6 sm:px-12 lg:px-20 lg:pb-[150px] pb-[350px]">
             {/* University Cards */}
@@ -56,25 +56,33 @@ export default function Section10() {
               {universities.map((uni) => (
                 <div
                   key={uni.id}
-                  className="group relative bg-gradient-to-tr from-blue-600/20 to-teal-500/20 backdrop-blur-xl border border-white/20 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2 cursor-pointer"
+                  className="bg-gradient-to-tr to-teal-500/50 backdrop-blur-xl transform group relative rounded-2xl shadow-lg hover:shadow-lg transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 bg-white hover:bg-gradient-to-tl hover:to-white via-[#f2f4f7] from-white hover:-translate-y-5"
                 >
                   <div className="p-8 flex flex-col items-center text-center">
-                    <div className="w-24 h-24 rounded-full bg-white text-[#082f49] flex items-center justify-center mb-6 text-3xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {/* Icon */}
+                    <div className="w-24 h-24 rounded-full bg-[#fca00a]/10 text-[#fca00a] flex items-center justify-center mb-6 text-3xl shadow-md group-hover:scale-110 transition-transform duration-300">
                       {uni.icon}
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-yellow-400 transition-colors duration-300">
+
+                    {/* Title */}
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1 group-hover:text-[#fca00a] transition-colors duration-300">
                       {uni.name}
                     </h3>
-                    <p className="text-gray-200 mb-4 text-sm">
+
+                    {/* Description */}
+                    <p className="text-gray-700 mb-4 text-sm">
                       {uni.description}
                     </p>
+
+                    {/* Student Count */}
                     <div className="flex items-center justify-center gap-2 mb-1">
-                      <FaUsers className="text-yellow-400" />
-                      <span className="text-2xl font-bold text-yellow-400">
+                      <FaUsers className="text-[#fca00a]" />
+                      <span className="text-2xl font-bold text-[#fca00a]">
                         {uni.students}
                       </span>
                     </div>
-                    <p className="text-gray-300 uppercase text-xs font-medium tracking-wider">
+
+                    <p className="text-gray-600 uppercase text-xs font-medium tracking-wider">
                       সফল শিক্ষার্থী
                     </p>
                   </div>

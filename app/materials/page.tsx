@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
+import ElectricCard from "./ElectricCard";
 
 interface Material {
   _id: string;
@@ -81,59 +81,18 @@ export default function Materials() {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-yellow-900">
       <div className="container mx-auto px-4 py-12 pb-[100px] font-questrial">
-        {/* Bookshelf layout */}
-        <div className="space-y-24">
-          {Array.from({ length: Math.ceil(materials.length / 4) }).map(
-            (_, shelfIndex) => (
-              <div key={shelfIndex} className="relative">
-                {/* Shelf shadow bar */}
-                <div
-                  style={{ boxShadow: "0 20px 50px 10px black" }}
-                  className="absolute -bottom-5 left-0 right-0 h-10 bg-gray-300 rounded-b-lg rounded-t-sm"
-                ></div>
-
-                {/* Books row */}
-                <div className="grid grid-cols-2 px-5 sm:grid-cols-3 md:grid-cols-4 gap-6 relative z-10">
-                  {materials
-                    .slice(shelfIndex * 4, shelfIndex * 4 + 4)
-                    .map((material) => (
-                      <Link
-                        key={material._id}
-                        href={`/materials/${material._id}`}
-                        className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-2 flex flex-col items-center overflow-hidden"
-                      >
-                        {/* Cover image */}
-                        <div className="w-full bg-gray-100 flex items-center justify-center h-48">
-                          {material.image ? (
-                            <img
-                              src={material.image}
-                              alt={material.title}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <span className="text-gray-400 text-lg">
-                              📘 No Cover
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Title + Price */}
-                        <div className="p-4 text-center">
-                          <h3 className="text-base font-semibold text-gray-900 truncate">
-                            {material.title}
-                          </h3>
-                          <p className="text-red-600 font-medium mt-1">
-                            ৳ {material.price}
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            )
-          )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-center">
+          {materials.map((material) => (
+            <ElectricCard
+              key={material._id}
+              title={material.title}
+              price={material.price}
+              image={material.image}
+              link={`/materials/${material._id}`}
+            />
+          ))}
         </div>
       </div>
     </div>

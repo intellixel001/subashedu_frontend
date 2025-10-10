@@ -31,15 +31,16 @@ export default function Section3() {
   ];
 
   return (
-    <section className="relative px-4 sm:px-6 bg-transparent rounded-[70px]">
+    <section
+      id="withmentor"
+      className="relative px-4 sm:px-6 bg-transparent rounded-[70px]"
+    >
       <div className="container mx-auto">
         {/* Section Heading */}
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
             সেরা মেন্টরের সাথে{" "}
-            <span className="text-gradient bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-              প্রস্তুতি নিন
-            </span>
+            <span className="text-[#fca00a]">প্রস্তুতি নিন</span>
           </h2>
           <p className="text-gray-600 mt-3 text-base sm:text-lg">
             Suvash Edu আপনাকে সেরা শিক্ষকের নির্দেশনা প্রদান করছে আপনার
@@ -52,22 +53,30 @@ export default function Section3() {
           {prepareCards.map((card) => (
             <div
               key={card.id}
-              className={`group relative rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 hover:-translate-y-2 ${card.gradient} text-white`}
+              className="group relative rounded-2xl shadow-lg hover:shadow-lg transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 bg-white hover:bg-gradient-to-tl hover:to-white via-[#f2f4f7] from-white hover:-translate-y-5"
             >
+              {/* Content Section */}
               <div className="p-8 flex flex-col items-center text-center">
-                <div
-                  className={`mb-6 w-24 h-24 rounded-full flex items-center justify-center bg-white text-3xl shadow-lg text-black`}
-                >
+                {/* Icon */}
+                <div className="mb-6 w-24 h-24 rounded-full flex items-center justify-center bg-[#fca00a]/10 text-[#fca00a] text-4xl shadow-md transition-transform duration-300 group-hover:scale-110">
                   {card.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300 group-hover:text-white">
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold mb-3 text-gray-900 group-hover:text-[#fca00a] transition-colors duration-300">
                   {card.title}
                 </h3>
-                <p className="text-sm sm:text-base">{card.description}</p>
-                <div
-                  className={`mt-6 w-20 h-1 rounded-full bg-white transition-all duration-500 group-hover:w-24`}
-                ></div>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600">
+                  {card.description}
+                </p>
+
+                {/* Accent line */}
+                <div className="mt-6 w-20 h-1 rounded-full bg-[#fca00a] transition-all duration-500 group-hover:w-24"></div>
               </div>
+
+              {/* Button Section */}
               <div className="px-8 pb-8 text-center">
                 <Link href={card.link}>
                   <button className="px-6 w-[60%] flex items-center justify-center py-3 brand-button font-semibold rounded-xl shadow-md bg-white text-black">

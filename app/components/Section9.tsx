@@ -43,7 +43,7 @@ export default function Section9() {
           {reviews.map((review) => (
             <div
               key={review.id}
-              className="relative bg-white border border-gray-200 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300"
+              className="p-6 group relative rounded-2xl shadow-lg hover:shadow-lg transition-all duration-500 overflow-hidden cursor-pointer border border-gray-200 bg-white hover:bg-gradient-to-tl hover:to-white via-[#f2f4f7] from-white hover:-translate-y-5"
             >
               <div className="absolute -top-4 left-4 text-blue-500 text-xl sm:text-2xl md:text-3xl">
                 <FaQuoteLeft />
@@ -55,7 +55,7 @@ export default function Section9() {
                 <div className="h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-sm sm:text-base md:text-lg">
                   {review.name[0]}
                 </div>
-                <h4 className="ml-3 text-gray-900 font-semibold text-sm sm:text-base md:text-lg">
+                <h4 className="ml-3 text-[#fca00a] font-semibold text-sm sm:text-base md:text-lg">
                   {review.name}
                 </h4>
               </div>

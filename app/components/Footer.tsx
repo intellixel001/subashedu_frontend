@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import {
   FaEnvelope,
@@ -41,7 +40,7 @@ export default function Footer({ pathname }: FooterProps) {
   }
 
   return (
-    <footer className="w-full bg-gray-800 text-gray-100 pt-12 pb-6">
+    <footer className="w-full bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white pt-12 pb-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and Social Media */}
@@ -124,7 +123,10 @@ export default function Footer({ pathname }: FooterProps) {
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-start">
                 <FaMapMarkerAlt className="mt-1 mr-3 text-myred-secondary" />
-                <span>House :93-94, Road 6 Block E, Section 11, Mirpur 11, Dhaka, Bangladesh</span>
+                <span>
+                  House :93-94, Road 6 Block E, Section 11, Mirpur 11, Dhaka,
+                  Bangladesh
+                </span>
               </li>
               <li className="flex items-center">
                 <FaPhoneAlt className="mr-3 text-myred-secondary" />

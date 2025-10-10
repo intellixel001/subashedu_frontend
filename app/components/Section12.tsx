@@ -18,7 +18,7 @@ export default function Section12() {
           </div>
 
           {/* Text Section */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12 bg-gray-800 rounded-2xl shadow-xl border border-myred/50">
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white rounded-2xl shadow-xl border border-myred/50">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-myred-secondary text-center leading-tight mb-6">
               <span className="block">পরিস্থিতি যেমনই হোক</span>
               <span className="block mt-4">প্রস্তুতি চলবে</span>

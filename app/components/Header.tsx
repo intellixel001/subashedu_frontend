@@ -168,9 +168,7 @@ export default function Header({ pathname }) {
       <header
         className={`w-full top-0 transition-all duration-300
         ${
-          scrolled
-            ? "fixed bg-white shadow-lg z-50"
-            : "static bg-white border-b border-gray-200"
+          scrolled ? "fixed bg-[#f2f4f7] shadow-lg z-50" : "static bg-[#f2f4f7]"
         }`}
       >
         <nav className="w-full py-3">
@@ -246,7 +244,7 @@ export default function Header({ pathname }) {
 
               <Link
                 href="/dashboard"
-                className="flex items-center justify-center text-sm bg-myred py-2 px-4 rounded-full text-white hover:bg-myred-secondary transition-colors"
+                className="flex items-center justify-center text-sm brand-button py-2 px-4 rounded-full transition-colors"
               >
                 <FaUserPlus className="mr-2 text-sm" />
                 <span>Join now</span>
