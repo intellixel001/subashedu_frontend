@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import type { Swiper as SwiperType } from "swiper";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Swiper styles
+// Styles
 import { CourseType } from "@/_types/course";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -17,8 +18,8 @@ interface CourseSliderProps {
 export default function CourseSlider({ courses }: CourseSliderProps) {
   const loopedCourses = [...courses, ...courses];
 
-  // We'll keep a reference to the Swiper instance
-  let swiperInstance: unknown = null;
+  // ✅ Properly type the Swiper instance
+  let swiperInstance: SwiperType | null = null;
 
   return (
     <div
@@ -26,12 +27,12 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
       onMouseLeave={() => swiperInstance?.autoplay?.start()}
     >
       <Swiper
-        onSwiper={(swiper) => (swiperInstance = swiper)} // Save instance
+        onSwiper={(swiper) => (swiperInstance = swiper)}
         slidesPerView={5}
         spaceBetween={20}
-        centeredSlides={true}
-        loop={true}
-        freeMode={true}
+        centeredSlides
+        loop
+        freeMode
         speed={1000}
         autoplay={{
           delay: 1000,
@@ -49,13 +50,13 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
           <SwiperSlide key={idx} className="flex justify-center pb-20">
             {({ isActive }) => (
               <div
-                className={`bg-white hover:scale-110 hover:rounded-xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] border border-gray-200 flex flex-col overflow-hidden transition-transform duration-500 ${
+                className={`bg-white border border-gray-200 flex flex-col overflow-hidden transition-transform duration-500 ${
                   isActive
                     ? "rounded-xl scale-110 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
-                    : "rounded-2xl shadow-md"
+                    : "rounded-2xl shadow-md hover:scale-110 hover:rounded-xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
                 }`}
               >
-                <div className="relative w-full h-[180px] min-h-[180px] max-h-[180px] overflow-hidden rounded-t-2xl">
+                <div className="relative w-full h-[180px] overflow-hidden rounded-t-2xl">
                   <img
                     src={course.thumbnailUrl}
                     alt={course.title}
@@ -71,11 +72,8 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
                     {course.short_description}
                   </p>
                   <div className="mt-auto text-center">
-                    <Link
-                      className="text-center"
-                      href={`/course/${course._id}`}
-                    >
-                      <button className="w-full py-2 flex items-center justify-center px-6 rounded-full brand-button text-center font-[700]">
+                    <Link href={`/course/${course._id}`}>
+                      <button className="w-full py-2 px-6 rounded-full brand-button font-[700]">
                         এখন ভর্তি হন
                       </button>
                     </Link>
