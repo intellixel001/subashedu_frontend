@@ -29,11 +29,11 @@ export default async function Section4() {
         {/* Section Heading */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
-            আসন্ন কোর্সসমূহ
+            চলমান কোর্সসমূহ
           </h2>
           <p className="text-gray-600 mt-3 text-base sm:text-lg">
             {upcomingCourses.length > 0
-              ? "নতুন প্রোগ্রামের মাধ্যমে আপনার দক্ষতা বৃদ্ধি করুন"
+              ? "নতুন কোর্স গুলোতে যুক্ত হয়ে নিজেকে এগিয়ে রাখুন"
               : "এই মুহূর্তে কোন কোর্স উপলব্ধ নেই। পরে আবার দেখুন!"}
           </p>
         </div>

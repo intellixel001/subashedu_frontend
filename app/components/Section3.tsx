@@ -7,15 +7,15 @@ export default function Section3() {
     {
       id: 1,
       icon: <FaBookReader className="text-3xl" />,
-      title: "একাডেমিক ৯ম - ১২শ শ্রেণি",
-      description: "সর্বাঙ্গীণ পাঠ্যক্রম উচ্চতর ফলাফলের জন্য",
+      title: "একাডেমিক ৯ম - ১২তম শ্রেণি",
+      description: "সেরা ফলাফলের জন্য আমাদের একাডেমিক কোরসসমূহই সেরা",
       link: "/courses/class%209-12",
       gradient: "bg-gradient-to-r from-blue-600 to-purple-600",
     },
     {
       id: 2,
       icon: <FaGraduationCap className="text-3xl" />,
-      title: "ভর্তি প্রস্তুতি ১২+",
+      title: "বিশ্ববিদ্যালয়ে ভর্তি প্রস্তুতি",
       description: "শীর্ষ বিশ্ববিদ্যালয়ে ভর্তি জন্য দিকনির্দেশনা",
       link: "/courses/admission",
       gradient: "bg-gradient-to-r from-green-500 to-teal-500",
@@ -24,7 +24,7 @@ export default function Section3() {
       id: 3,
       icon: <FaBriefcase className="text-3xl" />,
       title: "চাকরি প্রস্তুতি",
-      description: "ক্যারিয়ার-উন্মুখ প্রশিক্ষণ এবং সাক্ষাৎকার প্রস্তুতি",
+      description: "ক্যারিয়ার- গড়ার সেরা প্রস্তুতি নিন এখান থেকেই",
       link: "/courses/job%20preparation",
       gradient: "bg-gradient-to-r from-pink-500 to-red-500",
     },
@@ -43,8 +43,8 @@ export default function Section3() {
             <span className="text-[#fca00a]">প্রস্তুতি নিন</span>
           </h2>
           <p className="text-gray-600 mt-3 text-base sm:text-lg">
-            Suvash Edu আপনাকে সেরা শিক্ষকের নির্দেশনা প্রদান করছে আপনার
-            শিক্ষাজীবন গড়ার জন্য
+            সেরা শিক্ষকদের দিকনির্দেশনায় আপনার
+            শিক্ষাজীবন হোক আরও সফল
           </p>
         </div>
 

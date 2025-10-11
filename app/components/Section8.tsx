@@ -53,7 +53,7 @@ export default function Section8() {
         {/* Right Column - Illustration */}
         <div className="lg:col-span-6 flex justify-center lg:justify-end">
           <img
-            src="/images/learning-illustration.png" // replace with your illustration
+            src="/assets/image.png" // replace with your illustration
             alt="Learning Illustration"
             className="w-full max-w-md lg:max-w-lg rounded-3xl shadow-2xl"
           />

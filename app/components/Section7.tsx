@@ -58,8 +58,8 @@ export default function Section7() {
             newCountdowns[fc._id] = `${hours
               .toString()
               .padStart(2, "0")}:${minutes
-              .toString()
-              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+                .toString()
+                .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
           } else {
             newCountdowns[fc._id] = "লাইভ চলছে";
           }
@@ -122,10 +122,10 @@ export default function Section7() {
         <div className="text-center py-12">
           <FaVideoSlash className="mx-auto text-5xl text-gray-400 mb-4" />
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
-            কোনো ফ্রি ক্লাস উপলব্ধ নেই
+            এখন কোনো ফ্রি ক্লাস নেই
           </h3>
           <p className="text-gray-600 text-sm sm:text-base">
-            আমরা নতুন ফ্রি ক্লাস তৈরি করছি। অনুগ্রহ করে পরে আবার দেখুন।
+            আমরা নতুন ফ্রি ক্লাস আসছে । অনুগ্রহ করে পরে আবার দেখুন।
           </p>
           <div className="mt-6">
             <Link
@@ -181,10 +181,10 @@ export default function Section7() {
       <div className="container mx-auto">
         <div className="text-center max-w-7xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
-            আমাদের ফ্রি ক্লাসসমূহ
+            আমাদের ফ্রি কোর্সসমূহ
           </h2>
           <p className="text-gray-600 mt-3 text-base sm:text-lg">
-            বিভিন্ন বিষয় শিখুন এবং নিজের গতিতে উন্নতি করুন। নিচের বোতামগুলো
+            ফ্রীতেই পেয়ে যাচ্ছেন আমাদের অনেক কোর্স যা আপনাকে আমাদের যাচাই করে নিতে সাহায্য করবে। । নিচের বাটন গুলো
             ক্লিক করুন।
           </p>
         </div>

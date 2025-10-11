@@ -34,7 +34,7 @@ export default async function Section2Server() {
     return (
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50 via-white to-blue-50">
         <div className="text-center text-gray-500">
-          তথ্য লোড করতে ব্যর্থ। অনুগ্রহ করে পরে চেষ্টা করুন।
+          তথ্য লোড করতে ব্যর্থ হয়েছে। অনুগ্রহ করে পরে চেষ্টা করুন।
         </div>
       </section>
     );
@@ -46,7 +46,7 @@ export default async function Section2Server() {
       icon: <IoIosPeople className="text-4xl text-white" />,
       value: data.studentCount,
       label: "ছাত্রছাত্রী",
-      description: "আমাদের শিক্ষার্থীদের সম্প্রদায়ে যোগ দিন",
+      description: "আমাদের শিক্ষার্থীদের সাথে যোগ দিন",
       gradient: "bg-gradient-to-r from-blue-400 to-purple-400",
     },
     {
@@ -61,8 +61,8 @@ export default async function Section2Server() {
       id: 3,
       icon: <BsJournalBookmarkFill className="text-4xl text-white" />,
       value: data.materialCount,
-      label: "শিক্ষণ উপকরণ",
-      description: "সর্বাঙ্গীণ শিক্ষামূলক সম্পদ",
+      label: "সিক্ষার উপকরণ",
+      description: "সবধরনের শিক্ষামূলক উপকরণ",
       gradient: "bg-gradient-to-r from-pink-400 to-red-400",
     },
   ];
