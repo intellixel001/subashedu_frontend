@@ -73,7 +73,18 @@ export default function CourseSlider({ courses }: CourseSliderProps) {
                   </p>
                   <div className="mt-auto text-center">
                     <Link href={`/course/${course._id}`}>
-                      <button className="w-full py-2 px-6 rounded-full brand-button font-[700]">
+                      <div className="flex items-center justify-center gap-3 mb-4">
+                        <span className="text-2xl font-semibold text-[#080808]">
+                          {course.offer_price}
+                        </span>
+                        <span className="text-lg line-through text-[#5e5c5c]">
+                          {course.price}
+                        </span>
+                        <span className="bg-red-100 text-[#fca00a] text-sm font-medium px-2 py-1 rounded-full">
+                          50% OFF
+                        </span>
+                      </div>
+                      <button className="w-full py-6 flex items-center justify-center px-6 rounded-full brand-button font-[700]">
                         এখন ভর্তি হন
                       </button>
                     </Link>

@@ -96,12 +96,12 @@ export default function Section10() {
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="text-white">
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 uppercase">
-                  আমাদের শিক্ষার যাত্রা
+                  আমাদের সুভাস এডুর যাত্রা
                 </h2>
                 <p className="text-gray-600 mt-3 text-base sm:text-lg">
-                  আমাদের প্ল্যাটফর্মে যোগ দিন এবং বিভিন্ন বিশ্ববিদ্যালয় থেকে
+                  আমাদের প্ল্যাটফর্মে যোগ দিন এবং বিভিন্ন বিশ্ববিদ্যালয়ের
                   শিক্ষার্থীদের সঙ্গে যুক্ত হোন। সফলতার পথে এগিয়ে চলুন, প্রতিটি
-                  কোর্স আপনাকে শক্তিশালী করবে।{" "}
+                  কোর্স আপনাকে এগিয়ে নিতে সাহায্য করবে।{" "}
                 </p>
 
                 <button className="brand-button font-bold px-6 py-3 rounded-lg shadow-lg transition-transform duration-300">

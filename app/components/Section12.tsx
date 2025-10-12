@@ -19,12 +19,12 @@ export default function Section12() {
 
           {/* Text Section */}
           <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12 bg-gradient-to-br from-[#001F3F] via-[#18314a] to-[#001F3F] text-white rounded-2xl shadow-xl border border-myred/50">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-myred-secondary text-center leading-tight mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#fca00a] text-center leading-tight mb-6">
               <span className="block">পরিস্থিতি যেমনই হোক</span>
               <span className="block mt-4">প্রস্তুতি চলবে</span>
             </h2>
             <div className="w-24 h-2 bg-myred-secondary rounded-full mb-6"></div>
-            <p className="text-lg sm:text-xl text-gray-400 text-center max-w-md">
+            <p className="text-lg sm:text-xl text-white-400 text-center max-w-md">
               যেকোনো পরিস্থিতিতে শিক্ষার অগ্রযাত্রা অব্যাহত রাখাই আমাদের মূল
               লক্ষ্য। আমাদের সাথে থাকুন এবং সর্বদা প্রস্তুত থাকুন।
             </p>

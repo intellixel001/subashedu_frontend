@@ -6,22 +6,22 @@ export default function Section8() {
     {
       icon: <FaBookOpen />,
       title: "শিখুন",
-      description: "আন্তরিক শিক্ষার মাধ্যমে দক্ষতা অর্জন করুন",
+      description: "নতুনভাবে শিখুন এবং নিজেকে উন্নত করুন",
     },
     {
       icon: <FaPencilRuler />,
       title: "চর্চা করুন",
-      description: "প্র্যাকটিসের মাধ্যমে নিজেকে শক্তিশালী করুন",
+      description: "নিয়মিত চর্চার মাধ্যমে নিজেকে ছাড়িয়ে যান",
     },
     {
       icon: <FaFileAlt />,
       title: "পরীক্ষা",
-      description: "পরীক্ষার মাধ্যমে মূল্যায়ন করুন আপনার উন্নতি",
+      description: "নিয়মিত পরীক্ষার মাধ্যমে নিজেকে যাচাই করুন",
     },
     {
       icon: <FaTrophy />,
       title: "সাফল্য",
-      description: "সফলতার শিখরে পৌঁছান আমাদের সাহায্যে",
+      description: "সফলতার শিখরে পৌঁছান সুভাস এডুর মাধ্যমে",
     },
   ];
 

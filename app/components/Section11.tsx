@@ -24,14 +24,14 @@ export default function Section11() {
       id: 2,
       icon: <FaChalkboardTeacher />,
       title: "অভিজ্ঞ শিক্ষক",
-      description: "শিল্প বিশেষজ্ঞদের কাছ থেকে শিখুন",
+      description: "বিশেষজ্ঞ শিক্ষকদের কাছ থেকে শিখুন",
       gradient: "from-green-400 to-teal-500",
       limk: "/blog",
     },
     {
       id: 3,
       icon: <FaBook />,
-      title: "শিক্ষণ উপকরণ",
+      title: "শিক্ষার উপকরণ",
       description: "সম্পূর্ণ শিক্ষামূলক রিসোর্স",
       gradient: "from-purple-500 to-pink-500",
       limk: "/materials",
@@ -39,15 +39,15 @@ export default function Section11() {
     {
       id: 4,
       icon: <FaLightbulb />,
-      title: "ধারণা ভিত্তিক ক্লাস",
-      description: "মূল ধারণার উপর জোর",
+      title: "বিষয় ভিত্তিক ক্লাস",
+      description: "মূল বিষয়ের উপর জোর",
       limk: "/class",
       gradient: "from-yellow-400 to-orange-500",
     },
     {
       id: 5,
       icon: <FaClipboardCheck />,
-      title: "একক পরীক্ষা পদ্ধতি",
+      title: "পরীক্ষা পদ্ধতি",
       description: "নিয়মিত মূল্যায়ন এবং অগ্রগতি ট্র্যাকিং",
       gradient: "from-indigo-500 to-purple-600",
       limk: "",
@@ -56,7 +56,7 @@ export default function Section11() {
       id: 6,
       icon: <FaQuestionCircle />,
       title: "প্রশ্ন ও উত্তর সেবা",
-      description: "আপনার প্রশ্নের জন্য সঙ্গে সঙ্গে সমাধান",
+      description: "আপনার সকল প্রশ্নের সমাধান খুঁজুন সুভাস এডুতে",
       gradient: "from-red-400 to-pink-500",
       limk: "",
     },
@@ -71,7 +71,8 @@ export default function Section11() {
             আমাদের <span className="text-myred-secondary">সেবাসমূহ</span>
           </h2>
           <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
-            আপনার সাফল্যের জন্য আমাদের সম্পূর্ণ শিক্ষামূলক সমাধান
+            আপনার সাফল্যের জন্য আমাদের সেবা গুলো ডিজাইন করা হয়েছে। আমরা
+            শিক্ষার্থীদের সর্বোত্তম অভিজ্ঞতা প্রদান করতে প্রতিশ্রুতিবদ্ধ।
           </p>
         </div>
 
@@ -99,7 +100,7 @@ export default function Section11() {
                 </p>
 
                 {/* Accent Line */}
-                <div className="mt-auto w-12 h-1 bg-[#fca00a]/80 rounded-full group-hover:w-20 transition-all duration-300"></div>
+                <div className="mt-auto w-12 h-1 bg-[#fca00a] rounded-full group-hover:w-20 transition-all duration-300"></div>
 
                 {/* Optional Button */}
                 <div className="mt-6">
