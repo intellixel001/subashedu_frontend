@@ -15,7 +15,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="mb-20">
         <h1 className="text-4xl font-bold text-myred mb-8 text-center">
-          About Suvash Edu
+          সুভাস এডু সম্পর্কে জানুন
         </h1>
         <div className="w-full flex flex-col lg:flex-row gap-8 items-center">
           <div className="flex-1">
@@ -180,7 +180,7 @@ export default function AboutPage() {
         <div className="flex flex-col lg:flex-row gap-8 items-center">
           <div className="w-64 h-64 relative rounded-full overflow-hidden border-4 border-myred shadow-lg mx-auto lg:mx-0">
             <Image
-              src="/ceo.jpg"
+              src="/assets/image2.png"
               alt="CEO of Suvash Edu"
               fill
               className="object-cover"

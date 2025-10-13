@@ -81,7 +81,7 @@ export default function Materials() {
   }
 
   return (
-    <div className="bg-yellow-900">
+    <div className="bg-[#E8EAED]">
       <div className="container mx-auto px-4 py-12 pb-[100px] font-questrial">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-center">
           {materials.map((material) => (

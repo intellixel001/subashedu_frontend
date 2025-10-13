@@ -57,7 +57,7 @@ export default async function BlogPage({
     blogsData = await fetchBlogs(pageNum);
   } catch (error) {
     return (
-      <main className="w-full min-h-screen pt-20 pb-12 bg-gray-900">
+      <main className="w-full min-h-screen pt-20 pb-12 bg-[#F2F4F7]">
         <section className="max-w-6xl mx-auto px-4">
           <p className="text-red-500 text-center">
             Error loading blogs. Please try again later.
@@ -71,14 +71,14 @@ export default async function BlogPage({
   const { currentPage, totalPages } = pagination;
 
   return (
-    <main className="w-full min-h-screen pt-20 pb-12 bg-gray-900">
+    <main className="w-full min-h-screen pt-20 pb-12 bg-[#F2F4F7]">
       <section className="max-w-6xl mx-auto px-4 md:px-8 lg:px-10">
-        <h1 className="text-3xl md:text-4xl font-bold mb-8 mt-8 text-gray-100 text-center">
-          Explore Our Blogs
+        <h1 className="text-3xl md:text-4xl font-bold mb-8 mt-8 text-black-100 text-center">
+          আমাদের ব্লগ গুলো পড়ুন
         </h1>
 
         {blogs.length === 0 ? (
-          <p className="text-gray-300 text-center">No blogs available.</p>
+          <p className="text-black-300 text-center">No blogs available.</p>
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -86,7 +86,7 @@ export default async function BlogPage({
                 <Link
                   href={`/blog/${blog._id}`}
                   key={blog._id}
-                  className="group bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-md border border-myred/30 hover:shadow-myred/50 transition-all duration-300"
+                  className="group bg-[#fefefe] backdrop-blur-md rounded-xl overflow-hidden shadow-md border border-white/60 hover:shadow-myred/50 transition-all duration-300"
                 >
                   <div className="relative w-full aspect-[4/3]">
                     <Image
@@ -98,10 +98,10 @@ export default async function BlogPage({
                     />
                   </div>
                   <div className="p-6">
-                    <h2 className="text-xl font-semibold mb-2 text-gray-100 group-hover:text-myred-secondary transition-colors">
+                    <h2 className="text-xl font-semibold mb-2 text-black-100 group-hover:text-[#f79c09] transition-colors">
                       {blog.title}
                     </h2>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                    <p className="text-black-300 text-sm mb-4 line-clamp-3">
                       {blog.shortDescription}
                     </p>
                     <div className="flex items-center gap-3">
@@ -116,10 +116,10 @@ export default async function BlogPage({
                           />
                         </div>
                       ) : (
-                        <FaUserCircle className="w-10 h-10 text-gray-400" />
+                        <FaUserCircle className="w-10 h-10 text-black-400" />
                       )}
                       <div>
-                        <p className="text-gray-100 text-sm font-medium">
+                        <p className="text-black-100 text-sm font-medium">
                           {blog.author.name}
                         </p>
                         <p className="text-gray-400 text-xs">
