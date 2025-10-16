@@ -194,6 +194,10 @@ const MaterialsPage = () => {
   };
 
   const handleDelete = async (id: string) => {
+    const confirmed = window.confirm(
+      "আপনি কি নিশ্চিত যে আপনি এই মেটেরিয়ালটি মুছে ফেলতে চান?"
+    );
+    if (!confirmed) return;
     try {
       const token = getToken();
       await fetch(`${API_URL}/api/admin/delete-material`, {
