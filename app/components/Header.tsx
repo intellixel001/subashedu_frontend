@@ -67,8 +67,8 @@ export function QuickNavigation() {
         <div key={group.name} className="relative border-b border-gray-100">
           <button
             className={`w-full py-3 text-sm font-medium flex items-center justify-between px-4
-              ${activeTab === group.name ? "text-myred" : "text-gray-700"}
-              hover:text-myred`}
+              ${activeTab === group.name ? "text-[#F4A700]" : "text-gray-700"}
+              hover:text-[#a67303]`}
             onClick={() => toggleTab(group.name)}
           >
             <div className="flex items-center gap-2">
@@ -127,32 +127,31 @@ export default function Header({ pathname }) {
   const navigationGroups = useMemo(
     () => [
       {
-        name: "Learning Paths",
+        name: "শেখার পথ",
         icon: <FaGraduationCap className="w-4 h-4" />,
         links: [
-          { name: "Admission", href: "/courses/admission" },
-          { name: "9-12 Academic", href: "/courses/class%209-12" },
-          { name: "Target SSC", href: "/courses/class%209-12" },
-          { name: "Target HSC", href: "/courses/class%209-12" },
+          { name: "ভর্তি পরীক্ষার প্রস্তুতি", href: "/courses/admission" },
+          { name: "৯ম-১২তম শ্রেনী", href: "/courses/class%209-12" },
+          { name: "টার্গেট এইচ এস সি", href: "/courses/class%209-12" },
+          { name: "চাকরির প্রস্তুতি", href: "/courses/class%209-12" },
         ],
       },
       {
-        name: "Resources",
+        name: "রিসোর্স",
         icon: <CiVideoOn className="w-4 h-4" />,
         links: [
-          { name: "All Courses", href: "/courses" },
-          { name: "Free Classes", href: "/dashboard/free-classes" },
-          { name: "Job Prep", href: "/courses/job%20preparation" },
+          { name: "সকল কোর্স সমূহ", href: "/courses" },
+          { name: "ফ্রী ক্লাস সমূহ", href: "/dashboard/free-classes" },
+          { name: "চাকরির প্রস্তুতি", href: "/courses/job%20preparation" },
         ],
       },
       {
-        name: "Others",
+        name: "অন্যান্য",
         icon: <FaInfoCircle className="w-4 h-4" />,
         links: [
-          { name: "Home", href: "/" },
-          { name: "Shop", href: "/materials" },
-          { name: "Blog", href: "/blog" },
-          { name: "About", href: "/about" },
+          { name: "সুভাস বইমেলা", href: "/materials" },
+          { name: "ব্লুগ গুলো পড়ুন", href: "/blog" },
+          { name: "আনাদের সম্পর্কে জানুন", href: "/about" },
         ],
       },
     ],
@@ -182,10 +181,10 @@ export default function Header({ pathname }) {
             <div className="hidden lg:flex items-center space-x-4">
               <Link
                 href="/courses"
-                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-myred transition-colors"
+                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-[#ac7705] transition-colors"
               >
-                <FaBookOpen className="mr-2 text-myred" />
-                <span>Courses</span>
+                <FaBookOpen className="mr-2 text-[#F4A700]" />
+                <span>কোর্স সমূহ</span>
               </Link>
 
               {navigationGroups.map((group) => (
@@ -195,7 +194,7 @@ export default function Header({ pathname }) {
                   onMouseEnter={() => setActiveTab(group.name)}
                   onMouseLeave={() => setActiveTab(null)}
                 >
-                  <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-myred font-medium">
+                  <button className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-[#b37b04] font-medium">
                     {group.icon}
                     {group.name}
                     <FaChevronDown
@@ -217,7 +216,7 @@ export default function Header({ pathname }) {
                       <Link
                         key={link.name}
                         href={link.href}
-                        className="block px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-myred text-sm"
+                        className="block px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-[#a67201] text-sm"
                       >
                         {link.name}
                       </Link>
@@ -228,16 +227,16 @@ export default function Header({ pathname }) {
 
               <Link
                 href="/contact"
-                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-myred transition-colors"
+                className="flex items-center text-sm px-3 py-2 text-gray-700 hover:text-[#9b6b02] transition-colors"
               >
-                <FaPhoneAlt className="mr-2 text-myred" />
-                <span>Contact</span>
+                <FaPhoneAlt className="mr-2 text-[#F4A700]" />
+                <span>যোগাযোগ</span>
               </Link>
 
               {/* Search icon */}
               <button
                 onClick={() => setShowSearch(true)}
-                className="p-2 text-gray-700 hover:text-myred"
+                className="p-2 text-gray-700 hover:text-[#9b6b02]"
               >
                 <FaSearch size={16} />
               </button>
@@ -247,7 +246,7 @@ export default function Header({ pathname }) {
                 className="flex items-center justify-center text-sm brand-button py-2 px-4 rounded-full transition-colors"
               >
                 <FaUserPlus className="mr-2 text-sm" />
-                <span>Join now</span>
+                <span>যুক্ত হোন</span>
               </Link>
             </div>
 
@@ -256,7 +255,7 @@ export default function Header({ pathname }) {
               {/* Search on mobile */}
               <button
                 onClick={() => setShowSearch(true)}
-                className="p-2 text-gray-700 hover:text-myred"
+                className="p-2 text-gray-700 hover:text-[#9b6b02]"
               >
                 <FaSearch size={18} />
               </button>
