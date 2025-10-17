@@ -56,9 +56,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
   if (!apiData) return <div>No material found</div>;
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center select-none">
+    <div className="w-full min-h-screen pb-[100px] bg-gradient-to-br from-gray-100 to-gray-300 flex flex-col items-center select-none">
       {pdfUrl && (
-        <div className="w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center bg-gray-50 px-4 py-3 border-b">
             <h2 className="text-lg font-bold text-gray-700">{apiData.title}</h2>
@@ -79,7 +79,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
             </div>
           </div>
 
-          {/* PDF Viewer - one page at a time */}
+          {/* PDF Viewer */}
           <div className="flex-1 bg-gray-100 flex flex-col items-center justify-center p-4 overflow-auto">
             <Document
               file={pdfUrl}
@@ -96,7 +96,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
             </Document>
 
             {/* Page navigation */}
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-2 items-center">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage <= 1}
@@ -104,9 +104,24 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ apiData }) => {
               >
                 Prev
               </button>
-              <span>
-                Page {currentPage} of {numPages || "?"}
-              </span>
+
+              <span>Page</span>
+
+              {/* Dropdown to select page */}
+              <select
+                value={currentPage}
+                onChange={(e) => setCurrentPage(Number(e.target.value))}
+                className="px-2 py-1 border rounded"
+              >
+                {Array.from({ length: numPages || 0 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </select>
+
+              <span>of {numPages || "?"}</span>
+
               <button
                 onClick={() =>
                   setCurrentPage((p) =>
