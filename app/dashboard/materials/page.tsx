@@ -104,8 +104,6 @@ const MaterialsPage = () => {
     );
   }
 
-  console.log(error);
-
   // Error state
   if (error) {
     return (

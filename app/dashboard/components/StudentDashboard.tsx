@@ -16,8 +16,6 @@ export default function EnrolledCoursesPage({
     isLive: false,
   };
 
-  console.log(data);
-
   // Map API data to card props
   const enrolledCourses = (data || []).map((course) => ({
     id: course._id,

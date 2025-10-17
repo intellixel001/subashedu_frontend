@@ -32,7 +32,6 @@ export default function ViewClient({ courseId, courseData, img }: Props) {
     link: "",
   });
 
-  console.log(currentContent);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-screen p-4">
       {/* Left side - Video + Tools */}

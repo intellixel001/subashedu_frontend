@@ -1,5 +1,7 @@
 "use client";
 
+import ThumbnailUploader from "@/app/components/ThumbnailUploader";
+import { useEffect, useState } from "react";
 import { FaCheckCircle, FaTimes } from "react-icons/fa";
 
 const MaterialFormModal = ({
@@ -18,10 +20,24 @@ const MaterialFormModal = ({
 }) => {
   if (!isOpen) return null;
 
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+
+  useEffect(() => {
+    if (formData && formData.image && typeof formData.image === "string") {
+      setThumbnailPreview(formData.image);
+    }
+  }, [formData?.image]);
+
+  // API-based upload for thumbnail
+
+  const removeThumbnail = () => {
+    setFormData((prev) => ({ ...prev, image: "" }));
+    setThumbnailPreview(null);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 text-white flex items-center justify-center z-50">
-      <div className="bg-[var(--card)] rounded-2xl shadow-lg w-full max-w-2xl p-6 animate-fade-in relative max-h-screen overflow-hidden overflow-y-auto">
-        {/* Close Button */}
+      <div className="bg-[var(--card)] rounded-2xl shadow-lg w-full max-w-2xl p-6 relative max-h-screen overflow-y-auto">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
@@ -40,7 +56,7 @@ const MaterialFormModal = ({
             <input
               type="text"
               name="title"
-              value={formData.title}
+              value={formData.title || ""}
               onChange={onChange}
               className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
               required
@@ -53,7 +69,7 @@ const MaterialFormModal = ({
             <input
               type="text"
               name="price"
-              value={formData.price}
+              value={formData.price || ""}
               onChange={onChange}
               className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
               required
@@ -65,7 +81,7 @@ const MaterialFormModal = ({
             <label className="block mb-2">Access Control</label>
             <select
               name="accessControl"
-              value={formData.accessControl}
+              value={formData.accessControl || "restricted"}
               onChange={onChange}
               className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
             >
@@ -79,7 +95,7 @@ const MaterialFormModal = ({
           <div>
             <label className="block mb-2">Courses</label>
             <div className="flex flex-wrap gap-2 mb-2">
-              {selectedCourses.map((id) => {
+              {selectedCourses?.map((id) => {
                 const course = courses.find((c) => c._id === id);
                 return (
                   <span
@@ -103,7 +119,7 @@ const MaterialFormModal = ({
               className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
             >
               <option value="">Select a course...</option>
-              {courses.map((course) => (
+              {courses?.map((course) => (
                 <option key={course._id} value={course._id}>
                   {course.title}
                 </option>
@@ -120,11 +136,11 @@ const MaterialFormModal = ({
               onChange={onFileChange}
               className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
             />
-            {formData.pdfs.length > 0 && (
+            {formData.pdfs?.length > 0 && (
               <ul className="mt-2 text-sm">
                 {formData.pdfs.map((file, index) => (
                   <li key={index} className="flex justify-between">
-                    {file.publicId}
+                    {typeof file === "string" ? file : file.name}
                     <button
                       type="button"
                       onClick={() =>
@@ -143,20 +159,23 @@ const MaterialFormModal = ({
             )}
           </div>
 
-          {/* Image URL */}
-          <div>
-            <label className="block mb-2">Image URL</label>
-            <input
-              type="text"
-              name="image"
-              value={formData.image || ""}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, image: e.target.value }))
+          {/* Thumbnail Uploader */}
+          <ThumbnailUploader
+            label="Material Thumbnail"
+            previewUrl={thumbnailPreview}
+            onFileChange={(file) => {
+              setFormData((prev) => ({ ...prev, image: file }));
+              if (file) {
+                setThumbnailPreview(file);
+              } else {
+                setThumbnailPreview(null);
               }
-              placeholder="https://example.com/image.jpg"
-              className="w-full px-4 py-2 border rounded-lg bg-[var(--card)]"
-            />
-          </div>
+            }}
+            onRemove={() => {
+              setFormData((prev) => ({ ...prev, image: "" }));
+              setThumbnailPreview(null);
+            }}
+          />
 
           {/* Submit */}
           <button

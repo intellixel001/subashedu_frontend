@@ -143,6 +143,7 @@ const MaterialsPage = () => {
     data.append("forCourses", JSON.stringify(selectedCourses));
     data.append("accessControl", formData.accessControl);
     data.append("image", formData.image);
+
     formData.pdfs.forEach((pdf) => data.append("pdfs", pdf));
     if (isEditing) data.append("_id", formData._id);
 

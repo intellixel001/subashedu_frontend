@@ -23,8 +23,6 @@ export default async function StudentDashboard() {
   const result = await getCourses();
   const data = result.data || [];
 
-  console.log(data);
-
   // --- Greeting based on time ---
   const currentHour = new Date().getHours();
   let greeting = "Hello";

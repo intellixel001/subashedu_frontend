@@ -13,7 +13,6 @@ export default async function Page({
   const cookieStore = await cookies();
   const token = cookieStore.get("adminAccessToken")?.value;
 
-  console.log(token);
   if (!token) {
     throw new Error("User is not authenticated");
   }
