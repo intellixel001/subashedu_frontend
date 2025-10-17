@@ -46,11 +46,10 @@ export default function ThumbnailUploader({
       const res = await fetch(process.env.NEXT_PUBLIC_SERVER_URL + url, {
         method: "POST",
         body: formData,
-        credentials: "include",
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
-        credentials: "include",
+        credentials: "include", // only once
       });
 
       const data = await res.json();
