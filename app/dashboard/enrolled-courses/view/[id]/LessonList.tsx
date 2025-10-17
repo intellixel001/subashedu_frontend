@@ -21,6 +21,7 @@ export default function LessonList({
   setCurrentContent,
 }: Props) {
   return (
+    console.log(courseId)
     <div className="flex flex-col gap-4">
       {/* Lessons Section */}
       {lessons.length > 0 && (
