@@ -6,6 +6,7 @@ import { BsCashStack } from "react-icons/bs";
 import {
   FaBlog,
   FaChartLine,
+  FaExclamation,
   FaSignOutAlt,
   FaTimes,
   FaUserGraduate,
@@ -63,6 +64,11 @@ export function AdminSidebar({
       name: "Payment Verification",
       href: "/admin/payment-verification",
       icon: <BsCashStack className="mr-3" />,
+    },
+    {
+      name: "Exam",
+      href: "/admin/exam",
+      icon: <FaExclamation className="mr-3" />,
     },
     {
       name: "Blog",
