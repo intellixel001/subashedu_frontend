@@ -91,9 +91,9 @@ export function StudentSidebarWrapper() {
         </Link>
 
         <Link
-          href="/student/courses"
+          href="/courses"
           className={`flex flex-col items-center ${
-            pathname?.includes("/student/courses")
+            pathname?.includes("/courses")
               ? "text-blue-600 font-semibold"
               : "text-gray-700"
           } hover:text-blue-600`}
@@ -103,9 +103,9 @@ export function StudentSidebarWrapper() {
         </Link>
 
         <Link
-          href="/student/materials"
+          href="/materials"
           className={`flex flex-col items-center ${
-            pathname?.includes("/student/materials")
+            pathname?.includes("/materials")
               ? "text-blue-600 font-semibold"
               : "text-gray-700"
           } hover:text-blue-600`}
