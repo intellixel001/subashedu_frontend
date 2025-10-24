@@ -5,6 +5,7 @@ import { HeaderWrapper } from "./components/HeaderWrapper";
 import { StudentSidebarWrapper } from "./components/StudentSidebarWrapper";
 import { Studentprovider } from "./dashboard/context/StudentContext";
 import "./globals.css";
+import WhatsApp from "./components/WhatsApp";
 
 // Roboto for general text
 const roboto = Roboto({
@@ -49,6 +50,7 @@ export default function RootLayout({
         className="font-[var(--font-roboto)]"
       >
         <Studentprovider>
+          <WhatsApp />
           <HeaderWrapper />
           <StudentSidebarWrapper />
           <div className="bg-[#f2f4f7]">{children}</div>

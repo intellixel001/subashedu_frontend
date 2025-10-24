@@ -205,7 +205,7 @@ export default function Header({ pathname }) {
                   </button>
 
                   <div
-                    className={`absolute left-0 bg-white rounded-lg shadow-lg z-10 overflow-hidden transition-all duration-200 min-w-[200px]
+                    className={`absolute left-0 bg-white rounded-lg shadow-lg z-[9999] overflow-hidden transition-all duration-200 min-w-[200px]
                   ${
                     activeTab === group.name
                       ? "opacity-100 translate-y-0"
@@ -216,7 +216,7 @@ export default function Header({ pathname }) {
                       <Link
                         key={link.name}
                         href={link.href}
-                        className="block px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-[#a67201] text-sm"
+                        className="block px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-[#a67201] text-sm z-[9999]"
                       >
                         {link.name}
                       </Link>
