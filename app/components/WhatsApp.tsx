@@ -16,7 +16,7 @@ function WhatsApp() {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-5 right-5 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-[9999]"
+      className="fixed lg:bottom-10 bottom-18 right-5 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-[9999]"
       aria-label="Chat on WhatsApp"
     >
       <FaWhatsapp size={28} />
