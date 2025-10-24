@@ -32,7 +32,6 @@ export default function ExamTable({ onCreate, onEdit, onDelete }) {
         const finalData = await res.json();
         const data = finalData?.data;
 
-        console.log(data);
         setExams(data);
       } catch (error) {
         console.error("❌ Failed to fetch exams:", error);

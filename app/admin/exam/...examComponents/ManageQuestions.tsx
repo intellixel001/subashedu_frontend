@@ -11,6 +11,15 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
   const [editData, setEditData] = useState(null);
   const [loading] = useState(false);
 
+  // 🕒 Current time checks
+  const now = new Date();
+  const examStart = new Date(examObj.startDate);
+  const examEnd = new Date(examStart.getTime() + 24 * 60 * 60 * 1000); // start + 24 hours
+
+  const examNotStarted = examStart > now; // before start
+  const showUpdateResultBtn = now > examEnd; // after +24h
+  const [updayeAnswer, setUpdayeAnswer] = useState(null);
+
   // 🟢 Save (create or update)
   const handleSave = async (data) => {
     try {
@@ -18,7 +27,7 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
       const endpoint = isEdit
         ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/question/update/${data?.id}`
         : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/question/create`;
-      console.log(data);
+
       const payload = isEdit
         ? { ...data, type: data?.body?.toString() }
         : { ...data, examid: examObj._id };
@@ -69,20 +78,30 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
     }
   };
 
-  console.log(questions);
-
   const filteredQuestions = questions.filter((q) =>
     q.body.toLowerCase().includes(search.toLowerCase())
   );
 
+  // 🧩 Update Result (custom action)
+  const handleUpdateResult = () => {
+    setUpdayeAnswer(questions);
+  };
+
   return (
     <div className="p-6 bg-white rounded-xl shadow-md">
+      {/* {updayeAnswer && (
+        <UpdateAnswerCom
+          setUpdayeAnswer={setUpdayeAnswer}
+          updayeAnswer={updayeAnswer}
+        />
+      )} */}
       {/* Header */}
       <div className="flex flex-wrap justify-between items-center mb-6">
         <h1 className="text-xl font-semibold text-gray-800">
           Total Questions: {questions.length}
         </h1>
-        <div className="flex gap-2">
+
+        <div className="flex gap-2 items-center">
           <input
             type="text"
             placeholder="Search question..."
@@ -90,12 +109,24 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            <FaPlus /> Add New
-          </button>
+
+          {examNotStarted && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              <FaPlus /> Add New
+            </button>
+          )}
+
+          {/* {showUpdateResultBtn && (
+            <button
+              onClick={handleUpdateResult}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              Update Result
+            </button>
+          )} */}
         </div>
       </div>
 
@@ -131,6 +162,11 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
                     {q.fields.map((f, idx) => (
                       <span
                         key={idx}
+                        style={{
+                          backgroundColor:
+                            idx + 1 === +q?.answer ? "gray" : "transparent",
+                          color: idx + 1 === +q?.answer ? "white" : "black",
+                        }}
                         className="px-2 py-1 rounded-md text-xs mr-1 bg-gray-100 text-gray-700"
                       >
                         {f}
@@ -138,21 +174,25 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
                     ))}
                   </td>
                   <td className="py-3 px-4 text-center flex gap-3 justify-center">
-                    <button
-                      onClick={() => {
-                        setEditData(q);
-                        setShowModal(true);
-                      }}
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(q._id)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <FaTrash />
-                    </button>
+                    {examNotStarted && (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditData(q);
+                            setShowModal(true);
+                          }}
+                          className="text-blue-600 hover:text-blue-800"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(q._id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <FaTrash />
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))

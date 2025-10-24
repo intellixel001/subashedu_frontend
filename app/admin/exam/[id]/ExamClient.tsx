@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ManageNotice from "../...examComponents/ManageNotice";
 import ManageQuestions from "../...examComponents/ManageQuestions";
+import ManageSyllabus from "../...examComponents/ManageSyllabus";
 import { examSections } from "../examDb/examSubject";
 
 export default function ExamClient({ id }: { id: string }) {
@@ -28,7 +30,6 @@ export default function ExamClient({ id }: { id: string }) {
       }
 
       const data = await res.json();
-      console.log(data);
       setExamObj(data?.data || null);
       setQuestions(data?.questions || []);
     } catch (error) {
@@ -109,6 +110,10 @@ export default function ExamClient({ id }: { id: string }) {
           {selectTab === "Questions" && (
             <ManageQuestions questions={questions} examObj={examObj} />
           )}
+
+          {selectTab === "Syllabus" && <ManageSyllabus examObj={examObj} />}
+
+          {selectTab === "Notice" && <ManageNotice examObj={examObj} />}
         </>
       )}
     </div>

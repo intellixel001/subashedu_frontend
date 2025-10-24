@@ -28,13 +28,11 @@ export default function Page() {
 
       if (!res.ok) {
         const errorData = await res.json();
-        console.log(errorData?.message || "Something wents wrong!");
         setErrorMsg(errorData?.message);
         throw new Error(`Failed to ${currentExam ? "update" : "create"} exam`);
       }
 
-      const data = await res.json();
-      console.log("✅ Exam saved:", data);
+      await res.json();
 
       // Close modal and reset current exam
       setCreateExamModal(false);

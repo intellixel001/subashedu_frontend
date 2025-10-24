@@ -7,20 +7,29 @@ export function QuestionModal({ onClose, onSave, initialData }) {
   const [fields, setFields] = useState<string[]>(
     initialData?.fields || ["", "", "", ""]
   );
+  const [answer, setAnswer] = useState<number>(initialData?.answer || 0);
+  const [explanation, setExplanation] = useState(
+    initialData?.explanation || ""
+  );
 
+  // 🟢 Handle Save
   const handleSubmit = () => {
     if (!body.trim()) return alert("Please enter the main question body");
     if (fields.some((f) => !f.trim()))
-      return alert("Please fill all 4 fields before saving");
+      return alert("Please fill all 4 answer fields before saving");
+    if (!answer) return alert("Please select the correct answer");
 
     onSave({
       id: initialData?._id,
       type,
       body,
       fields,
+      answer,
+      explanation,
     });
   };
 
+  // 🧩 Handle Answer Option Edit
   const handleFieldChange = (index: number, value: string) => {
     const updated = [...fields];
     updated[index] = value;
@@ -29,29 +38,14 @@ export function QuestionModal({ onClose, onSave, initialData }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white w-full max-w-lg rounded-xl p-6 shadow-lg">
+      <div className="bg-white w-full h-[90vh] overflow-hidden overflow-y-auto max-w-lg rounded-xl p-6 shadow-lg">
         {/* Header */}
         <h2 className="text-lg font-semibold mb-4 text-gray-800">
           {initialData ? "Edit Question" : "Create Question"}
         </h2>
 
         <div className="space-y-4">
-          {/* Type Selector */}
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Question Type
-            </label>
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value as any)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-            >
-              <option value="mcq">mcq</option>
-              <option value="written">written</option>
-            </select>
-          </div> */}
-
-          {/* Main Question */}
+          {/* 🟩 Main Question */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Question Body
@@ -61,11 +55,11 @@ export function QuestionModal({ onClose, onSave, initialData }) {
               onChange={(e) => setBody(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
               rows={3}
-              placeholder="Enter the main question or paragraph..."
+              placeholder="Enter the main question..."
             />
           </div>
 
-          {/* Dynamic Fields */}
+          {/* 🟩 Answer Fields */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {type === "mcq"
@@ -74,21 +68,45 @@ export function QuestionModal({ onClose, onSave, initialData }) {
             </label>
 
             {fields.map((f, i) => (
-              <input
+              <div
                 key={i}
-                type="text"
-                value={f}
-                onChange={(e) => handleFieldChange(i, e.target.value)}
-                placeholder={
-                  type === "mcq" ? `Answer ${i + 1}` : `Question ${i + 1}`
-                }
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-blue-400 outline-none"
-              />
+                className="flex items-center gap-3 mb-2 border border-gray-200 rounded-lg px-3 py-2 hover:bg-gray-50"
+              >
+                <input
+                  type="radio"
+                  name="correct-answer"
+                  value={i + 1}
+                  checked={answer === i + 1}
+                  onChange={() => setAnswer(i + 1)}
+                  className="text-blue-600 transform scale-125 cursor-pointer focus:ring-blue-500"
+                />
+                <input
+                  type="text"
+                  value={f}
+                  onChange={(e) => handleFieldChange(i, e.target.value)}
+                  placeholder={`Answer ${i + 1}`}
+                  className="w-full border border-gray-300 rounded-md px-3 py-1.5 focus:ring-2 focus:ring-blue-400 outline-none"
+                />
+              </div>
             ))}
+          </div>
+
+          {/* 🟩 Explanation */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Explanation (optional)
+            </label>
+            <textarea
+              value={explanation}
+              onChange={(e) => setExplanation(e.target.value)}
+              rows={3}
+              placeholder="Enter explanation for the correct answer..."
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            />
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* 🟩 Buttons */}
         <div className="flex justify-end gap-2 mt-6">
           <button
             onClick={onClose}
