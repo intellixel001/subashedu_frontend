@@ -14,11 +14,11 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
   // 🕒 Current time checks
   const now = new Date();
   const examStart = new Date(examObj.startDate);
-  const examEnd = new Date(examStart.getTime() + 24 * 60 * 60 * 1000); // start + 24 hours
+  // const examEnd = new Date(examStart.getTime() + 24 * 60 * 60 * 1000); // start + 24 hours
 
   const examNotStarted = examStart > now; // before start
-  const showUpdateResultBtn = now > examEnd; // after +24h
-  const [updayeAnswer, setUpdayeAnswer] = useState(null);
+  // const showUpdateResultBtn = now > examEnd; // after +24h
+  // const [updayeAnswer, setUpdayeAnswer] = useState(null);
 
   // 🟢 Save (create or update)
   const handleSave = async (data) => {
@@ -83,9 +83,9 @@ export default function ManageQuestions({ examObj, questions: questionsData }) {
   );
 
   // 🧩 Update Result (custom action)
-  const handleUpdateResult = () => {
-    setUpdayeAnswer(questions);
-  };
+  // const handleUpdateResult = () => {
+  //   setUpdayeAnswer(questions);
+  // };
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-md">
