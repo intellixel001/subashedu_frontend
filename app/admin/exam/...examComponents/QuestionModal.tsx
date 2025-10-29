@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export function QuestionModal({ onClose, onSave, initialData }) {
   const [type] = useState<"mcq" | "written">(initialData?.type || "mcq");
+  const [topic, setTopic] = useState(initialData?.topic || ""); // 🟩 new state
   const [body, setBody] = useState(initialData?.body || "");
   const [fields, setFields] = useState<string[]>(
     initialData?.fields || ["", "", "", ""]
@@ -12,8 +13,19 @@ export function QuestionModal({ onClose, onSave, initialData }) {
     initialData?.explanation || ""
   );
 
+  // 🧠 Example topic options — you can fetch or pass these via props if needed
+  const topicOptions = [
+    "Mathematics",
+    "Science",
+    "English",
+    "History",
+    "Geography",
+    "General Knowledge",
+  ];
+
   // 🟢 Handle Save
   const handleSubmit = () => {
+    if (!topic.trim()) return alert("Please select a topic");
     if (!body.trim()) return alert("Please enter the main question body");
     if (fields.some((f) => !f.trim()))
       return alert("Please fill all 4 answer fields before saving");
@@ -22,6 +34,7 @@ export function QuestionModal({ onClose, onSave, initialData }) {
     onSave({
       id: initialData?._id,
       type,
+      topic,
       body,
       fields,
       answer,
@@ -45,6 +58,25 @@ export function QuestionModal({ onClose, onSave, initialData }) {
         </h2>
 
         <div className="space-y-4">
+          {/* 🟩 Topic Select */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Topic
+            </label>
+            <select
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            >
+              <option value="">Select a topic</option>
+              {topicOptions.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* 🟩 Main Question */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
