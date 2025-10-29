@@ -242,7 +242,7 @@ const MaterialsPage = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold flex items-center gap-3">
-          <FaBook className="text-[var(--myred)]" />
+          <FaBook className="text-black" />
           Materials Management
         </h1>
         <button
