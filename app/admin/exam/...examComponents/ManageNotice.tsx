@@ -37,6 +37,7 @@ export default function ManageNotice({ examObj }) {
     setLoading(true);
     try {
       let updatedNotices = [...notices];
+      console.log(updatedNotices);
 
       if (editIndex !== null) {
         updatedNotices[editIndex] = formData; // update
