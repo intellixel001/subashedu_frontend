@@ -140,6 +140,14 @@ export default function ExamTable({ onCreate, onEdit, onDelete }) {
             <FaPlus size={14} />
             Add Exam
           </button>
+
+          {/* Class and subject */}
+          <Link href={"/admin/exam/classandsubject"}>
+            <button className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+              <FaPlus size={14} />
+              Class and subject
+            </button>
+          </Link>
         </div>
       </div>
 

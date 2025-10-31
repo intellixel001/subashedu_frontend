@@ -16,10 +16,11 @@ export default function CreateUpdateExam({
     billingType: "",
     class: 0,
     subject: 0,
+    admission: "job",
     duration: "",
     isLive: false,
     status: true,
-    startDate: "", // ✅ added new field
+    startDate: "",
   });
 
   const [subjects, setSubjects] = useState([]);
@@ -112,6 +113,22 @@ export default function CreateUpdateExam({
               <option value="">Select billing type</option>
               <option value="free">Free</option>
               <option value="paid">Paid</option>
+            </select>
+          </div>
+
+          {/* position Type */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Position Type
+            </label>
+            <select
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.position}
+              onChange={(e) => handleChange("position", e.target.value)}
+            >
+              <option value="academic">academic</option>
+              <option value="admission">admission</option>
+              <option value="job">job</option>
             </select>
           </div>
 
