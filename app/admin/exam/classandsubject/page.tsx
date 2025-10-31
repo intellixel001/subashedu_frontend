@@ -167,6 +167,18 @@ export default function Page() {
         />
 
         <select
+          value={filterPosition}
+          onChange={(e) => setFilterPosition(e.target.value)}
+          className="border border-gray-300 rounded-md px-3 py-2"
+        >
+          <option value="">All Positions</option>
+          {uniquePositions.map((pos) => (
+            <option key={pos} value={pos}>
+              {pos}
+            </option>
+          ))}
+        </select>
+        <select
           value={filterClass}
           onChange={(e) => setFilterClass(e.target.value)}
           className="border border-gray-300 rounded-md px-3 py-2"
@@ -174,7 +186,7 @@ export default function Page() {
           <option value="">All Classes</option>
           {uniqueClasses.map((cls) => (
             <option key={cls} value={cls}>
-              Class {cls}
+              {cls}
             </option>
           ))}
         </select>
@@ -191,19 +203,6 @@ export default function Page() {
             </option>
           ))}
         </select>
-
-        <select
-          value={filterPosition}
-          onChange={(e) => setFilterPosition(e.target.value)}
-          className="border border-gray-300 rounded-md px-3 py-2"
-        >
-          <option value="">All Positions</option>
-          {uniquePositions.map((pos) => (
-            <option key={pos} value={pos}>
-              {pos}
-            </option>
-          ))}
-        </select>
       </div>
 
       {/* Table */}
@@ -212,8 +211,9 @@ export default function Page() {
           <thead className="bg-gray-100 text-gray-700">
             <tr>
               <th className="px-4 py-2">ID</th>
-              <th className="px-4 py-2">Name</th>
+              <th className="px-4 py-2">Type</th>
               <th className="px-4 py-2">Position</th>
+              <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Class</th>
               <th className="px-4 py-2">Subject</th>
               <th className="px-4 py-2">Status</th>
@@ -231,8 +231,9 @@ export default function Page() {
               filteredData.map((options) => (
                 <tr key={options.id} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2">{options.id}</td>
-                  <td className="px-4 py-2">{options.name}</td>
+                  <td className="px-4 py-2">{options.type}</td>
                   <td className="px-4 py-2">{options.position}</td>
+                  <td className="px-4 py-2">{options.name}</td>
                   <td className="px-4 py-2">{options.className || "-"}</td>
                   <td className="px-4 py-2">{options.subject || "-"}</td>
                   <td className="px-4 py-2">
@@ -240,7 +241,10 @@ export default function Page() {
                   </td>
                   <td className="px-4 py-2 text-center">
                     <button
-                      onClick={() => openModal(options)}
+                      onClick={() => {
+                        openModal(options);
+                        setMode(options?.type);
+                      }}
                       className="text-blue-600 hover:text-blue-800"
                     >
                       Edit
@@ -270,6 +274,7 @@ export default function Page() {
           errorMsg={errorMsg}
           mode={mode}
           setMode={setMode}
+          classOptionsAll={data?.filter((s_s) => s_s?.type === "class") || []}
         />
       )}
     </div>

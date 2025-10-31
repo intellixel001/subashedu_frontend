@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { examSections } from "../examDb/examSubject";
+import { useEffect, useMemo, useState } from "react";
 
 export default function CreateUpdateExam({
   isOpen,
@@ -14,43 +13,88 @@ export default function CreateUpdateExam({
     name: "",
     description: "",
     billingType: "",
-    class: 0,
-    subject: 0,
-    admission: "job",
+    class: "",
+    subject: "",
+    position: "",
     duration: "",
     isLive: false,
     status: true,
     startDate: "",
-    position: "",
   });
 
-  const [subjects, setSubjects] = useState([]);
+  const [options, setOptions] = useState([]); // all options from backend
 
   // Load initial data if editing
   useEffect(() => {
-    if (initialData)
-      setFormData((prev) => ({
-        ...prev,
+    if (initialData) {
+      setFormData({
+        ...formData,
         ...initialData,
         startDate: initialData.startDate
           ? new Date(initialData.startDate).toISOString().slice(0, 16)
           : "",
-      }));
+      });
+    }
   }, [initialData]);
 
-  const handleChange = (key: keyof typeof formData, value) => {
+  // Fetch all options once
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/option/get`,
+          { credentials: "include" }
+        );
+        const data = await res.json();
+        if (data.data) setOptions(data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchOptions();
+  }, []);
+
+  // Filtered classes by position
+  const classesByPosition = useMemo(() => {
+    if (!formData.position) return [];
+    return options.filter(
+      (opt) => opt.type === "class" && opt.position === formData.position
+    );
+  }, [formData.position, options]);
+
+  const subjectsByClass = useMemo(() => {
+    if (!formData.class || !formData.position) return [];
+
+    // 1️⃣ Find the selected class object
+    const selectedClass = options.find(
+      (opt) => opt.type === "class" && +opt.id === +formData.class
+    );
+
+    console.log({ selectedClass, options });
+
+    if (!selectedClass) return [];
+
+    // 2️⃣ Filter subjects matching className and position
+    return options.filter(
+      (opt) =>
+        opt.type === "subject" &&
+        opt.className === selectedClass.className &&
+        opt.position === selectedClass.position &&
+        opt.status === true
+    );
+  }, [formData.class, formData.position, options]);
+
+  const handleChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    if (key === "position")
+      setFormData((prev) => ({ ...prev, class: "", subject: "" }));
+    if (key === "class") setFormData((prev) => ({ ...prev, subject: "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
   };
-
-  useEffect(() => {
-    const classObj = examSections.find((cls) => +cls.id === +formData.class);
-    setSubjects(classObj?.items || []);
-  }, [formData.class]);
 
   if (!isOpen) return null;
 
@@ -80,7 +124,6 @@ export default function CreateUpdateExam({
             <input
               type="text"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Enter exam name"
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
               required
@@ -94,10 +137,9 @@ export default function CreateUpdateExam({
             </label>
             <textarea
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Enter short description"
-              rows={3}
               value={formData.description}
               onChange={(e) => handleChange("description", e.target.value)}
+              rows={3}
             />
           </div>
 
@@ -117,57 +159,59 @@ export default function CreateUpdateExam({
             </select>
           </div>
 
-          {/* position Type */}
+          {/* Position */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Position Type
+              Position
             </label>
             <select
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
               value={formData.position}
               onChange={(e) => handleChange("position", e.target.value)}
             >
-              <option value="academic">academic</option>
-              <option value="admission">admission</option>
-              <option value="job">job</option>
+              <option value="">Select position</option>
+              <option value="Academic">Academic</option>
+              <option value="Admission">Admission</option>
+              <option value="Job">Job</option>
             </select>
           </div>
 
           {/* Class */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Class
-            </label>
-            <select
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              value={formData.class}
-              onChange={(e) => handleChange("class", e.target.value)}
-            >
-              <option value="">Select class</option>
-              {examSections.map((cls) => (
-                <option key={cls.id} value={cls.id}>
-                  {cls.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {classesByPosition.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Class
+              </label>
+              <select
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                value={formData.class}
+                onChange={(e) => handleChange("class", e.target.value)}
+              >
+                <option value="">Select class</option>
+                {classesByPosition.map((cls) => (
+                  <option key={cls.id} value={cls.id}>
+                    {cls.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Subject */}
-          {subjects && (
+          {subjectsByClass.length > 0 && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Subject
               </label>
               <select
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
                 value={formData.subject}
                 onChange={(e) => handleChange("subject", e.target.value)}
-                disabled={!formData.class}
               >
                 <option value="">Select subject</option>
-                {subjects.map((sub) => (
+                {subjectsByClass.map((sub) => (
                   <option key={sub.id} value={sub.id}>
-                    {sub.title}
+                    {sub.name}
                   </option>
                 ))}
               </select>
@@ -182,13 +226,12 @@ export default function CreateUpdateExam({
             <input
               type="number"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="e.g. 60"
               value={formData.duration}
               onChange={(e) => handleChange("duration", e.target.value)}
             />
           </div>
 
-          {/* ✅ Start Date */}
+          {/* Start Date */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Exam Start Time
@@ -212,7 +255,6 @@ export default function CreateUpdateExam({
               />
               <span className="text-sm text-gray-700">Is Live</span>
             </label>
-
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -236,13 +278,13 @@ export default function CreateUpdateExam({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 cursor-pointer border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 cursor-pointer bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Save Exam
             </button>
