@@ -21,6 +21,7 @@ export default function CreateUpdateExam({
     isLive: false,
     status: true,
     startDate: "",
+    position: "",
   });
 
   const [subjects, setSubjects] = useState([]);
