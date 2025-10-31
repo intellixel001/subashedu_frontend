@@ -36,8 +36,7 @@ export default function ManageNotice({ examObj }) {
     if (!formData.body.trim()) return alert("Please enter notice content");
     setLoading(true);
     try {
-      let updatedNotices = [...notices];
-      console.log(updatedNotices);
+      const updatedNotices = [...notices];
 
       if (editIndex !== null) {
         updatedNotices[editIndex] = formData; // update
