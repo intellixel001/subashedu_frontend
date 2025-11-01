@@ -21,6 +21,7 @@ export default function CreateUpdateExam({
     isLive: false,
     status: true,
     startDate: "",
+    resultPublishedDate: "",
   });
 
   const [options, setOptions] = useState([]); // all options from backend
@@ -31,9 +32,12 @@ export default function CreateUpdateExam({
       setFormData({
         ...formData,
         ...initialData,
-        startDate: initialData.startDate
-          ? new Date(initialData.startDate).toISOString().slice(0, 16)
-          : "",
+        // startDate: initialData.startDate
+        //   ? new Date(initialData.startDate).toISOString().slice(0, 16)
+        //   : "",
+        // resultPublishedDate: initialData.resultPublishedDate
+        //   ? new Date(initialData.resultPublishedDate).toISOString().slice(0, 16)
+        //   : "",
       });
     }
   }, [initialData]);
@@ -255,6 +259,21 @@ export default function CreateUpdateExam({
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
               value={formData.startDate}
               onChange={(e) => handleChange("startDate", e.target.value)}
+            />
+          </div>
+
+          {/* Result Published */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Result Published Time
+            </label>
+            <input
+              type="datetime-local"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.resultPublishedDate}
+              onChange={(e) =>
+                handleChange("resultPublishedDate", e.target.value)
+              }
             />
           </div>
 
