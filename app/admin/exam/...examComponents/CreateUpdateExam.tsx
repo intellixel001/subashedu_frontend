@@ -16,7 +16,8 @@ export default function CreateUpdateExam({
     class: "",
     subject: "",
     position: "",
-    duration: "",
+    duration: 0,
+    cutmark: 0,
     isLive: false,
     status: true,
     startDate: "",
@@ -228,6 +229,19 @@ export default function CreateUpdateExam({
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
               value={formData.duration}
               onChange={(e) => handleChange("duration", e.target.value)}
+            />
+          </div>
+
+          {/* cutmark */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Exam Cutmark (%)
+            </label>
+            <input
+              type="number"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.cutmark}
+              onChange={(e) => handleChange("cutmark", e.target.value)}
             />
           </div>
 
