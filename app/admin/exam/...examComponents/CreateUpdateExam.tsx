@@ -18,6 +18,7 @@ export default function CreateUpdateExam({
     position: "",
     duration: 0,
     cutmark: 0,
+    nagetivemark: 0,
     isLive: false,
     status: true,
     startDate: "",
@@ -99,6 +100,21 @@ export default function CreateUpdateExam({
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
+    setFormData({
+      name: "",
+      description: "",
+      billingType: "",
+      class: "",
+      subject: "",
+      position: "",
+      duration: 0,
+      cutmark: 0,
+      nagetivemark: 0,
+      isLive: false,
+      status: true,
+      startDate: "",
+      resultPublishedDate: "",
+    });
   };
 
   if (!isOpen) return null;
@@ -112,7 +128,24 @@ export default function CreateUpdateExam({
             {initialData ? "Update Exam" : "Create Exam"}
           </h2>
           <button
-            onClick={onClose}
+            onClick={() => {
+              onClose();
+              setFormData({
+                name: "",
+                description: "",
+                billingType: "",
+                class: "",
+                subject: "",
+                position: "",
+                duration: 0,
+                cutmark: 0,
+                nagetivemark: 0,
+                isLive: false,
+                status: true,
+                startDate: "",
+                resultPublishedDate: "",
+              });
+            }}
             className="text-gray-400 hover:text-gray-600 text-2xl"
           >
             &times;
@@ -249,6 +282,19 @@ export default function CreateUpdateExam({
             />
           </div>
 
+          {/* nagetivemark */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Exam Nagetive Mark
+            </label>
+            <input
+              type="number"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+              value={formData.nagetivemark}
+              onChange={(e) => handleChange("nagetivemark", e.target.value)}
+            />
+          </div>
+
           {/* Start Date */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -310,7 +356,23 @@ export default function CreateUpdateExam({
           <div className="flex justify-end gap-3 pt-4 border-t">
             <button
               type="button"
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                setFormData({
+                  name: "",
+                  description: "",
+                  billingType: "",
+                  class: "",
+                  subject: "",
+                  position: "",
+                  duration: 0,
+                  cutmark: 0,
+                  isLive: false,
+                  status: true,
+                  startDate: "",
+                  resultPublishedDate: "",
+                });
+              }}
               className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
             >
               Cancel

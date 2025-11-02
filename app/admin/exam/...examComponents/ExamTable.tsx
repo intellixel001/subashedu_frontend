@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { FaEdit, FaEye, FaPlus, FaTrash } from "react-icons/fa";
 
-export default function ExamTable({ onCreate, onEdit, onDelete }) {
-  const [exams, setExams] = useState([]);
+export default function ExamTable({ onCreate, onEdit, onDelete, exams }) {
   const [options, setOptions] = useState([]);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -14,24 +13,6 @@ export default function ExamTable({ onCreate, onEdit, onDelete }) {
   const [filterPosition, setFilterPosition] = useState("all");
 
   const positionOptions = ["Academic", "Admission", "Job"];
-
-  // Fetch exams
-  useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/get`,
-          { method: "GET", credentials: "include" }
-        );
-        if (!res.ok) throw new Error("Failed to fetch exams");
-        const data = await res.json();
-        setExams(data.data || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchExams();
-  }, []);
 
   // Fetch classes and subjects
   useEffect(() => {
