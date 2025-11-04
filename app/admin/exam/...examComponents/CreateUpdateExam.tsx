@@ -366,6 +366,7 @@ export default function CreateUpdateExam({
                   subject: "",
                   position: "",
                   duration: 0,
+                  nagetivemark: 0,
                   cutmark: 0,
                   isLive: false,
                   status: true,
