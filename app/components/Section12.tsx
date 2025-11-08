@@ -9,11 +9,12 @@ export default function Section12() {
           <div className="w-full lg:w-1/2 aspect-video rounded-2xl overflow-hidden shadow-2xl transform hover:scale-[1.03] transition-transform duration-500 border-4 border-gray-800">
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/tjb0BJTwmMY"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+              src="https://www.youtube.com/embed/atLDxczwl8Y"
+              title="জানুন সুভাস এডু সম্পর্কে । আপনার মননের শিক্ষাকে জাগ্রত করাই আমাদের উদ্দেশ্য ।"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
             ></iframe>
           </div>
 
