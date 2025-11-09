@@ -322,6 +322,12 @@ const PaymentVerification = () => {
                   Material Payment Requests
                 </button>
               </Link>
+
+              <Link href="/admin/exam/payment">
+                <button className="px-4 py-2 bg-[#f7374f] text-white rounded-lg hover:bg-[#e12d42] transition-colors">
+                  Exam Payment
+                </button>
+              </Link>
             </div>
           </div>
 
