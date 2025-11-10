@@ -36,7 +36,7 @@ export default function PackagePurchasesPage() {
   const [actionLoading, setActionLoading] = useState({});
 
   // ---------- Fetch purchases ----------
-  const fetchPurchases = async (opts = {}) => {
+  const fetchPurchases = async (opts = { page: number }) => {
     try {
       setLoading(true);
       setErrorMsg("");
