@@ -11,7 +11,7 @@ export default function Section12() {
               className="w-full h-full"
               src="https://www.youtube.com/embed/atLDxczwl8Y"
               title="জানুন সুভাস এডু সম্পর্কে । আপনার মননের শিক্ষাকে জাগ্রত করাই আমাদের উদ্দেশ্য ।"
-              frameborder="0"
+              frameBorder={0}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
