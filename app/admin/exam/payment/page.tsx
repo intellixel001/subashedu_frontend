@@ -23,8 +23,8 @@ export default function PackagePurchasesPage() {
 
   const [purchaseFrom] = useState("");
   const [purchaseTo] = useState("");
-  const [expiryFrom, ] = useState("");
-  const [expiryTo, =] = useState("");
+  const [expiryFrom] = useState("");
+  const [expiryTo] = useState("");
 
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
@@ -166,7 +166,8 @@ export default function PackagePurchasesPage() {
           purchaseStatus: "cancelled",
           isActive: false,
         }));
-    } catch () {
+    } catch (err) {
+      console.log(err);
       alert("Failed to cancel purchase");
     } finally {
       setActionBusy(id, false);
