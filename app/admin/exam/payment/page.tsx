@@ -36,14 +36,14 @@ export default function PackagePurchasesPage() {
   const [actionLoading, setActionLoading] = useState({});
 
   // ---------- Fetch purchases ----------
-  const fetchPurchases = async (opts = { page: number }) => {
+  const fetchPurchases = async (opts: { page?: number } = {}) => {
     try {
       setLoading(true);
       setErrorMsg("");
 
       const params = new URLSearchParams();
-      params.append("page", opts.page || page);
-      params.append("limit", limit);
+      params.append("page", String(opts.page ?? page));
+      params.append("limit", String(limit));
 
       if (statusFilter && statusFilter !== "all")
         params.append("status", statusFilter);
@@ -59,8 +59,8 @@ export default function PackagePurchasesPage() {
         }/api/admin/exam/package/purchases?${params.toString()}`,
         { credentials: "include" }
       );
-      const data = await res.json();
 
+      const data = await res.json();
       setPurchases(data.data || []);
       setTotal(data.total || (data.data ? data.data.length : 0));
     } catch (err) {
