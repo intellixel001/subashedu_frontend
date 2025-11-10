@@ -17,14 +17,14 @@ export default function PackagePurchasesPage() {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
+  console.log(errorMsg);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const [purchaseFrom, setPurchaseFrom] = useState("");
-  const [purchaseTo, setPurchaseTo] = useState("");
-  const [expiryFrom, setExpiryFrom] = useState("");
-  const [expiryTo, setExpiryTo] = useState("");
+  const [purchaseFrom] = useState("");
+  const [purchaseTo] = useState("");
+  const [expiryFrom, ] = useState("");
+  const [expiryTo, =] = useState("");
 
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
@@ -99,28 +99,28 @@ export default function PackagePurchasesPage() {
     setActionLoading((s) => ({ ...s, [id]: val }));
 
   // ---------- Actions ----------
-  const handleVerify = async (id) => {
-    if (!confirm("Are you sure you want to approve this purchase?")) return;
+  // const handleVerify = async (id) => {
+  //   if (!confirm("Are you sure you want to approve this purchase?")) return;
 
-    try {
-      setActionBusy(id, true);
-      await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/package/purchase/verify/${id}`,
-        { method: "PUT", credentials: "include" }
-      );
-      setPurchases((prev) =>
-        prev.map((p) =>
-          p._id === id ? { ...p, purchaseStatus: "verified" } : p
-        )
-      );
-      if (selected?._id === id)
-        setSelected((s) => ({ ...s, purchaseStatus: "verified" }));
-    } catch (err) {
-      alert("Failed to verify purchase");
-    } finally {
-      setActionBusy(id, false);
-    }
-  };
+  //   try {
+  //     setActionBusy(id, true);
+  //     await fetch(
+  //       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/admin/exam/package/purchase/verify/${id}`,
+  //       { method: "PUT", credentials: "include" }
+  //     );
+  //     setPurchases((prev) =>
+  //       prev.map((p) =>
+  //         p._id === id ? { ...p, purchaseStatus: "verified" } : p
+  //       )
+  //     );
+  //     if (selected?._id === id)
+  //       setSelected((s) => ({ ...s, purchaseStatus: "verified" }));
+  //   } catch (err) {
+  //     alert("Failed to verify purchase");
+  //   } finally {
+  //     setActionBusy(id, false);
+  //   }
+  // };
 
   const handleActivate = async (id) => {
     try {
@@ -166,7 +166,7 @@ export default function PackagePurchasesPage() {
           purchaseStatus: "cancelled",
           isActive: false,
         }));
-    } catch (err) {
+    } catch () {
       alert("Failed to cancel purchase");
     } finally {
       setActionBusy(id, false);
