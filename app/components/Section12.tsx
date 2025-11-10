@@ -13,8 +13,8 @@ export default function Section12() {
               title="জানুন সুভাস এডু সম্পর্কে । আপনার মননের শিক্ষাকে জাগ্রত করাই আমাদের উদ্দেশ্য ।"
               frameBorder={0}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             ></iframe>
           </div>
 
