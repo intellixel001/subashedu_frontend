@@ -22,6 +22,9 @@ export default async function StudentDashboard() {
   const studentObject = await getCurrentStudent();
   const result = await getCourses();
   const data = result.data || [];
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const refreshAccessToken = cookieStore.get("refreshToken")?.value;
 
   // --- Greeting based on time ---
   const currentHour = new Date().getHours();
@@ -32,6 +35,12 @@ export default async function StudentDashboard() {
 
   // --- Dashboard Cards ---
   const cards = [
+    {
+      title: "Explore Exam",
+      path: `https://exam.suvashedu.com?accessToken=${accessToken}&refreshAccessToken=${refreshAccessToken}`,
+      icon: <FaChalkboardTeacher className="text-2xl text-white" />,
+      bgColor: "bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600",
+    },
     {
       title: "Join Live Class",
       path: "/dashboard/class",

@@ -12,8 +12,9 @@ import { MdPersonSearch } from "react-icons/md";
 
 export default function Section1() {
   const navigationItems = [
+    { href: "https://exam.suvashedu.com", text: "Exam", icon: <FaHome /> },
     { href: "/courses", text: " সকল কোর্স", icon: <FaGraduationCap /> },
-    { href: "/", text: "হোম", icon: <FaHome /> },
+    // { href: "/", text: "হোম", icon: <FaHome /> },
     {
       href: "/courses/admission",
       text: "ভর্তি প্রস্তুতি",
@@ -53,8 +54,9 @@ export default function Section1() {
 
         <p className="text-white text-base sm:text-[14px] font-[700]">
           ভর্তি প্রস্তুতি থেকে শুরু করে চাকরি প্রস্তুতি সকল শিক্ষামূলক কোর্স,
-          ফ্রি ক্লাস এবং প্রয়োজনীয় শিক্ষাসংক্রান্ত বিষয়গুলো আপনি পাবেন এক জায়গায়।
-          সুভাস এডু শিক্ষার্থীদের জন্য সহজ, দ্রুত এবং কার্যকরী একটি প্ল্যাটফর্ম।
+          ফ্রি ক্লাস এবং প্রয়োজনীয় শিক্ষাসংক্রান্ত বিষয়গুলো আপনি পাবেন এক
+          জায়গায়। সুভাস এডু শিক্ষার্থীদের জন্য সহজ, দ্রুত এবং কার্যকরী একটি
+          প্ল্যাটফর্ম।
         </p>
 
         {/* Navigation Pills */}
@@ -81,7 +83,8 @@ export default function Section1() {
 
           <Link href="https://www.youtube.com/@Suvash.Edu.B/videos">
             <button className="px-10 py-4 brabrand-hover-button sm:py-5 brand2-bg-color text-white font-extrabold text-lg sm:text-xl rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
-              <CiVideoOn className="text-2xl sm:text-3xl" /> ফ্রি ক্লাস গুলো দেখুন
+              <CiVideoOn className="text-2xl sm:text-3xl" /> ফ্রি ক্লাস গুলো
+              দেখুন
             </button>
           </Link>
         </div>
@@ -105,7 +108,8 @@ export default function Section1() {
             aria-hidden
             className="absolute inset-0 rounded-3xl"
             style={{
-              background: "linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45))",
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45))",
               zIndex: 1,
             }}
           />
@@ -125,9 +129,12 @@ export default function Section1() {
               <div className="px-5 py-4 flex items-center justify-between gap-4">
                 <div>
                   <h3 className="text-white text-base md:text-lg font-semibold leading-tight">
-                    জানুন সুভাস এডু সম্পর্কে । আপনার মননের শিক্ষাকে জাগ্রত করাই আমাদের উদ্দেশ্য ।
+                    জানুন সুভাস এডু সম্পর্কে । আপনার মননের শিক্ষাকে জাগ্রত করাই
+                    আমাদের উদ্দেশ্য ।
                   </h3>
-                  <p className="mt-1 text-sm text-white/70">SS Animation Studio • 2D / 3D</p>
+                  <p className="mt-1 text-sm text-white/70">
+                    SS Animation Studio • 2D / 3D
+                  </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/6 border border-white/8 text-sm">
@@ -174,7 +181,6 @@ export default function Section1() {
           />
         </div>
       </div>
-
     </section>
   );
 }

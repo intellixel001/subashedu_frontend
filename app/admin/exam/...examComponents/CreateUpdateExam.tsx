@@ -76,8 +76,6 @@ export default function CreateUpdateExam({
       (opt) => opt.type === "class" && +opt.id === +formData.class
     );
 
-    console.log({ selectedClass, options });
-
     if (!selectedClass) return [];
 
     // 2️⃣ Filter subjects matching className and position
