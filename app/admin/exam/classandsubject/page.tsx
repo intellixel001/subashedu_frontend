@@ -212,10 +212,10 @@ export default function Page() {
             <tr>
               <th className="px-4 py-2">ID</th>
               <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2">Position</th>
               <th className="px-4 py-2">Name</th>
+              {/* <th className="px-4 py-2">Position</th>
               <th className="px-4 py-2">Class</th>
-              <th className="px-4 py-2">Subject</th>
+              <th className="px-4 py-2">Subject</th> */}
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2 text-center">Actions</th>
             </tr>
@@ -232,10 +232,10 @@ export default function Page() {
                 <tr key={options.id} className="border-t hover:bg-gray-50">
                   <td className="px-4 py-2">{options.id}</td>
                   <td className="px-4 py-2">{options.type}</td>
-                  <td className="px-4 py-2">{options.position}</td>
                   <td className="px-4 py-2">{options.name}</td>
+                  {/* <td className="px-4 py-2">{options.position}</td>
                   <td className="px-4 py-2">{options.className || "-"}</td>
-                  <td className="px-4 py-2">{options.subject || "-"}</td>
+                  <td className="px-4 py-2">{options.subject || "-"}</td> */}
                   <td className="px-4 py-2">
                     {options.status ? "Active" : "Inactive"}
                   </td>
