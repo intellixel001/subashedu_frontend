@@ -99,7 +99,9 @@ const ClassVideosList = () => {
               <FaChalkboardTeacher className="text-2xl" />
               <h1 className="text-xl md:text-2xl font-bold">
                 Recorded Classes -{" "}
-                {subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}
+                {subjectName.charAt(0)?.toUpperCase() ||
+                  "" ||
+                  "" + subjectName.slice(1)}
               </h1>
             </div>
             <Link

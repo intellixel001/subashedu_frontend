@@ -117,7 +117,12 @@ const MaterialPaymentRequests = () => {
       }
     };
     fetchPayments();
-  }, [pagination.currentPage, pagination.limit, debouncedSearchTerm, deleteSuccess]);
+  }, [
+    pagination.currentPage,
+    pagination.limit,
+    debouncedSearchTerm,
+    deleteSuccess,
+  ]);
 
   const paginate = (pageNumber: number) => {
     setPagination((prev) => ({ ...prev, currentPage: pageNumber }));
@@ -410,8 +415,9 @@ const MaterialPaymentRequests = () => {
                                   : "bg-red-100 text-red-800"
                               }`}
                             >
-                              {payment.status.charAt(0).toUpperCase() +
-                                payment.status.slice(1)}
+                              {payment.status.charAt(0)?.toUpperCase() ||
+                                "" ||
+                                "" + payment.status.slice(1)}
                             </span>
                           </div>
                         </div>

@@ -19,11 +19,11 @@ export function DisableDevTools() {
       if (
         e.ctrlKey &&
         e.shiftKey &&
-        ["I", "J", "C"].includes(e.key.toUpperCase())
+        ["I", "J", "C"].includes(e.key?.toUpperCase() || "")
       ) {
         e.preventDefault();
       }
-      if (e.ctrlKey && e.key.toUpperCase() === "U") {
+      if ((e.ctrlKey && e.key?.toUpperCase()) || "" === "U") {
         e.preventDefault();
       }
     };

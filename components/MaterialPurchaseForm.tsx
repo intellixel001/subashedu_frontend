@@ -292,7 +292,8 @@ export default function MaterialPurchaseForm({
                         <div className="relative w-20 h-8 mb-2">
                           <Image
                             src={`/${
-                              method.charAt(0).toUpperCase() + method.slice(1)
+                              method.charAt(0)?.toUpperCase() ||
+                              "" + method.slice(1)
                             }.PNG`}
                             alt={`${method} Logo`}
                             width={80}

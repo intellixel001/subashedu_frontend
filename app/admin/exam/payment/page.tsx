@@ -211,7 +211,7 @@ export default function PackagePurchasesPage() {
               <option key={s} value={s}>
                 {s === "all"
                   ? "All Statuses"
-                  : s.charAt(0).toUpperCase() + s.slice(1)}
+                  : s.charAt(0)?.toUpperCase() || "" + s.slice(1)}
               </option>
             ))}
           </select>

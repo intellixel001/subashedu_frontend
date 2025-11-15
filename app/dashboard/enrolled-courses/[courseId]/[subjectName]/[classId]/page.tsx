@@ -968,7 +968,9 @@ const ClassVideoPlayer = () => {
               <FaChalkboardTeacher className="text-2xl" />
               <h1 className="text-xl md:text-2xl font-bold">
                 {selectedClass?.title} -{" "}
-                {subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}
+                {subjectName.charAt(0)?.toUpperCase() ||
+                  "" ||
+                  "" + subjectName.slice(1)}
               </h1>
             </div>
             <Link
@@ -1235,8 +1237,9 @@ const ClassVideoPlayer = () => {
               <div className="space-y-4">
                 <p>
                   <span className="font-medium">Subject:</span>{" "}
-                  {selectedClass.subject.charAt(0).toUpperCase() +
-                    selectedClass.subject.slice(1)}
+                  {selectedClass.subject.charAt(0)?.toUpperCase() ||
+                    "" ||
+                    "" + selectedClass.subject.slice(1)}
                 </p>
                 <p>
                   <span className="font-medium">Instructor:</span>{" "}

@@ -85,7 +85,7 @@ export default async function CourseClasses({ params }) {
                     {subject}
                   </h3>
                   <p className="text-gray-600 text-center mb-6">
-                    {data.courseFor.toUpperCase()}
+                    {data.courseFor?.toUpperCase() || ""}
                   </p>
 
                   <Link

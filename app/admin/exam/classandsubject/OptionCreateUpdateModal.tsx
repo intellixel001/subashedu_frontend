@@ -56,7 +56,7 @@ export default function OptionCreateUpdateModal({
                     : "bg-white text-gray-700 border-gray-300"
                 }`}
               >
-                {m.charAt(0).toUpperCase() + m.slice(1)}
+                {m.charAt(0)?.toUpperCase() || "" + m.slice(1)}
               </button>
             ))}
           </div>

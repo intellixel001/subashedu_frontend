@@ -132,23 +132,23 @@ export default function ManageStudentPage() {
     (student) => {
       // Search filter
       const matchesSearch =
-        student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.registrationNumber
+        student?.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student?.registrationNumber
           .toLowerCase()
           .includes(searchTerm.toLowerCase());
 
       // Course filter
       const matchesCourse =
-        !selectedCourse || student.enrolledCourses?.includes(selectedCourse);
+        !selectedCourse || student?.enrolledCourses?.includes(selectedCourse);
 
       // Class filter
       const matchesClass =
-        !selectedClass || student.classes?.includes(selectedClass);
+        !selectedClass || student?.classes?.includes(selectedClass);
 
       // Type filter
       const matchesType =
-        !selectedType || student.educationLevel.toLowerCase() === selectedType;
+        !selectedType || student?.educationLevel.toLowerCase() === selectedType;
 
       return matchesSearch && matchesCourse && matchesClass && matchesType;
     }
@@ -203,7 +203,7 @@ export default function ManageStudentPage() {
         setStudents((prev) =>
           currentStudent
             ? prev.map((student) =>
-                student._id === currentStudent._id ? result.data : student
+                student?._id === currentStudent?._id ? result.data : student
               )
             : [...prev, result.data]
         );
@@ -238,19 +238,19 @@ export default function ManageStudentPage() {
   const openEditModal = (student: Student) => {
     setCurrentStudent(student);
     setFormData({
-      _id: student._id,
-      fullName: student.fullName,
-      email: student.email,
-      phone: student.phone,
+      _id: student?._id,
+      fullName: student?.fullName,
+      email: student?.email,
+      phone: student?.phone,
       password: "",
       confirmPassword: "",
-      educationLevel: student.educationLevel,
-      institution: student.institution,
-      fatherName: student.fatherName,
-      motherName: student.motherName,
-      guardianPhone: student.guardianPhone,
-      sscYear: student.sscYear === "na" ? "na" : student.sscYear,
-      hscYear: student.hscYear === "na" ? "na" : student.hscYear,
+      educationLevel: student?.educationLevel,
+      institution: student?.institution,
+      fatherName: student?.fatherName,
+      motherName: student?.motherName,
+      guardianPhone: student?.guardianPhone,
+      sscYear: student?.sscYear === "na" ? "na" : student?.sscYear,
+      hscYear: student?.hscYear === "na" ? "na" : student?.hscYear,
     });
     setIsModalOpen(true);
   };
@@ -291,7 +291,7 @@ export default function ManageStudentPage() {
       );
       const result = await response.json();
       if (result.success) {
-        setStudents(students.filter((student) => student._id !== id));
+        setStudents(students.filter((student) => student?._id !== id));
       } else {
         console.error("Error deleting student:", result.message);
         alert(result.message || "Failed to delete student");
@@ -439,14 +439,14 @@ export default function ManageStudentPage() {
                 <StudentTableSkeleton />
               ) : filteredStudents.length > 0 ? (
                 filteredStudents.map((student) => (
-                  <tr key={student._id}>
+                  <tr key={student?._id}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
-                          {student.photoUrl && student.photoUrl !== "" ? (
+                          {student?.photoUrl && student?.photoUrl !== "" ? (
                             <Image
-                              src={student.photoUrl}
-                              alt={student.fullName}
+                              src={student?.photoUrl}
+                              alt={student?.fullName}
                               width={40}
                               height={40}
                               className="object-cover"
@@ -459,27 +459,27 @@ export default function ManageStudentPage() {
                         </div>
                         <div className="ml-4">
                           <div className="font-medium text-gray-900">
-                            {student.fullName}
+                            {student?.fullName}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {student.phone}
+                            {student?.phone}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                      {student.registrationNumber}
+                      {student?.registrationNumber}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                      {student.email}
+                      {student?.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="px-4 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#f7374f] bg-opacity-10 text-white">
-                        {student.educationLevel.toUpperCase()}
+                        {(student?.educationLevel || "").toUpperCase() || ""}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500 max-w-[100px] overflow-hidden text-ellipsis">
-                      {student.institution}
+                      {student?.institution}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
@@ -491,7 +491,7 @@ export default function ManageStudentPage() {
                       </button>
                       <button
                         onClick={() => {
-                          setStudentToDelete(student._id);
+                          setStudentToDelete(student?._id);
                           setIsDeleteDialogOpen(true);
                         }}
                         className="text-red-600 hover:text-red-900 cursor-pointer"

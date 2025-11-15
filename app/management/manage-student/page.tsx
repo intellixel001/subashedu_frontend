@@ -2,9 +2,8 @@
 import { StudentModal } from "@/app/components/StudentModal";
 import { StudentTableSkeleton } from "@/app/components/StudentSkeleton";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { FaEdit, FaSearch, FaTrash, FaUserPlus, FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 
@@ -29,7 +28,7 @@ interface Student {
 export default function ManageStudentPage() {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
-  
+
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,17 +78,20 @@ export default function ManageStudentPage() {
       }
     }
     getStudents();
-
   }, [isModalClosed]);
 
   const filteredStudents = students.filter(
     (student) =>
       student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase())
+      student.registrationNumber
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -100,38 +102,38 @@ export default function ManageStudentPage() {
   const handleSubmit = async (e: React.FormEvent, photoFile?: File) => {
     e.preventDefault();
     setSubmittingLoading(true);
-  
+
     try {
       const endpoint = currentStudent
         ? `${process.env.NEXT_PUBLIC_SERVER_URL}/api/staff/update-student`
         : `${process.env.NEXT_PUBLIC_SERVER_URL}/api/staff/create-student`;
-  
+
       const formDataToSend = new FormData();
-  
+
       // Append all fields
       Object.entries(formData).forEach(([key, value]) => {
         if (value) formDataToSend.append(key, value);
       });
-  
+
       // For updates, password is optional
       if (currentStudent && !formData.password) {
         formDataToSend.delete("password");
         formDataToSend.delete("confirmPassword");
       }
-  
+
       // Only append the file if it exists
       if (photoFile) {
         formDataToSend.append("avatar", photoFile);
       }
-  
+
       const response = await fetch(endpoint, {
         method: "POST",
         credentials: "include",
         body: formDataToSend,
       });
-  
+
       const result = await response.json();
-  
+
       if (result.success) {
         setStudents((prev) =>
           currentStudent
@@ -367,7 +369,7 @@ export default function ManageStudentPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="px-4 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-[#f7374f] bg-opacity-10 text-white">
-                        {student.educationLevel.toUpperCase()}
+                        {student.educationLevel?.toUpperCase() || ""}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-500 max-w-[100px] overflow-hidden text-ellipsis">
@@ -461,8 +463,9 @@ export default function ManageStudentPage() {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to delete this student record? This action
-                      cannot be undone and all associated data will be permanently removed.
+                      Are you sure you want to delete this student record? This
+                      action cannot be undone and all associated data will be
+                      permanently removed.
                     </p>
                   </div>
 
