@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function QuestionModal({ onClose, onSave, initialData }) {
   const [type] = useState<"mcq" | "written">(initialData?.type || "mcq");
-  const [topic, setTopic] = useState(initialData?.topic || ""); // 🟩 new state
+  const [topic, setTopic] = useState(initialData?.topic || "");
+  const [customTopic, setCustomTopic] = useState(""); // for new custom topic
   const [body, setBody] = useState(initialData?.body || "");
   const [fields, setFields] = useState<string[]>(
     initialData?.fields || ["", "", "", ""]
@@ -13,19 +14,51 @@ export function QuestionModal({ onClose, onSave, initialData }) {
     initialData?.explanation || ""
   );
 
-  // 🧠 Example topic options — you can fetch or pass these via props if needed
-  const topicOptions = [
+  const [topicOptions, setTopicOptions] = useState<string[]>([
     "Mathematics",
     "Science",
     "English",
     "History",
     "Geography",
     "General Knowledge",
-  ];
+  ]);
 
-  // 🟢 Handle Save
+  // Load custom topics from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("customTopics");
+    if (stored) {
+      setTopicOptions((prev) => [...prev, ...JSON.parse(stored)]);
+    }
+  }, []);
+
+  // Save custom topic to localStorage and update options
+  const addCustomTopic = () => {
+    const trimmed = customTopic.trim();
+    if (!trimmed) return;
+
+    // Prevent duplicates
+    if (topicOptions.includes(trimmed)) {
+      setTopic(trimmed);
+      setCustomTopic("");
+      return;
+    }
+
+    const updatedTopics = [...topicOptions, trimmed];
+    setTopicOptions(updatedTopics);
+    setTopic(trimmed);
+    setCustomTopic("");
+
+    // Save to localStorage
+    const stored = localStorage.getItem("customTopics");
+    const storedArr = stored ? JSON.parse(stored) : [];
+    localStorage.setItem(
+      "customTopics",
+      JSON.stringify([...storedArr, trimmed])
+    );
+  };
+
   const handleSubmit = () => {
-    if (!topic.trim()) return alert("Please select a topic");
+    if (!topic.trim()) return alert("Please select or add a topic");
     if (!body.trim()) return alert("Please enter the main question body");
     if (fields.some((f) => !f.trim()))
       return alert("Please fill all 4 answer fields before saving");
@@ -42,7 +75,6 @@ export function QuestionModal({ onClose, onSave, initialData }) {
     });
   };
 
-  // 🧩 Handle Answer Option Edit
   const handleFieldChange = (index: number, value: string) => {
     const updated = [...fields];
     updated[index] = value;
@@ -58,26 +90,42 @@ export function QuestionModal({ onClose, onSave, initialData }) {
         </h2>
 
         <div className="space-y-4">
-          {/* 🟩 Topic Select */}
+          {/* Topic Select with Custom Option */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Topic
             </label>
-            <select
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-            >
-              <option value="">Select a topic</option>
-              {topicOptions.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            <div className="flex gap-2">
+              <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+              >
+                <option value="">Select a topic</option>
+                {topicOptions.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                placeholder="Add custom topic"
+                value={customTopic}
+                onChange={(e) => setCustomTopic(e.target.value)}
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+              />
+              <button
+                type="button"
+                onClick={addCustomTopic}
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              >
+                Add
+              </button>
+            </div>
           </div>
 
-          {/* 🟩 Main Question */}
+          {/* Main Question */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Question Body
@@ -91,7 +139,7 @@ export function QuestionModal({ onClose, onSave, initialData }) {
             />
           </div>
 
-          {/* 🟩 Answer Fields */}
+          {/* Answer Fields */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               {type === "mcq"
@@ -123,7 +171,7 @@ export function QuestionModal({ onClose, onSave, initialData }) {
             ))}
           </div>
 
-          {/* 🟩 Explanation */}
+          {/* Explanation */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Explanation (optional)
@@ -138,7 +186,7 @@ export function QuestionModal({ onClose, onSave, initialData }) {
           </div>
         </div>
 
-        {/* 🟩 Buttons */}
+        {/* Buttons */}
         <div className="flex justify-end gap-2 mt-6">
           <button
             onClick={onClose}
