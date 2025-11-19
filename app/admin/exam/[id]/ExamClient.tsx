@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ManageNotice from "../...examComponents/ManageNotice";
-import ManageQuestions from "../...examComponents/ManageQuestions";
-import ManageSyllabus from "../...examComponents/ManageSyllabus";
+import ManageNotice from "../examComponents/ManageNotice";
+import ManageQuestions from "../examComponents/ManageQuestions";
+import ManageSyllabus from "../examComponents/ManageSyllabus";
 import { examSections } from "../examDb/examSubject";
 
 export default function ExamClient({ id }: { id: string }) {

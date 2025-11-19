@@ -21,6 +21,7 @@ export default function ManageStaffPage() {
     password: "",
     confirmPassword: "",
     role: "",
+    exam_permission: [],
   });
   const [submittingLoading, setSubmittingLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -108,6 +109,12 @@ export default function ManageStaffPage() {
       formDataToSend.append("email", formData.email);
       formDataToSend.append("phone", formData.phone);
       formDataToSend.append("role", formData.role);
+      formDataToSend.append(
+        "exam_permission",
+        JSON.stringify(formData.exam_permission)
+      );
+
+      console.log(formDataToSend, formData.exam_permission);
 
       if (currentStaff) {
         if (formData.password) {
@@ -151,6 +158,7 @@ export default function ManageStaffPage() {
           password: "",
           confirmPassword: "",
           role: "",
+          exam_permission: [],
         });
       } else {
         console.error("Error submitting form:", result.message);
@@ -174,6 +182,9 @@ export default function ManageStaffPage() {
       confirmPassword: "",
       _id: staff._id,
       role: staff.role,
+      exam_permission: staff.exam_permission
+        ? JSON.parse(staff.exam_permission)
+        : [],
     });
     setIsModalOpen(true);
   };
@@ -188,6 +199,7 @@ export default function ManageStaffPage() {
       password: "",
       confirmPassword: "",
       role: "", // Ensure this is empty to trigger the default <select> option
+      exam_permission: [],
     });
     setIsModalOpen(true);
   };
@@ -400,6 +412,7 @@ export default function ManageStaffPage() {
           currentStaff={currentStaff}
           setIsModalOpen={setIsModalOpen}
           formData={formData}
+          setFormData={setFormData}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           submittingLoading={submittingLoading}

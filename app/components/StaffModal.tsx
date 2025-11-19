@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import { FaCamera, FaSpinner } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
+import ExamPermissionSelector from "../admin/exam/examComponents/ExamPermissionSelector";
 
 export function StaffModal({
   currentStaff,
@@ -10,6 +11,7 @@ export function StaffModal({
   handleInputChange,
   handleSubmit,
   submittingLoading,
+  setFormData,
 }) {
   const [photoPreview, setPhotoPreview] = useState<string | null>(
     currentStaff?.photoUrl || null
@@ -224,6 +226,15 @@ export function StaffModal({
                 <option value="teacher">Teacher</option>
               </select>
             </div>
+
+            {formData.role && (
+              <>
+                <ExamPermissionSelector
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              </>
+            )}
 
             {/* Passwords */}
             <>

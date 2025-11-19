@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CreateUpdateExam from "./...examComponents/CreateUpdateExam";
-import ExamTable from "./...examComponents/ExamTable";
+import CreateUpdateExam from "./examComponents/CreateUpdateExam";
+import ExamTable from "./examComponents/ExamTable";
 
 export default function Page() {
   const [createExamModal, setCreateExamModal] = useState<boolean>(false);
