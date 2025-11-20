@@ -9,8 +9,6 @@ export default function PackageCreateUpdateModal({
   setFormData: setForm,
   errorMsg,
 }) {
-  console.log(form);
-
   //   setForm({
   //   name: editingItem?.name || "",
   //   position: editingItem?.position || "",
@@ -39,7 +37,6 @@ export default function PackageCreateUpdateModal({
           }
         );
         const data = await res.json();
-        console.log(data);
         setClassList(data.data || []);
       } else {
         setClassList([]);
@@ -67,7 +64,6 @@ export default function PackageCreateUpdateModal({
         }
       );
       const data = await res.json();
-      console.log(data);
       setSubjectList(data.data || []);
     };
 
@@ -78,8 +74,6 @@ export default function PackageCreateUpdateModal({
   }, [form.classId]);
 
   const handleChange = (key, val) => setForm({ ...form, [key]: val });
-
-  console.log(subjectList);
 
   return (
     <div className="fixed inset-0 bg-black/40 bg-opacity-50 flex justify-center items-center">

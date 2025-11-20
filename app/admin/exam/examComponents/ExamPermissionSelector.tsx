@@ -69,7 +69,6 @@ export default function ExamPermissionSelector({ formData, setFormData }) {
       subjectId: selected.subject, // id
     };
 
-    console.log(newPermission);
     setFormData((prev) => ({
       ...prev,
       exam_permission: [...prev.exam_permission, newPermission],
